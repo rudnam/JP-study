@@ -2,7 +2,6 @@
 Links, resources, etc. for JP
 
 - [Anki Mining Template](#anki-mining-template)
-    - [Images](#images)
 - [Yomichan settings](#yomichan-settings)
     - [Dictionaries](#dictionaries)
     - [Popup Appearance custom CSS](#popup-appearance-custom-css)
@@ -11,13 +10,12 @@ Links, resources, etc. for JP
 
 ## Anki Mining Template
 
-[Link](https://drive.google.com/drive/u/2/folders/1et5YNL6pGRwELfWSTRpIs-pwFVX74Nbq)
-
-### Images
 <p float="left">
   <img src="images/vocab_back.png" width="48%" style="border: 1px solid grey; border-radius: 10px;" />
   <img src="images/sentence_back.png" width="48%" style="border: 1px solid grey; border-radius: 10px;" />
 </p>
+
+[Link](https://drive.google.com/drive/u/2/folders/1et5YNL6pGRwELfWSTRpIs-pwFVX74Nbq)
 
 ## Yomichan settings
 
@@ -116,7 +114,7 @@ Notes:
 
 ### Custom Card Templates (Handlebars)
 
-> `{freq}` - frequency value for sorting new cards. [Link](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency).
+- `{freq}` - frequency value for sorting new cards. [Link](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency).
 ```handlebars
 {{#*inline "freq"}}
     {{~! Frequency sort handlebars: v23.02.05.1 ~}}
@@ -260,7 +258,7 @@ Notes:
 {{/inline}}
 ```
 
-> `{main-def}` - for the **MainDefinition** field. If text is selected, return `{selection-text}` otherwise return `{jmdict-def}` (English/JMDict definition).
+- `{main-def}` - for the **MainDefinition** field. If text is selected, return `{selection-text}` otherwise return `{jmdict-def}` (English/JMDict definition).
 ```handlebars
 {{~#*inline "jmdict-def"~}}
     <div style="text-align: left;">
@@ -299,7 +297,7 @@ Notes:
 {{~/inline~}}
 ```
 
-> `{jlpt}` - space-separated jlpt tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on.
+- `{jlpt}` - space-separated jlpt tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on.
 ```handlebars
 {{~#*inline "jlpt"~}}
     {{~#if (op ">" definition.frequencies.length 0)~}}
@@ -313,7 +311,7 @@ Notes:
 {{/inline}}
 ```
 
-> `{ln}` - "ラノベ" and the LN title tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on when on `reader.ttsu.app`.
+- `{ln}` - "ラノベ" and the LN title tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on when on `reader.ttsu.app`.
 ```handlebars
 {{#*inline "ln"}}
     {{~#set "ttsu" ~}}
@@ -328,7 +326,7 @@ Notes:
 {{/inline}}
 ```
 
-> `{grammar-pt}` - fills out **\*IsSentenceCard** Field when a grammar dictionary has an entry.
+- `{grammar-pt}` - fills out **\*IsSentenceCard** Field when a grammar dictionary has an entry.
 ```handlebars
 {{#*inline "grammar-pt"}}
     {{~#set "is-grammar" false}}{{/set~}}
