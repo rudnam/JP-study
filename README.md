@@ -59,8 +59,8 @@ body {
 
 /* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
 .jp-quote-text {
-  text-indent: -1em;
-  padding-left: 1em;
+    text-indent: -1em;
+    padding-left: 1em;
 }
 
 /* Only show NHK pitch when アクセント辞典 doesn't have data */
@@ -74,10 +74,15 @@ ol.pronunciation-group-list[data-count='2'] {
 
 /* Only show JMDict on hover */
 .definition-list li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
-  opacity: 0;
+    opacity: 0;
 }
 .definition-list:has(li.definition-item[data-dictionary='JMdict (English)']:hover) .gloss-list {
-  opacity: 1;
+    opacity: 1;
+}
+
+/* Disable furigana selection*/
+ruby rt {
+    user-select: none;
 }
 ```
 
@@ -288,8 +293,8 @@ Notes:
 {{~#*inline "main-def"~}}
     {{~#set "selected"}}{{~> selection-text}}{{/set~}}
     {{~#set "exp"}}{{~> expression}}{{/set~}}
-    
-    {{~#if (op "!===" (get "selected") (get "exp"))}}
+
+    {{~#if (op "&&" (op "!==" (get "selected") "") (op "!==" (get "selected") (get "exp")))}}
         {{~> selection-text}}
     {{~else~}}
         {{~> jmdict-def noDictionaryTag=true brief=true ~}}
