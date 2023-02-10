@@ -15,8 +15,8 @@ Links, resources, etc. for JP
 
 ### Images
 <p float="left">
-  <img src="images/vocab_back.png" width="40%" style="border: 1px solid grey; border-radius: 10px;" />
-  <img src="images/sentence_back.png" width="40%" style="border: 1px solid grey; border-radius: 10px;"/>
+  <img src="images/vocab_back.png" width="48%" style="border: 1px solid grey; border-radius: 10px;" />
+  <img src="images/sentence_back.png" width="48%" style="border: 1px solid grey; border-radius: 10px;" />
 </p>
 
 ## Yomichan settings
@@ -41,10 +41,8 @@ Links, resources, etc. for JP
 | 日本語文法辞典(全集) | 4 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
 
 ### Popup Appearance custom CSS
-<p float="left">
-  <img src="images/popup.png" width="25%" style="border: 1px solid grey; border-radius: 10px;" />
-  <img src="images/search.png" width="59.5%" style="border: 1px solid grey; border-radius: 10px;"/>
-</p>
+<img src="images/popup.png" width="60%" style="border: 1px solid grey; border-radius: 10px;" />
+<img src="images/search.png" width="100%" style="border: 1px solid grey; border-radius: 10px;"/>
 
 ```css
 body {
