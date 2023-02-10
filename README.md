@@ -96,6 +96,7 @@ ol.pronunciation-group-list[data-count='2'] {
 | Image |  | 
 | Translation |  |
 | PitchPosition | `{pitch-accent-positions}` |
+| Hint |  |
 | Frequency | `{frequencies}` | 
 | FreqSort | `{freq}` |
 | MiscInfo | `{document-title}` | 
@@ -105,6 +106,7 @@ ol.pronunciation-group-list[data-count='2'] {
 Notes:
 - When **\*IsSentenceCard** isn't empty, card is turned into a sentence card. When empty, it's a vocab card.
 - `{main-def}`, `{freq}`, `{jlpt}`, `{ln}`, and `{grammar-pt}` are custom templates/handlebars
+- **Hint** is for a hint on the front of the vocab card.
 - **Sentence (furigana)** is for furigana generated from [AJT Furigana](https://ankiweb.net/shared/info/1344485230) (Anki addon)
 - **Sentence (audio)**, **Image**, **Translation** are for data from [Mpvacious](https://github.com/Ajatt-Tools/mpvacious). **Sentence**, **MiscInfo** are overwritten by data from Mpvacious as well.
 - **Extra** is for space-separated tags to be generated through [Field to Tag](https://ankiweb.net/shared/info/1600845494) (Anki addon)
@@ -113,7 +115,7 @@ Notes:
 
 - `{freq}` - frequency value for sorting new cards. [Link](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency).
 
-```handlebars {% raw %}
+```handlebars
 {{#*inline "freq"}}
     {{~! Frequency sort handlebars: v23.02.05.1 ~}}
     {{~! The latest version can be found at https://github.com/MarvNC/JP-Resources ~}}
@@ -296,6 +298,7 @@ Notes:
 ```
 
 - `{jlpt}` - space-separated jlpt tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on.
+
 ```handlebars
 {{~#*inline "jlpt"~}}
     {{~#if (op ">" definition.frequencies.length 0)~}}
@@ -310,6 +313,7 @@ Notes:
 ```
 
 - `{ln}` - "ラノベ" and the LN title tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on when on `reader.ttsu.app`.
+
 ```handlebars
 {{#*inline "ln"}}
     {{~#set "ttsu" ~}}
@@ -325,6 +329,7 @@ Notes:
 ```
 
 - `{grammar-pt}` - fills out **\*IsSentenceCard** Field when a grammar dictionary has an entry.
+
 ```handlebars
 {{#*inline "grammar-pt"}}
     {{~#set "is-grammar" false}}{{/set~}}
@@ -336,4 +341,3 @@ Notes:
     {{~#if (op "===" (get "is-grammar") true)~}}x{{/if}}
 {{/inline}}
 ```
-{% endraw %}
