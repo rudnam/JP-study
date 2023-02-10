@@ -112,7 +112,8 @@ Notes:
 ### Custom Card Templates (Handlebars)
 
 - `{freq}` - frequency value for sorting new cards. [Link](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency).
-```handlebars
+
+```handlebars {% raw %}
 {{#*inline "freq"}}
     {{~! Frequency sort handlebars: v23.02.05.1 ~}}
     {{~! The latest version can be found at https://github.com/MarvNC/JP-Resources ~}}
@@ -335,3 +336,4 @@ Notes:
     {{~#if (op "===" (get "is-grammar") true)~}}x{{/if}}
 {{/inline}}
 ```
+{% endraw %}
