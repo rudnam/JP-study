@@ -13,6 +13,7 @@
 
 <img src="images/vocab_back.png" width="70%" style="border: 1px solid grey; border-radius: 10px;" />
 <img src="images/sentence_back.png" width="70%" style="border: 1px solid grey; border-radius: 10px;" />
+<img src="images/mining_template.gif" width="70%" style="border: 1px solid grey; border-radius: 10px;" />
 
 
 ## Yomichan settings
@@ -115,7 +116,7 @@ Notes:
 - When **\*IsSentenceCard** isn't empty, card is turned into a sentence card. When empty, it's a vocab card.
 - **PitchPosition** takes `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` do not work.
 - `{main-def}`, `{freq}`, `{jlpt}`, `{ln}`, and `{grammar-pt}` are custom templates/handlebars
-- **Hint** is for a hint on the front of the vocab card.
+- **Hint** is for a hint on the front of the card.
 - **Sentence (furigana)** is for furigana generated from [AJT Furigana](https://ankiweb.net/shared/info/1344485230) (Anki addon)
 - **Sentence (audio)**, **Image**, **Translation** are for data from [Mpvacious](https://github.com/Ajatt-Tools/mpvacious). **Sentence**, **MiscInfo** are overwritten by data from Mpvacious as well.
 - **Extra** is for space-separated tags to be generated through [Field to Tag](https://ankiweb.net/shared/info/1600845494) (Anki addon)
