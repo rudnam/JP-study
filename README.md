@@ -16,6 +16,8 @@
 
 ## Yomichan settings
 
+ [PC](./pc.json), [Mobile](./mobile.json)
+
 ### Dictionaries
 | Dictionary | Priority | Link |
 |----------|----------|----------|
@@ -80,7 +82,7 @@ ol.pronunciation-group-list[data-count='2'] {
     opacity: 1;
 }
 
-/* Disable furigana selection*/
+/* Disable furigana selection */
 ruby rt {
     user-select: none;
 }
