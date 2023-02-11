@@ -112,6 +112,7 @@ ruby rt {
 
 Notes:
 - When **\*IsSentenceCard** isn't empty, card is turned into a sentence card. When empty, it's a vocab card.
+- **PitchPosition** takes `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` do not work.
 - `{main-def}`, `{freq}`, `{jlpt}`, `{ln}`, and `{grammar-pt}` are custom templates/handlebars
 - **Hint** is for a hint on the front of the vocab card.
 - **Sentence (furigana)** is for furigana generated from [AJT Furigana](https://ankiweb.net/shared/info/1344485230) (Anki addon)
