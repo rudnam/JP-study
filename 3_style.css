@@ -1,0 +1,291 @@
+.card.nightMode {
+	--main-bg: #1e1e1e;
+	--sub-bg: #171717;
+	--tag-bg: #333;
+	--main-color: #d4d4d4;
+	--sub-color: grey;
+	--tag-color: #FFFAF0;
+	--main-font: "Yu Mincho";
+	--sub-font: "IPAExGothic";
+	--max-width: 800px;
+	font-family: var(--main-font);
+	background-color: var(--main-bg);
+	color: var(--main-color);
+	font-size: 20px;
+	text-align: center;
+}
+
+#qa {
+	display: flex;
+	align-items: stretch;
+	flex-direction: column;
+	min-height: calc(100vh - 40px);
+}
+
+@font-face {
+	font-family: "Yu Mincho";
+	src: local("Yu Mincho"), local("游明朝"), url("_yumin.ttf");
+}
+
+@font-face {
+	font-family: "IPAExGothic";
+	src: local("IPAExGothic"), url("_ipaexg.ttf");
+}
+
+
+
+/* ----------------------------------- Front elements ----------------------------------- */
+
+
+.vocab {font-size: 48px;}
+.sentence_front {font-size: 36px;}
+#hint {margin-top: -15px; font-size: 20px;}
+
+
+/* ----------------------------------- Back elements ------------------------------------ */
+
+
+/* Header */
+header {
+	height: 40px;
+	color: #414141;
+	text-align: right;
+	font-size: 16px;
+	width: 100%;
+}
+#top {
+	max-width: calc(var(--max-width) + 20px);
+	margin: 0px auto;
+	width: calc(100% - 20px);
+}
+#stars {
+	margin-bottom: -5px;
+}
+
+
+
+
+/* PC replay button */
+.replay-button {margin-top: -5px;}
+.replay-button svg {width: 30px; height: auto;}
+.replay-button svg path {fill: var(--main-color);}
+.replay-button svg circle {fill: var(--main-bg); display: none;}
+.replay-button:hover svg path {fill: white;}
+
+/* AnkiDroid replay button */
+.nightMode .replaybutton span svg {fill: var(--tag-bg); background: var(--tag-color);}
+.replaybutton {margin: 0; margin-right: 3px; text-decoration: none;}
+.replaybutton span {padding: 0; font-size: 16px;}
+.replaybutton span svg {
+	fill: var(--tag-color);
+	background: var(--tag-bg);
+	border-radius: 3px;
+	vertical-align: top;
+	min-width: 16px;
+	min-height: 16px;
+}
+
+
+/* Info */
+.info {
+	font-size: 28px;
+}
+#pitch {
+	display: inline;
+}
+#pitchtag {
+	color: var(--main-bg);
+	background-color: var(--main-color);
+	vertical-align: top;
+	padding: 1px 3px;
+	margin-right: -5px;
+}
+
+
+/* Main definition */
+#main_def {
+	max-width: var(--max-width);
+	font-family: var(--sub-font);
+	background-color: var(--sub-bg);
+	display: inline-block;
+	font-size: 24px;
+	line-height: 1.75em;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 15px 0px;
+	width: calc(100% - 20px);
+}
+
+
+/* Sentence */
+.sentence {
+	font-size: 24px;
+}
+
+
+/* Translation button */
+a.hint {
+	font-family: var(--sub-font);
+	color: var(--sub-color);
+	width: fit-content;
+	font-size: 14px;
+	display: block;
+	border: 1px solid grey;
+	border-radius: 2.2px;
+	padding: 5px 10px;
+	margin: 0 auto;
+}
+a.hint:hover {
+	color: var(--main-color);
+	background-color: rgba(0, 0, 0, 0.03);
+}
+
+
+/* Footer */
+footer {
+	margin-top: auto;
+	display: flex;
+	justify-content: center;
+}
+#tags_container{
+	max-width: var(--max-width);
+	flex-grow: 1;
+}
+.tags {
+	font-family: var(--sub-font);
+	background-color: var(--tag-bg);
+	color: var(--tag-color);
+	display: inline-block;
+	font-weight: bold;
+	padding: 1px 5px;
+	cursor: pointer;
+	border-radius: 3px;
+	font-size: 12px;
+	line-height: 14px;
+	margin: auto 3px;
+	border: 1px solid grey;
+}
+
+
+
+/* -------------------------------------- Extras --------------------------------------- */
+
+/* Hide this section by default */
+#extras {
+	display: none;
+}
+
+
+/* Popup CSS */
+.popup {
+	background-color: var(--sub-bg);;
+	display: inline-block;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 5px;
+}
+
+
+/* Misc. info */
+#misc_info {
+	line-height: 1.5em;
+	font-size: 16px;
+}
+#misc_info li {
+	margin-left: 25px;
+}
+
+
+/* Full definition */
+#full_def {
+	max-width: var(--max-width);
+	font-family: var(--sub-font);
+	font-size: 18px;
+	line-height: 1.5em;
+}
+#full_def li {
+	margin-left: 25px;
+}
+
+
+
+/* --------------------------------------- Misc --------------------------------------- */
+
+
+/* Class for showing furigana */
+.show_furi > ruby rt {visibility: visible;}
+
+
+/* Reformat Yomichan definitions */
+#main_def div {text-align: center !important; margin: auto;}
+#main_def ul {list-style: none; display: inline;}
+#main_def ul>li {display: inline;}
+#main_def ul>li:not(:last-child)::after {content: "; ";}
+#main_def ol {max-width: var(--max-width);display: inline-block; text-align: left;}
+#main_def ol>li {margin-left: 40px;}
+
+
+/* Pitch formatting */
+.info ol {list-style: none; display: inline; margin: 0; padding: 0;}
+.info li {display: inline;}
+.info ol>li.hide-separator::after {content: "";}
+.info ol>li:not(:last-child)::after {content: "・";}
+
+
+/* Remove default margins */
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Images */
+img {
+	height: 200px;
+	width: auto;
+	border-radius: 5px;
+}
+#main_def > img {
+	height: 5em;
+	margin-bottom: -0.5em;
+}
+
+
+/* Bold CSS */
+b {
+	color: var(--sub-color);
+	font-weight: 400;
+}
+b > ruby rt {
+	visibility: visible;
+}
+
+
+/* Furigana */
+ruby rt {
+	user-select: none;
+	visibility: hidden;
+}
+ruby:hover rt {
+	visibility: visible;
+}
+
+
+/* Dropdown CSS */
+details {
+	font-family: var(--sub-font);
+	margin: 5px 0px;
+}
+summary {
+	user-select: none;
+	cursor: pointer;
+	width: fit-content;
+	margin: 0px auto;
+}
+
+
+/* Line margins */
+hr {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
