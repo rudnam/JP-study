@@ -45,10 +45,9 @@
 | 日本語文法辞典(全集) | 4 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
 
 ### Popup Appearance custom CSS
-<p align="center">
-    <kbd><img src="images/popup.png" width="60%" style="border: 1px solid grey; border-radius: 10px;" /></kbd>
-    <kbd><img src="images/search.png" width="100%" style="border: 1px solid grey; border-radius: 10px;"/></kbd>
-</p>
+
+<img src="images/popup.png" width="60%" style="border: 1px solid grey; border-radius: 10px;" />
+<img src="images/search.png" width="100%" style="border: 1px solid grey; border-radius: 10px;"/>
 
 ```css
 body {
