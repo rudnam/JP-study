@@ -1,6 +1,6 @@
 {
     "version": 0,
-    "date": "2023-02-11 01:55:08",
+    "date": "2023-02-13 14:47:14",
     "url": "chrome-extension://ogmnaimimemjmbakcfefmnahgdfhfami/",
     "manifest": {
         "author": "Alex Yatskov",
@@ -182,7 +182,7 @@
                         "mainDictionary": "JMdict (English)",
                         "popupTheme": "dark",
                         "popupOuterTheme": "site",
-                        "customPopupCss": "body {\n   font-family: IPAexGothic;\n}\n\n.jp-quote-text {\n    text-indent: -1em;\n    padding-left: 1em;\n}\n\n.source-text {\n    font-family: UD Digi Kyokasho N-R;\n}\n\n/* Only show NHK pitch when アクセント辞典 doesn't have data */\n:not(ol[data-count='1']) > li.pronunciation-group[data-dictionary='NHK'] {\n    display: none;\n}\n\nol.pronunciation-group-list[data-count='2'] {\n    list-style: none;\n    padding: 0;\n}\n\n:root[data-theme=\"dark\"] {\n    --glossary-color: #a89984;\n    --ruby-color: #b8bb26;\n    --kanji-text-color: #fabd2f;\n    --accent-color: #689d6a;\n    --accent-color-lighter: #90b791;\n    --progress-bar-track-color: #458588;\n\n}\n\n.definition-list li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {\n    opacity: 0;\n}\n.definition-list:has(li.definition-item[data-dictionary='JMdict (English)']:hover) .gloss-list {\n    opacity: 1;\n}\n\nruby rt {\n    user-select: none;\n}\n",
+                        "customPopupCss": "body {\n   font-family: IPAexGothic;\n}\n\n.source-text {\n    font-family: UD Digi Kyokasho N-R;\n}\n\n:root[data-theme=\"dark\"] {\n    --text-color: #ffffff;\n    --background-color: #0d1117;\n    --accent-color: #2D4446;\n    --accent-color-lighter: #416265;\n    --tag-pronunciation-dictionary-background-color: #2d3746;\n    --tag-dictionary-background-color: #2F2D46;\n    --tag-frequency-background-color: #2D4446;\n    --tag-default-background-color: #51647E;\n    --tag-name-background-color: #3d4993;\n    --tag-expression-background-color: #4857AE;\n    --tag-popular-background-color: #232d5a;\n    --tag-frequent-background-color: #303e7c;\n    --tag-archaism-background-color: #533642;\n    --tag-part-of-speech-background-color: #303e7c;\n    --input-background-color: #24292f;\n    --link-color: #3d4993;\n}\n\n/* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */\n.jp-quote-text {\n    text-indent: -1em;\n    padding-left: 1em;\n}\n\n/* Only show NHK pitch when アクセント辞典 doesn't have data */\n:not(ol[data-count='1']) > li.pronunciation-group[data-dictionary='NHK'] {\n    display: none;\n}\nol.pronunciation-group-list[data-count='2'] {\n    list-style: none;\n    padding: 0;\n}\n\n/* Only show JMDict on hover */\n.definition-list li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {\n    opacity: 0;\n}\n.definition-list:has(li.definition-item[data-dictionary='JMdict (English)']:hover) .gloss-list {\n    opacity: 1;\n}\n\n/* Disable furigana selection */\nruby rt {\n    user-select: none;\n}",
                         "customPopupOuterCss": "",
                         "enableWanakana": true,
                         "showPitchAccentDownstepNotation": true,
@@ -332,13 +332,34 @@
                     "dictionaries": [
                         {
                             "name": "JPDB",
-                            "priority": 2,
+                            "priority": 5,
                             "enabled": true,
                             "allowSecondarySearches": false,
                             "definitionsCollapsible": "not-collapsible"
                         },
                         {
                             "name": "CC100",
+                            "priority": 4,
+                            "enabled": true,
+                            "allowSecondarySearches": false,
+                            "definitionsCollapsible": "not-collapsible"
+                        },
+                        {
+                            "name": "BCCWJ-LUW",
+                            "priority": 3,
+                            "enabled": true,
+                            "allowSecondarySearches": false,
+                            "definitionsCollapsible": "not-collapsible"
+                        },
+                        {
+                            "name": "Anime & J-drama",
+                            "priority": 2,
+                            "enabled": true,
+                            "allowSecondarySearches": false,
+                            "definitionsCollapsible": "not-collapsible"
+                        },
+                        {
+                            "name": "VN Freq",
                             "priority": 1,
                             "enabled": true,
                             "allowSecondarySearches": false,

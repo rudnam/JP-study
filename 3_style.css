@@ -1,10 +1,10 @@
 .card.nightMode {
-    --main-bg: #1e1e1e;
-    --sub-bg: #171717;
-    --tag-bg: #333;
-    --main-color: #d4d4d4;
-    --sub-color: grey;
-    --tag-color: #FFFAF0;
+    --main-bg: #0d1117;
+    --sub-bg: #161b22;
+    --tag-bg: #24292f;
+    --main-color: #ffffff;
+    --sub-color: #8b949e;
+    --tag-color: #959da5;
     --main-font: "Yu Mincho";
     --sub-font: "IPAExGothic";
     --max-width: 800px;
@@ -47,8 +47,8 @@
 
 /* Header */
 header {
+    color: var(--sub-color);
     height: 40px;
-    color: #414141;
     text-align: right;
     font-size: 16px;
     width: 100%;
@@ -68,18 +68,16 @@ header {
 /* PC replay button */
 .replay-button {margin-top: -5px;}
 .replay-button svg {width: 30px; height: auto;}
-.replay-button svg path {fill: var(--main-color);}
+.replay-button svg path {fill: var(--main-color); transition: .2s;}
 .replay-button svg circle {fill: var(--main-bg); display: none;}
-.replay-button:hover svg path {fill: white;}
+.replay-button:hover svg path {fill: var(--sub-color);}
 
 /* AnkiDroid replay button */
-.nightMode .replaybutton span svg {fill: var(--tag-bg); background: var(--tag-color);}
+.nightMode .replaybutton span svg {fill: var(--main-bg); background: var(--main-color);}
 .replaybutton {margin: 0; margin-right: 3px; text-decoration: none;}
 .replaybutton span {padding: 0; font-size: 16px;}
 .replaybutton span svg {
-    fill: var(--tag-color);
-    background: var(--tag-bg);
-    border-radius: 3px;
+    border-radius: 8px;
     vertical-align: top;
     min-width: 16px;
     min-height: 16px;
@@ -110,10 +108,12 @@ header {
     display: inline-block;
     font-size: 24px;
     line-height: 1.75em;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 10px;
     margin: 15px 0px;
     width: calc(100% - 20px);
+    border: 1px solid black;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
 }
 
 
@@ -131,7 +131,7 @@ a.hint {
     font-size: 14px;
     display: block;
     border: 1px solid grey;
-    border-radius: 2.2px;
+    border-radius: 8px;
     padding: 5px 10px;
     margin: 0 auto;
 }
@@ -154,16 +154,17 @@ footer {
 .tags {
     font-family: var(--sub-font);
     background-color: var(--tag-bg);
-    color: var(--tag-color);
+    color: var(--main-color);
+    border: 1px solid var(--sub-color);
     display: inline-block;
     font-weight: bold;
     padding: 1px 5px;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 12px;
     line-height: 14px;
     margin: auto 3px;
-    border: 1px solid grey;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
 }
 
 
@@ -178,9 +179,11 @@ footer {
 
 /* Popup CSS */
 .popup {
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+    border: 1px solid black;
     background-color: var(--sub-bg);;
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 10px;
     margin: 5px;
 }
@@ -213,7 +216,7 @@ footer {
 
 
 /* Class for showing furigana */
-.show_furi > ruby rt {visibility: visible;}
+.show_furi > ruby rt {opacity: 1;}
 
 
 /* Reformat Yomichan definitions */
@@ -243,7 +246,7 @@ footer {
 img {
     height: 200px;
     width: auto;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 #main_def > img {
     height: 5em;
@@ -257,14 +260,15 @@ b {
     font-weight: 400;
 }
 b > ruby rt {
-    visibility: visible;
+    opacity: 1;
 }
 
 
 /* Furigana */
 ruby rt {
     user-select: none;
-    visibility: hidden;
+    opacity: 0;
+    transition: .2s;
 }
 ruby:hover rt {
     visibility: visible;
@@ -288,4 +292,10 @@ summary {
 hr {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+}
+
+/* Extra toggle */
+input[type=checkbox] {
+    height: 12px;
+    width: auto;
 }

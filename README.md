@@ -23,8 +23,11 @@
 ### Dictionaries
 | Dictionary | Priority | Link |
 |----------|----------|----------|
-| JPDB | 2 | [2](https://github.com/MarvNC/jpdb-freq-list) |
-| CC100 | 1 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
+| JPDB | 5 | [2](https://github.com/MarvNC/jpdb-freq-list) |
+| CC100 | 4 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
+| BCCWJ-LUW | 3 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
+| Anime & J-drama | 2 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
+| VN Freq | 1 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
 | JLPT_Level | 0 | [3](https://docs.google.com/document/d/1IUWkvBxhoazBSTyRbdyRVk7hfKE51yorE86DCRNQVuw/edit) |
 | アクセント辞典 | 1 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
 | NHK | 0 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
@@ -48,17 +51,27 @@ body {
    font-family: IPAexGothic;
 }
 
-/* https://learnjapanese.moe/yomicss/#light-dark-mode-varying-css */
 .source-text {
     font-family: UD Digi Kyokasho N-R;
 }
+
 :root[data-theme="dark"] {
-    --glossary-color: #a89984;
-    --ruby-color: #b8bb26;
-    --kanji-text-color: #fabd2f;
-    --accent-color: #689d6a;
-    --accent-color-lighter: #90b791;
-    --progress-bar-track-color: #458588;
+    --text-color: #ffffff;
+    --background-color: #0d1117;
+    --accent-color: #2D4446;
+    --accent-color-lighter: #416265;
+    --tag-pronunciation-dictionary-background-color: #2d3746;
+    --tag-dictionary-background-color: #2F2D46;
+    --tag-frequency-background-color: #2D4446;
+    --tag-default-background-color: #51647E;
+    --tag-name-background-color: #3d4993;
+    --tag-expression-background-color: #4857AE;
+    --tag-popular-background-color: #232d5a;
+    --tag-frequent-background-color: #303e7c;
+    --tag-archaism-background-color: #533642;
+    --tag-part-of-speech-background-color: #303e7c;
+    --input-background-color: #24292f;
+    --link-color: #3d4993;
 }
 
 /* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
