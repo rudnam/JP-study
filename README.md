@@ -12,9 +12,9 @@
 [Link](https://drive.google.com/drive/u/2/folders/1et5YNL6pGRwELfWSTRpIs-pwFVX74Nbq)
 
 <p align="center">
-    <kbd><img src="images/vocab_back.png" width="70%" style="border: 1px solid grey; border-radius: 10px;" /></kbd>
-    <kbd><img src="images/sentence_back.png" width="70%" style="border: 1px solid grey; border-radius: 10px;" /></kbd>
-    <kbd><img src="images/mining_template.gif" width="70%" style="border: 1px solid grey; border-radius: 10px;" /></kbd>
+    <kbd><img src="images/vocab_back.png" width="70%" /></kbd>
+    <kbd><img src="images/sentence_back.png" width="70%" /></kbd>
+    <kbd><img src="images/mining_template.gif" width="70%" /></kbd>
 </p>
 
 
@@ -46,8 +46,8 @@
 
 ### Popup Appearance custom CSS
 
-<img src="images/popup.png" width="60%" style="border: 1px solid grey; border-radius: 10px;" />
-<img src="images/search.png" width="100%" style="border: 1px solid grey; border-radius: 10px;"/>
+<img src="images/popup.png" width="60%" />
+<kbd><img src="images/search.png" width="100%" /></kbd>
 
 ```css
 body {
