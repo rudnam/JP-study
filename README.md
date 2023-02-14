@@ -313,9 +313,9 @@ Notes:
 
 {{~#*inline "main-def"~}}
     {{~#set "selected"}}{{~> selection-text}}{{/set~}}
-    {{~#set "exp"}}{{~> expression}}{{/set~}}
-
-    {{~#if (op "&&" (op "!==" (get "selected") "") (op "!==" (get "selected") (get "exp")))}}
+    {{~#set "test"}}{{~#regexMatch (get "selected")~}} {{~> search-query}} {{~/regexMatch~}}{{/set~}}
+    
+    {{~#if (op "&&" (op "!==" (get "selected") "") (op "!==" (get "selected") (get "test")))}}
         {{~> selection-text}}
     {{~else~}}
         {{~> jmdict-def noDictionaryTag=true brief=true ~}}
