@@ -313,9 +313,19 @@ Notes:
 
 {{~#*inline "main-def"~}}
     {{~#set "selected"}}{{~> selection-text}}{{/set~}}
-    {{~#set "test"}}{{~#regexMatch (get "selected")~}} {{~> search-query}} {{~/regexMatch~}}{{/set~}}
-    
-    {{~#if (op "&&" (op "!==" (get "selected") "") (op "!==" (get "selected") (get "test")))}}
+    {{~#set "pattern"~}}
+        [
+        {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
+        {{~#getMedia "textFurigana" definition.cloze.body escape=false}}{{~/getMedia~}}
+        {{~/regexReplace~}}
+        ]
+    {{~/set~}}
+    {{~#set "diff"}}{{~#regexReplace (get "pattern") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+
+    {{~#if (op "&&"
+                (get "selected")
+                (op ">" (property (get "diff") "length") (op "-" (property (get "selected") "length") (property (get "diff") "length")))
+            )}}
         {{~> selection-text}}
     {{~else~}}
         {{~> jmdict-def noDictionaryTag=true brief=true ~}}
