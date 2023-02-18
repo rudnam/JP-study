@@ -397,8 +397,8 @@ ruby rt {
 <script>
     function makeGrid() {
         const tategaki = true;      /* toggle vertical writing */
-        const boxes = -1;           /* -1 to change based on word, 0 to hide */
-        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140);
+        const boxes = -1;           /* specify # of boxes; -1 to change based on word, 0 to hide */
+        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140); /* max boxsize = 140px */
 
         const diagram = document.getElementById('diagram');
         const box = document.getElementById('box');
@@ -488,8 +488,8 @@ ruby rt {
 <script>
     function makeGrid() {
         const tategaki = true;      /* toggle vertical writing */
-        const boxes = -1;           /* -1 to change based on word, 0 to hide */
-        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140);
+        const boxes = -1;           /* specify # of boxes; -1 to change based on word, 0 to hide */
+        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140); /* max boxsize = 140px */
 
         const diagram = document.getElementById('diagram');
         const box = document.getElementById('box');
@@ -587,7 +587,8 @@ ruby rt {
 /* ----- Front elements ----- */
 
 
-.sentence_front {font-size: 36px;}
+.sentence_front {font-size: 28px;}
+
 
 /* PC replay button */
 .replay-button {margin-top: -5px;}
@@ -595,6 +596,7 @@ ruby rt {
 .replay-button svg path {fill: var(--main-color); transition: .2s;}
 .replay-button svg circle {fill: var(--main-bg); display: none;}
 .replay-button:hover svg path {fill: var(--sub-color);}
+
 
 /* Grid */
 #box {
@@ -671,9 +673,6 @@ u {
     text-decoration: none;
     color: #c19fff;
     font-weight: 400;
-}
-u > ruby rt {
-    opacity: 1;
 }
 
 
