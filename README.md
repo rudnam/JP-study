@@ -397,10 +397,11 @@ ruby rt {
 <script>
     function makeGrid() {
         const tategaki = true;		/* toggle vertical writing */
+        const boxes = -1;			/* -1 to change based on word, 0 to hide */
 
         const diagram = document.getElementById('diagram');
         const box = document.getElementById('box');
-        let size = 140 * diagram.childElementCount;
+        let size = boxes <= 0 ? 140 * diagram.childElementCount : 140 * boxes;
         let x = 140;
 
         if (tategaki) {
@@ -415,6 +416,7 @@ ruby rt {
                 x += 70;
             }
         } else {
+            diagram.style.textAlign = "left";
             const long = document.getElementsByClassName('hori')[0];
             box.style.width = `${size}px`;
             long.style.width = `${size}px`;
@@ -426,6 +428,14 @@ ruby rt {
                 x += 70;
             }
         }
+        
+        if (boxes == 0) {
+            box.style.border = "none";
+            for (child of box.children) {
+                child.style.border = "none";
+            }
+        }
+
         return;
     }
     makeGrid();
@@ -463,10 +473,12 @@ ruby rt {
 <script>
     function makeGrid() {
         const tategaki = true;		/* toggle vertical writing */
+        const boxes = -1;			/* -1 to change based on word, 0 to hide */
 
         const diagram = document.getElementById('diagram');
         const box = document.getElementById('box');
-        let size = 140 * diagram.childElementCount;
+
+        let size = boxes <= 0 ? 140 * diagram.childElementCount : 140 * boxes;
         let x = 140;
 
         if (tategaki) {
@@ -481,6 +493,7 @@ ruby rt {
                 x += 70;
             }
         } else {
+            diagram.style.textAlign = "left";
             const long = document.getElementsByClassName('hori')[0];
             box.style.width = `${size}px`;
             long.style.width = `${size}px`;
@@ -492,6 +505,14 @@ ruby rt {
                 x += 70;
             }
         }
+        
+        if (boxes == 0) {
+            box.style.border = "none";
+            for (child of box.children) {
+                child.style.border = "none";
+            }
+        }
+
         return;
     }
     makeGrid();
