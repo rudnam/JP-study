@@ -396,38 +396,53 @@ ruby rt {
 
 <script>
     function makeGrid() {
-        const tategaki = true;		/* toggle vertical writing */
-        const boxes = -1;			/* -1 to change based on word, 0 to hide */
+        const tategaki = true;      /* toggle vertical writing */
+        const boxes = -1;           /* -1 to change based on word, 0 to hide */
+        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140);
 
         const diagram = document.getElementById('diagram');
         const box = document.getElementById('box');
-        let size = boxes <= 0 ? 140 * diagram.childElementCount : 140 * boxes;
-        let x = 140;
+        const hori = document.getElementsByClassName('hori')[0];
+        const vert = document.getElementsByClassName('vert')[0];
 
+        let size = boxes <= 0 ? boxsize * diagram.childElementCount : boxsize * boxes;
+        let x = boxsize;
         if (tategaki) {
-            const long = document.getElementsByClassName('vert')[0];
+            const long = vert;
             box.style.height = `${size}px`;
+            box.style.width = `${boxsize}px`;
             long.style.height = `${size}px`;
+            long.style.width = `${boxsize/2}px`;
+            hori.style.height = `${boxsize/2}px`;
+            hori.style.width = `${boxsize}px`;
             while (x < size) {
                 const short = document.createElement('div');
                 short.classList.add('hori');
                 short.style.height = `${x}px`;
+                short.style.width = `${boxsize}px`;
                 box.insertBefore(short,diagram);
-                x += 70;
+                x += boxsize/2;
             }
         } else {
             diagram.style.textAlign = "left";
-            const long = document.getElementsByClassName('hori')[0];
+            const long = hori;
+            box.style.height = `${boxsize}px`;
             box.style.width = `${size}px`;
+            long.style.height = `${boxsize/2}px`;
             long.style.width = `${size}px`;
+            vert.style.height = `${boxsize}px`;
+            vert.style.width = `${boxsize/2}px`;
             while (x < size) {
                 const short = document.createElement('div');
                 short.classList.add('vert');
+                short.style.height = `${boxsize}px`;
                 short.style.width = `${x}px`;
                 box.insertBefore(short,diagram);
-                x += 70;
+                x += boxsize/2;
             }
         }
+
+        for (child of diagram.children) {child.style.height = `${boxsize}px`; child.style.width = `${boxsize}px`;}
         
         if (boxes == 0) {
             box.style.border = "none";
@@ -472,39 +487,53 @@ ruby rt {
 
 <script>
     function makeGrid() {
-        const tategaki = true;		/* toggle vertical writing */
-        const boxes = -1;			/* -1 to change based on word, 0 to hide */
+        const tategaki = true;      /* toggle vertical writing */
+        const boxes = -1;           /* -1 to change based on word, 0 to hide */
+        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140);
 
         const diagram = document.getElementById('diagram');
         const box = document.getElementById('box');
+        const hori = document.getElementsByClassName('hori')[0];
+        const vert = document.getElementsByClassName('vert')[0];
 
-        let size = boxes <= 0 ? 140 * diagram.childElementCount : 140 * boxes;
-        let x = 140;
-
+        let size = boxes <= 0 ? boxsize * diagram.childElementCount : boxsize * boxes;
+        let x = boxsize;
         if (tategaki) {
-            const long = document.getElementsByClassName('vert')[0];
+            const long = vert;
             box.style.height = `${size}px`;
+            box.style.width = `${boxsize}px`;
             long.style.height = `${size}px`;
+            long.style.width = `${boxsize/2}px`;
+            hori.style.height = `${boxsize/2}px`;
+            hori.style.width = `${boxsize}px`;
             while (x < size) {
                 const short = document.createElement('div');
                 short.classList.add('hori');
                 short.style.height = `${x}px`;
+                short.style.width = `${boxsize}px`;
                 box.insertBefore(short,diagram);
-                x += 70;
+                x += boxsize/2;
             }
         } else {
             diagram.style.textAlign = "left";
-            const long = document.getElementsByClassName('hori')[0];
+            const long = hori;
+            box.style.height = `${boxsize}px`;
             box.style.width = `${size}px`;
+            long.style.height = `${boxsize/2}px`;
             long.style.width = `${size}px`;
+            vert.style.height = `${boxsize}px`;
+            vert.style.width = `${boxsize/2}px`;
             while (x < size) {
                 const short = document.createElement('div');
                 short.classList.add('vert');
+                short.style.height = `${boxsize}px`;
                 short.style.width = `${x}px`;
                 box.insertBefore(short,diagram);
-                x += 70;
+                x += boxsize/2;
             }
         }
+
+        for (child of diagram.children) {child.style.height = `${boxsize}px`; child.style.width = `${boxsize}px`;}
         
         if (boxes == 0) {
             box.style.border = "none";
