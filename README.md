@@ -375,7 +375,7 @@ ruby rt {
 
 ```javascript
 <div id="content"> 
-    Kanken Level: {{KankenLevel}}
+    Kanken Level: ?
     <div class="sentence_front">
         {{SentenceFront}}
     </div>
