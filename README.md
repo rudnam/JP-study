@@ -374,60 +374,60 @@ ruby rt {
 
 ```javascript
 <div id="content"> 
-	Kanken Level: {{KankenLevel}}
-	<div class="sentence_front">
-		{{SentenceFront}}
-	</div>
-	{{#Picture}}
-		{{Picture}}
-		<br>
-	{{/Picture}}	
-	{{KankenAudio}}
-	<hr>
-	<div id="box">
-		<div class='vert'></div>
-		<div class='hori'></div>
-		<div id="diagram" style="opacity: 0;">
-			{{Diagram}}
-		</div>
-	</div>
+    Kanken Level: {{KankenLevel}}
+    <div class="sentence_front">
+        {{SentenceFront}}
+    </div>
+    {{#Picture}}
+        {{Picture}}
+        <br>
+    {{/Picture}}	
+    {{KankenAudio}}
+    <hr>
+    <div id="box">
+        <div class='vert'></div>
+        <div class='hori'></div>
+        <div id="diagram" style="opacity: 0;">
+            {{Diagram}}
+        </div>
+    </div>
 </div>
 
 <script>
-	function makeGrid() {
-		const tategaki = true;		/* toggle vertical writing */
+    function makeGrid() {
+        const tategaki = true;		/* toggle vertical writing */
 
-		const diagram = document.getElementById('diagram');
-		const box = document.getElementById('box');
-		let size = 140 * diagram.childElementCount;
-		let x = 140;
+        const diagram = document.getElementById('diagram');
+        const box = document.getElementById('box');
+        let size = 140 * diagram.childElementCount;
+        let x = 140;
 
-		if (tategaki) {
-			const long = document.getElementsByClassName('vert')[0];
-			box.style.height = `${size}px`;
-			long.style.height = `${size}px`;
-			while (x < size) {
-				const short = document.createElement('div');
-				short.classList.add('hori');
-				short.style.height = `${x}px`;
-				box.insertBefore(short,diagram);
-				x += 70;
-			}
-		} else {
-			const long = document.getElementsByClassName('hori')[0];
-			box.style.width = `${size}px`;
-			long.style.width = `${size}px`;
-			while (x < size) {
-				const short = document.createElement('div');
-				short.classList.add('vert');
-				short.style.width = `${x}px`;
-				box.insertBefore(short,diagram);
-				x += 70;
-			}
-		}
-		return;
-	}
-	makeGrid();
+        if (tategaki) {
+            const long = document.getElementsByClassName('vert')[0];
+            box.style.height = `${size}px`;
+            long.style.height = `${size}px`;
+            while (x < size) {
+                const short = document.createElement('div');
+                short.classList.add('hori');
+                short.style.height = `${x}px`;
+                box.insertBefore(short,diagram);
+                x += 70;
+            }
+        } else {
+            const long = document.getElementsByClassName('hori')[0];
+            box.style.width = `${size}px`;
+            long.style.width = `${size}px`;
+            while (x < size) {
+                const short = document.createElement('div');
+                short.classList.add('vert');
+                short.style.width = `${x}px`;
+                box.insertBefore(short,diagram);
+                x += 70;
+            }
+        }
+        return;
+    }
+    makeGrid();
 </script>
 ```
 
@@ -435,65 +435,65 @@ ruby rt {
 
 ```javascript
 <div id="content"> 
-	Kanken Level: {{KankenLevel}}
-	<div class="sentence_front">
-		{{SentenceBack}}
-	</div>
-	{{#Picture}}
-		{{Picture}}
-		<br>
-	{{/Picture}}
-	{{KankenAudio}}
-	<hr>
-	<div id="box">
-		<div class='vert'></div>
-		<div class='hori'></div>
-		<div id="diagram">
-			{{Diagram}}
-		</div>
-	</div>
-	<div id="extra">
-		{{Kana}}【{{Kanji}}】
-		<br>
-		{{Meaning}}
-	</div>
+    Kanken Level: {{KankenLevel}}
+    <div class="sentence_front">
+        {{SentenceBack}}
+    </div>
+    {{#Picture}}
+        {{Picture}}
+        <br>
+    {{/Picture}}
+    {{KankenAudio}}
+    <hr>
+    <div id="box">
+        <div class='vert'></div>
+        <div class='hori'></div>
+        <div id="diagram">
+            {{Diagram}}
+        </div>
+    </div>
+    <div id="extra">
+        {{Kana}}【{{Kanji}}】
+        <br>
+        {{Meaning}}
+    </div>
 </div>
 
 <script>
-	function makeGrid() {
-		const tategaki = true;		/* toggle vertical writing */
+    function makeGrid() {
+        const tategaki = true;		/* toggle vertical writing */
 
-		const diagram = document.getElementById('diagram');
-		const box = document.getElementById('box');
-		let size = 140 * diagram.childElementCount;
-		let x = 140;
+        const diagram = document.getElementById('diagram');
+        const box = document.getElementById('box');
+        let size = 140 * diagram.childElementCount;
+        let x = 140;
 
-		if (tategaki) {
-			const long = document.getElementsByClassName('vert')[0];
-			box.style.height = `${size}px`;
-			long.style.height = `${size}px`;
-			while (x < size) {
-				const short = document.createElement('div');
-				short.classList.add('hori');
-				short.style.height = `${x}px`;
-				box.insertBefore(short,diagram);
-				x += 70;
-			}
-		} else {
-			const long = document.getElementsByClassName('hori')[0];
-			box.style.width = `${size}px`;
-			long.style.width = `${size}px`;
-			while (x < size) {
-				const short = document.createElement('div');
-				short.classList.add('vert');
-				short.style.width = `${x}px`;
-				box.insertBefore(short,diagram);
-				x += 70;
-			}
-		}
-		return;
-	}
-	makeGrid();
+        if (tategaki) {
+            const long = document.getElementsByClassName('vert')[0];
+            box.style.height = `${size}px`;
+            long.style.height = `${size}px`;
+            while (x < size) {
+                const short = document.createElement('div');
+                short.classList.add('hori');
+                short.style.height = `${x}px`;
+                box.insertBefore(short,diagram);
+                x += 70;
+            }
+        } else {
+            const long = document.getElementsByClassName('hori')[0];
+            box.style.width = `${size}px`;
+            long.style.width = `${size}px`;
+            while (x < size) {
+                const short = document.createElement('div');
+                short.classList.add('vert');
+                short.style.width = `${x}px`;
+                box.insertBefore(short,diagram);
+                x += 70;
+            }
+        }
+        return;
+    }
+    makeGrid();
 </script>
 ```
 
@@ -547,12 +547,12 @@ ruby rt {
 
 /* Grid */
 #box {
-	width: 140px;
-	height: 140px;
-	margin: auto;
-	border-style: solid;
-	border-color: var(--grey);
-	background-color: rgba(255,255,255,0);
+    width: 140px;
+    height: 140px;
+    margin: auto;
+    border-style: solid;
+    border-color: var(--grey);
+    background-color: rgba(255,255,255,0);
 }
 .vert {
     position: absolute;
@@ -561,7 +561,7 @@ ruby rt {
     margin: auto;
     border-style: none;
     border-right-style: dotted;
-    border-color:	var(--grey);
+    border-color: var(--grey);
 }
 .hori {
     position: absolute;
@@ -570,7 +570,7 @@ ruby rt {
     margin: auto;
     border-style: none;
     border-bottom-style: dotted;
-    border-color:	var(--grey);
+    border-color: var(--grey);
 }
 
 
@@ -589,11 +589,11 @@ ruby rt {
 
 /* Extra info */
 #extra {
-		opacity: 0;
+    opacity: 0;
 }
 
 #extra:hover {
-		opacity: 1;
+    opacity: 1;
 }
 
 
@@ -617,7 +617,7 @@ img {
 
 /* Underline CSS */
 u {
-	text-decoration: none;
+    text-decoration: none;
     color: #c19fff;
     font-weight: 400;
 }
