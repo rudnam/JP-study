@@ -6,6 +6,7 @@
     - [Custom Card Templates (Handlebars)](#custom-card-templates-handlebars)
     - [Popup Appearance custom CSS](#popup-appearance-custom-css)
 - [Other Templates](#other-templates)
+    - [Kanken Deck](#kanken-deck-link)
 
 ## Anki Mining Template
 
@@ -364,7 +365,7 @@ ruby rt {
 
 ## Other Templates
 
-### Kanken Deck [link](https://ankiweb.net/shared/info/759825185)
+### Kanken Deck ([link](https://ankiweb.net/shared/info/759825185))
 
 <p align="center">
     <kbd><img src="images/kanken_back.png" width="70%" /></kbd>
