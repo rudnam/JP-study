@@ -2,10 +2,10 @@
 
 - [Anki Mining Template](#anki-mining-template)
 - [Yomichan settings](#yomichan-settings)
-    - [Dictionaries](#dictionaries)
-    - [Popup Appearance custom CSS](#popup-appearance-custom-css)
     - [Fields](#fields)
     - [Custom Card Templates (Handlebars)](#custom-card-templates-handlebars)
+    - [Popup Appearance custom CSS](#popup-appearance-custom-css)
+- [Other Templates](#other-templates)
 
 ## Anki Mining Template
 
@@ -19,92 +19,6 @@
 
 
 ## Yomichan settings
-
- [PC](./pc.json), [Mobile](./mobile.json)
-
-### Dictionaries
-| Dictionary | Priority | Link |
-|----------|----------|----------|
-| JPDB | 5 | [2](https://github.com/MarvNC/jpdb-freq-list) |
-| CC100 | 4 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| BCCWJ-LUW | 3 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| Anime & J-drama | 2 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| VN Freq | 1 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| JLPT_Level | 0 | [3](https://docs.google.com/document/d/1IUWkvBxhoazBSTyRbdyRVk7hfKE51yorE86DCRNQVuw/edit) |
-| アクセント辞典 | 1 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| NHK | 0 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| 実用日本語表現辞典 | 20 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| 大辞林 第三版 | 19 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| 旺文社国語辞典 第十一版 | 18 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| デジタル大辞泉 | 17 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| 明鏡国語辞典 第二版 | 16 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| 新明解国語辞典　第七版 | 15 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| Nico/Pixiv | 14 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| JMdict (English) | 13 | [4](https://github.com/Aquafina-water-bottle/jmdict-english-yomichan) |
-| JLPT文法解説まとめ | 5 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-| 日本語文法辞典(全集) | 4 | [1](https://drive.google.com/drive/folders/1tTdLppnqMfVC5otPlX_cs4ixlIgjv_lH) |
-
-### Popup Appearance custom CSS
-
-<img src="images/popup.png" width="60%" />
-<kbd><img src="images/search.png" width="100%" /></kbd>
-
-```css
-body {
-   font-family: IPAexGothic;
-}
-
-.source-text {
-    font-family: UD Digi Kyokasho N-R;
-}
-
-:root[data-theme="dark"] {
-    --text-color: #ffffff;
-    --background-color: #0d1117;
-    --accent-color: #2D4446;
-    --accent-color-lighter: #416265;
-    --tag-pronunciation-dictionary-background-color: #2d3746;
-    --tag-dictionary-background-color: #2F2D46;
-    --tag-frequency-background-color: #2D4446;
-    --tag-default-background-color: #51647E;
-    --tag-name-background-color: #3d4993;
-    --tag-expression-background-color: #4857AE;
-    --tag-popular-background-color: #232d5a;
-    --tag-frequent-background-color: #303e7c;
-    --tag-archaism-background-color: #533642;
-    --tag-part-of-speech-background-color: #303e7c;
-    --input-background-color: #24292f;
-    --link-color: #3d4993;
-}
-
-/* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
-.jp-quote-text {
-    text-indent: -1em;
-    padding-left: 1em;
-}
-
-/* Only show NHK pitch when アクセント辞典 doesn't have data */
-:not(ol[data-count='1']) > li.pronunciation-group[data-dictionary='NHK'] {
-    display: none;
-}
-ol.pronunciation-group-list[data-count='2'] {
-    list-style: none;
-    padding: 0;
-}
-
-/* Only show JMDict on hover */
-.definition-list li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
-    opacity: 0;
-}
-.definition-list:has(li.definition-item[data-dictionary='JMdict (English)']:hover) .gloss-list {
-    opacity: 1;
-}
-
-/* Disable furigana selection */
-ruby rt {
-    user-select: none;
-}
-```
 
 ### Fields
 | Field | Value |
@@ -125,7 +39,7 @@ ruby rt {
 | Frequency | `{frequencies}` | 
 | FreqSort | `{freq}` |
 | MiscInfo | `{document-title}` | 
-| Extra | `{jlpt} {ln}` |
+| ExtraField | `{jlpt} {ln}` |
 | *IsSentenceCard | `{grammar-pt}` | 
 
 Notes:
@@ -135,7 +49,7 @@ Notes:
 - **Hint** is for a hint on the front of the card.
 - **Sentence (furigana)** is for furigana generated from [AJT Furigana](https://ankiweb.net/shared/info/1344485230) (Anki addon)
 - **Sentence (audio)**, **Image**, **Translation** are for data from [Mpvacious](https://github.com/Ajatt-Tools/mpvacious). **Sentence**, **MiscInfo** are overwritten by data from Mpvacious as well.
-- **Extra** is for space-separated tags to be generated through [Field to Tag](https://ankiweb.net/shared/info/1600845494) (Anki addon)
+- **ExtraField** is for space-separated tags to be generated through [Field to Tag](https://ankiweb.net/shared/info/1600845494) (Anki addon)
 
 ### Custom Card Templates (Handlebars)
 
@@ -313,18 +227,26 @@ Notes:
 
 {{~#*inline "main-def"~}}
     {{~#set "selected"}}{{~> selection-text}}{{/set~}}
-    {{~#set "pattern"~}}
+    {{~#set "pattern1"~}}
+        [
+        {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
+        {{~> cloze-body}}
+        {{~/regexReplace~}}
+        ]
+    {{~/set~}}
+    {{~#set "pattern2"~}}
         [
         {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
         {{~#getMedia "textFurigana" definition.cloze.body escape=false}}{{~/getMedia~}}
         {{~/regexReplace~}}
         ]
     {{~/set~}}
-    {{~#set "diff"}}{{~#regexReplace (get "pattern") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+    {{~#set "diff1"}}{{~#regexReplace (get "pattern1") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+    {{~#set "diff2"}}{{~#regexReplace (get "pattern2") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
 
     {{~#if (op "&&"
-                (get "selected")
-                (op ">" (property (get "diff") "length") (op "-" (property (get "selected") "length") (property (get "diff") "length")))
+                (op ">" (property (get "diff1") "length") (op "-" (property (get "selected") "length") (property (get "diff1") "length")))
+                (op ">" (property (get "diff2") "length") (op "-" (property (get "selected") "length") (property (get "diff2") "length")))
             )}}
         {{~> selection-text}}
     {{~else~}}
@@ -376,4 +298,339 @@ Notes:
     {{~/each~}}
     {{~#if (op "===" (get "is-grammar") true)~}}x{{/if}}
 {{/inline}}
+```
+
+### Popup Appearance custom CSS
+
+<img src="images/popup.png" width="60%" />
+<kbd><img src="images/search.png" width="100%" /></kbd>
+
+```css
+body {
+   font-family: IPAexGothic;
+}
+
+.source-text {
+    font-family: UD Digi Kyokasho N-R;
+}
+
+:root[data-theme="dark"] {
+    --text-color: #ffffff;
+    --background-color: #0d1117;
+    --accent-color: #2D4446;
+    --accent-color-lighter: #416265;
+    --tag-pronunciation-dictionary-background-color: #2d3746;
+    --tag-dictionary-background-color: #2F2D46;
+    --tag-frequency-background-color: #2D4446;
+    --tag-default-background-color: #51647E;
+    --tag-name-background-color: #3d4993;
+    --tag-expression-background-color: #4857AE;
+    --tag-popular-background-color: #232d5a;
+    --tag-frequent-background-color: #303e7c;
+    --tag-archaism-background-color: #533642;
+    --tag-part-of-speech-background-color: #303e7c;
+    --input-background-color: #24292f;
+    --link-color: #3d4993;
+}
+
+/* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
+.jp-quote-text {
+    text-indent: -1em;
+    padding-left: 1em;
+}
+
+/* Only show NHK pitch when アクセント辞典 doesn't have data */
+:not(ol[data-count='1']) > li.pronunciation-group[data-dictionary='NHK'] {
+    display: none;
+}
+ol.pronunciation-group-list[data-count='2'] {
+    list-style: none;
+    padding: 0;
+}
+
+/* Only show JMDict on hover */
+.definition-list li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
+    opacity: 0;
+}
+.definition-list:has(li.definition-item[data-dictionary='JMdict (English)']:hover) .gloss-list {
+    opacity: 1;
+}
+
+/* Disable furigana selection */
+ruby rt {
+    user-select: none;
+}
+```
+
+## Other Templates
+
+### Kanken Deck [link](https://ankiweb.net/shared/info/759825185)
+
+<p align="center">
+    <kbd><img src="images/kanken_back.png" width="70%" /></kbd>
+</p>
+
+- Front
+
+```javascript
+<div id="content"> 
+	Kanken Level: {{KankenLevel}}
+	<div class="sentence_front">
+		{{SentenceFront}}
+	</div>
+	{{#Picture}}
+		{{Picture}}
+		<br>
+	{{/Picture}}	
+	{{KankenAudio}}
+	<hr>
+	<div id="box">
+		<div class='vert'></div>
+		<div class='hori'></div>
+		<div id="diagram" style="opacity: 0;">
+			{{Diagram}}
+		</div>
+	</div>
+</div>
+
+<script>
+	function makeGrid() {
+		const tategaki = true;		/* toggle vertical writing */
+
+		const diagram = document.getElementById('diagram');
+		const box = document.getElementById('box');
+		let size = 140 * diagram.childElementCount;
+		let x = 140;
+
+		if (tategaki) {
+			const long = document.getElementsByClassName('vert')[0];
+			box.style.height = `${size}px`;
+			long.style.height = `${size}px`;
+			while (x < size) {
+				const short = document.createElement('div');
+				short.classList.add('hori');
+				short.style.height = `${x}px`;
+				box.insertBefore(short,diagram);
+				x += 70;
+			}
+		} else {
+			const long = document.getElementsByClassName('hori')[0];
+			box.style.width = `${size}px`;
+			long.style.width = `${size}px`;
+			while (x < size) {
+				const short = document.createElement('div');
+				short.classList.add('vert');
+				short.style.width = `${x}px`;
+				box.insertBefore(short,diagram);
+				x += 70;
+			}
+		}
+		return;
+	}
+	makeGrid();
+</script>
+```
+
+- Back
+
+```javascript
+<div id="content"> 
+	Kanken Level: {{KankenLevel}}
+	<div class="sentence_front">
+		{{SentenceBack}}
+	</div>
+	{{#Picture}}
+		{{Picture}}
+		<br>
+	{{/Picture}}
+	{{KankenAudio}}
+	<hr>
+	<div id="box">
+		<div class='vert'></div>
+		<div class='hori'></div>
+		<div id="diagram">
+			{{Diagram}}
+		</div>
+	</div>
+	<div id="extra">
+		{{Kana}}【{{Kanji}}】
+		<br>
+		{{Meaning}}
+	</div>
+</div>
+
+<script>
+	function makeGrid() {
+		const tategaki = true;		/* toggle vertical writing */
+
+		const diagram = document.getElementById('diagram');
+		const box = document.getElementById('box');
+		let size = 140 * diagram.childElementCount;
+		let x = 140;
+
+		if (tategaki) {
+			const long = document.getElementsByClassName('vert')[0];
+			box.style.height = `${size}px`;
+			long.style.height = `${size}px`;
+			while (x < size) {
+				const short = document.createElement('div');
+				short.classList.add('hori');
+				short.style.height = `${x}px`;
+				box.insertBefore(short,diagram);
+				x += 70;
+			}
+		} else {
+			const long = document.getElementsByClassName('hori')[0];
+			box.style.width = `${size}px`;
+			long.style.width = `${size}px`;
+			while (x < size) {
+				const short = document.createElement('div');
+				short.classList.add('vert');
+				short.style.width = `${x}px`;
+				box.insertBefore(short,diagram);
+				x += 70;
+			}
+		}
+		return;
+	}
+	makeGrid();
+</script>
+```
+
+- CSS
+
+```css
+.card.nightMode {
+    --main-bg: #0d1117;
+    --sub-bg: #161b22;
+    --main-color: #ffffff;
+    --sub-color: #8b949e;
+    --grey: rgba(128,128,128, 0.1);
+    --main-font: "Yu Mincho";
+    font-family: var(--main-font);
+    background-color: var(--main-bg);
+    color: var(--main-color);
+    font-size: 20px;
+    text-align: center;
+}
+
+#qa {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    min-height: calc(100vh - 40px);
+}
+
+@font-face {
+    font-family: "Yu Mincho";
+    src: local("Yu Mincho"), local("游明朝"), url("_yumin.ttf");
+}
+
+@font-face {
+    font-family: "IPAExGothic";
+    src: local("IPAExGothic"), url("_ipaexg.ttf");
+}
+
+
+
+/* ----- Front elements ----- */
+
+
+.sentence_front {font-size: 36px;}
+
+/* PC replay button */
+.replay-button {margin-top: -5px;}
+.replay-button svg {width: 30px; height: auto;}
+.replay-button svg path {fill: var(--main-color); transition: .2s;}
+.replay-button svg circle {fill: var(--main-bg); display: none;}
+.replay-button:hover svg path {fill: var(--sub-color);}
+
+/* Grid */
+#box {
+	width: 140px;
+	height: 140px;
+	margin: auto;
+	border-style: solid;
+	border-color: var(--grey);
+	background-color: rgba(255,255,255,0);
+}
+.vert {
+    position: absolute;
+    height: 140px;
+    width: 70px;
+    margin: auto;
+    border-style: none;
+    border-right-style: dotted;
+    border-color:	var(--grey);
+}
+.hori {
+    position: absolute;
+    height: 70px;
+    width: 140px;
+    margin: auto;
+    border-style: none;
+    border-bottom-style: dotted;
+    border-color:	var(--grey);
+}
+
+
+/* ----- Back elements ----- */
+
+
+/* Stroke diagram */
+#diagram {line-height: 0;}
+#diagram > img {
+    height: 140px;
+    width: 140px;
+    position: relative;
+    z-index: 100;
+}
+
+
+/* Extra info */
+#extra {
+		opacity: 0;
+}
+
+#extra:hover {
+		opacity: 1;
+}
+
+
+/* ---------- Misc ---------- */
+
+
+/* Remove default margins */
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/* Images */
+img {
+    height: 200px;
+    width: auto;
+    border-radius: 8px;
+}
+
+
+/* Underline CSS */
+u {
+	text-decoration: none;
+    color: #c19fff;
+    font-weight: 400;
+}
+u > ruby rt {
+    opacity: 1;
+}
+
+
+/* Line margins */
+hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+
 ```
