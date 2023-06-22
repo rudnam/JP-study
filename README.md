@@ -18,9 +18,9 @@ Mining card template I use for Anki. I usually use it with [mpvacious](https://g
 
 
 <p align="center">
-    <kbd><img src="./assets/images/vocab_back.png" width="70%" /></kbd>
-    <kbd><img src="./assets/images/sentence_back.png" width="70%" /></kbd>
-    <kbd><img src="./assets/images/mining_template.gif" width="70%" /></kbd>
+    <kbd><img src="./images/vocab_back.png" width="70%" /></kbd>
+    <kbd><img src="./images/sentence_back.png" width="70%" /></kbd>
+    <kbd><img src="./images/mining_template.gif" width="70%" /></kbd>
 </p>
 
 
@@ -192,8 +192,8 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
 
 Custom CSS for changing the Yomichan popup appearance.
 
-<img src="./assets/images/popup.png" width="60%" />
-<kbd><img src="./assets/images/search.png" width="100%" /></kbd>
+<img src="./images/popup.png" width="60%" />
+<kbd><img src="./images/search.png" width="100%" /></kbd>
 
 <br>
 
@@ -313,7 +313,7 @@ div#dictionary-entries > div.entry:nth-child(n + 2) .kanji-glyph-data > tbody > 
 Anki card template for the [Kanken Deck](https://ankiweb.net/shared/info/759825185).
 
 <p align="center">
-    <kbd><img src="./assets/images/kanken_back.png" width="70%" /></kbd>
+    <kbd><img src="./images/kanken_back.png" width="70%" /></kbd>
 </p>
 
 Just copy and paste the following templates into Anki.
