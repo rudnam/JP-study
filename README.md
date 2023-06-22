@@ -412,6 +412,11 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           {{Diagram}}
         </div>
       </div>
+      <div id="extra">
+        {{Kana}}【{{Kanji}}】
+        <br>
+        {{Meaning}}
+	  </div>
     </div>
 
     <script>
