@@ -83,10 +83,10 @@ More info can be added using other applications and add-ons.
 
 Custom Yomichan Handlebars templates for toggling between English and Japanese definitions and adding extra info such as average frequency rank and context tags.
 
-- `{freq}` - for the **FreqSort** field. Gives the frequency value for sorting new cards. From [MarvNC](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency). Copy it from here: [https://github.com/MarvNC/JP-Resources#freq-handlebar](https://github.com/MarvNC/JP-Resources#freq-handlebar)
+- `{freq}` - Gives the frequency value for sorting new cards. From [MarvNC](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency). Copy it from here: [https://github.com/MarvNC/JP-Resources#freq-handlebar](https://github.com/MarvNC/JP-Resources#freq-handlebar)
 
 
-- `{main-def}` - for the **MainDefinition** field. If text is selected, the extracted definition is the highlighted text, otherwise defaults to the English/JMDict definition.
+- `{main-def}` - If text is selected, the extracted definition is the highlighted text, otherwise defaults to the English/JMDict definition.
     ```handlebars
     {{~#*inline "jmdict-def"~}}
         <div style="text-align: left;">
@@ -143,7 +143,7 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{~/inline~}}
     ```
 
-- `{grammar-pt}` - fills out **\*IsSentenceCard** Field when a grammar dictionary has an entry.
+- `{grammar-pt}` - fills out a field when a grammar dictionary has an entry.
 
     ```handlebars
     {{#*inline "grammar-pt"}}
