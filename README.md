@@ -1,27 +1,32 @@
 # JP-study
 
 - [Anki Mining Template](#anki-mining-template)
-- [Yomichan settings](#yomichan-settings)
-    - [Fields](#fields)
-    - [Custom Card Templates (Handlebars)](#custom-card-templates-handlebars)
-    - [Popup Appearance custom CSS](#popup-appearance-custom-css)
-- [Other Templates](#other-templates)
-    - [Kanken Deck](#kanken-deck-link)
+    - [Yomichan fields](#yomichan-fields)
+    - [Other applications/add-ons](#other-applicationsadd-ons)
+- [Yomichan Handlebars templates](#yomichan-handlebars-templates)
+- [Yomichan popup custom CSS](#yomichan-popup-custom-css)
+- [Kanken Deck Template](#kanken-deck-template)
 
 ## Anki Mining Template
 
-[Link](https://drive.google.com/drive/u/2/folders/1et5YNL6pGRwELfWSTRpIs-pwFVX74Nbq)
+Mining card template I use for Anki. I usually use it with [mpvacious](https://github.com/Ajatt-Tools/mpvacious) and [Yomichan](https://chrome.google.com/webstore/detail/yomichan/ogmnaimimemjmbakcfefmnahgdfhfami).
+
+[Preview](https://rudnam.github.io/JP-study/)
+
+[Download link](https://drive.google.com/drive/u/2/folders/1et5YNL6pGRwELfWSTRpIs-pwFVX74Nbq)
+
+
 
 <p align="center">
-    <kbd><img src="images/vocab_back.png" width="70%" /></kbd>
-    <kbd><img src="images/sentence_back.png" width="70%" /></kbd>
-    <kbd><img src="images/mining_template.gif" width="70%" /></kbd>
+    <kbd><img src="./assets/images/vocab_back.png" width="70%" /></kbd>
+    <kbd><img src="./assets/images/sentence_back.png" width="70%" /></kbd>
+    <kbd><img src="./assets/images/mining_template.gif" width="70%" /></kbd>
 </p>
 
 
-## Yomichan settings
+### Yomichan fields
 
-### Fields
+How I fill the mining template's fields from Yomichan.
 | Field | Value |
 |----------|----------|
 | Expression | `{expression}` |
@@ -40,279 +45,317 @@
 | Frequency | `{frequencies}` | 
 | FreqSort | `{freq}` |
 | MiscInfo | `{document-title}` | 
-| ExtraField | `{jlpt} {ln}` |
+| ExtraField |  |
 | *IsSentenceCard | `{grammar-pt}` | 
 
 Notes:
-- When **\*IsSentenceCard** isn't empty, card is turned into a sentence card. When empty, it's a vocab card.
-- **PitchPosition** takes `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` do not work.
-- `{main-def}`, `{freq}`, `{jlpt}`, `{ln}`, and `{grammar-pt}` are custom templates/handlebars
-- **Hint** is for a hint on the front of the card.
-- **Sentence (furigana)** is for furigana generated from [AJT Furigana](https://ankiweb.net/shared/info/1344485230) (Anki addon)
-- **Sentence (audio)**, **Image**, **Translation** are for data from [Mpvacious](https://github.com/Ajatt-Tools/mpvacious). **Sentence**, **MiscInfo** are overwritten by data from Mpvacious as well.
-- **ExtraField** is for space-separated tags to be generated through [Field to Tag](https://ankiweb.net/shared/info/1600845494) (Anki addon)
+- When **\*IsSentenceCard** is filled with any character, card is turned into a sentence card. When empty, it is turned into a vocab card.
+- **PitchPosition** takes in `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` will **not** work.
+- `{main-def}`, `{freq}`, and `{grammar-pt}` are [custom templates/handlebars](#yomichan-handlebars-templates).
+- **Hint** is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
+- The furigana fields only take in plain furigana. (e.g. 漢字[かんじ] not <ruby>漢字<rt>かんじ</rt></ruby>).
 
-### Custom Card Templates (Handlebars)
+### Other applications/add-ons
 
-- `{freq}` - frequency value for sorting new cards. [Link](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency).
+More info can be added using other applications and add-ons.
 
-```handlebars
-{{#*inline "freq"}}
-    {{~! Frequency sort handlebars: v23.02.05.1 ~}}
-    {{~! The latest version can be found at https://github.com/MarvNC/JP-Resources ~}}
-    {{~#scope~}}
-        {{~! Options ~}}
-        {{~#set "opt-ignored-freq-dict-regex"~}} ^(JLPT_Level)$ {{~/set~}}
-        {{~#set "opt-keep-freqs-past-first-regex"~}} ^()$ {{~/set~}}
-        {{~set "opt-no-freq-default-value" 0 ~}}
-        {{~set "opt-freq-sorting-method" "harmonic" ~}} {{~! "min", "first", "avg", "harmonic" ~}}
-        {{~! End of options ~}}
+- I usually use the fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
 
-        {{~! Do not change the code below unless you know what you are doing. ~}}
-        {{~set "result-freq" -1 ~}} {{~! -1 is chosen because no frequency dictionaries should have an entry as -1 ~}}
-        {{~set "prev-freq-dict" "" ~}}
-        {{~set "t" 1 ~}}
+    ```
+    sentence_field=Sentence
+    secondary_field=Translation
+    audio_field=Sentence (audio)
+    image_field=Image
+    miscinfo_field=MiscInfo
 
-        {{~#each definition.frequencies~}}
+    # The tag(s) added to new notes. Spaces separate multiple tags.
+    note_tag=subs2srs アニメ::%n 
+    ```
 
-            {{~! rx-match-ignored-freq is not empty if ignored <=> rx-match-ignored-freq is empty if not ignored ~}}
-            {{~#set "rx-match-ignored-freq" ~}}
-                {{~#regexMatch (get "opt-ignored-freq-dict-regex") "gu"~}}{{this.dictionary}}{{~/regexMatch~}}
-            {{/set~}}
-            {{~#if (op "===" (get "rx-match-ignored-freq") "") ~}}
+- I use [FieldReporter](https://ankiweb.net/shared/info/569864517) for reordering cards based on the **FreqSort** field. The addon also supports converting a field to a tag but it doesn't support adding multiple tags so I use my own [fork](https://github.com/rudnam/FieldReporter) with **ExtraField** as the source field:
+    | Field | Value |
+    |----------|----------|
+    | ExtraField | `{jlpt}${context}` |
+    
+    `{jlpt}` and `{context}` are [custom templates/handlebars](#yomichan-handlebars-templates).
 
-                {{~!
-                    only uses the 1st frequency of any dictionary.
-                    For example, if JPDB lists 440 and 26189㋕, only the first 440 will be used.
-                ~}}
-                {{~set "read-freq" false ~}}
-                {{~#if (op "!==" (get "prev-freq-dict") this.dictionary ) ~}}
-                    {{~set "read-freq" true ~}}
-                    {{~set "prev-freq-dict" this.dictionary ~}}
-                {{/if~}}
+## Yomichan Handlebars templates
 
-                {{~#if (op "!" (get "read-freq") ) ~}}
-                    {{~#set "rx-match-keep-freqs" ~}}
-                        {{~#regexMatch (get "opt-keep-freqs-past-first-regex") "gu"~}}{{this.dictionary}}{{~/regexMatch~}}
-                    {{/set~}}
+Custom Yomichan Handlebars templates for toggling between English and Japanese definitions and adding extra info such as average frequency rank and context tags.
 
-                    {{~! rx-match-keep-freqs is not empty if keep freqs ~}}
-                    {{~#if (op "!==" (get "rx-match-keep-freqs") "") ~}}
+- `{freq}` - for the **FreqSort** field. Gives the frequency value for sorting new cards. From [MarvNC](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency).
+
+    ```handlebars
+    {{#*inline "freq"}}
+        {{~! Frequency sort handlebars: v23.02.05.1 ~}}
+        {{~! The latest version can be found at https://github.com/MarvNC/JP-Resources ~}}
+        {{~#scope~}}
+            {{~! Options ~}}
+            {{~#set "opt-ignored-freq-dict-regex"~}} ^(JLPT_Level)$ {{~/set~}}
+            {{~#set "opt-keep-freqs-past-first-regex"~}} ^()$ {{~/set~}}
+            {{~set "opt-no-freq-default-value" 0 ~}}
+            {{~set "opt-freq-sorting-method" "harmonic" ~}} {{~! "min", "first", "avg", "harmonic" ~}}
+            {{~! End of options ~}}
+
+            {{~! Do not change the code below unless you know what you are doing. ~}}
+            {{~set "result-freq" -1 ~}} {{~! -1 is chosen because no frequency dictionaries should have an entry as -1 ~}}
+            {{~set "prev-freq-dict" "" ~}}
+            {{~set "t" 1 ~}}
+
+            {{~#each definition.frequencies~}}
+
+                {{~! rx-match-ignored-freq is not empty if ignored <=> rx-match-ignored-freq is empty if not ignored ~}}
+                {{~#set "rx-match-ignored-freq" ~}}
+                    {{~#regexMatch (get "opt-ignored-freq-dict-regex") "gu"~}}{{this.dictionary}}{{~/regexMatch~}}
+                {{/set~}}
+                {{~#if (op "===" (get "rx-match-ignored-freq") "") ~}}
+
+                    {{~!
+                        only uses the 1st frequency of any dictionary.
+                        For example, if JPDB lists 440 and 26189㋕, only the first 440 will be used.
+                    ~}}
+                    {{~set "read-freq" false ~}}
+                    {{~#if (op "!==" (get "prev-freq-dict") this.dictionary ) ~}}
                         {{~set "read-freq" true ~}}
+                        {{~set "prev-freq-dict" this.dictionary ~}}
                     {{/if~}}
-                {{/if~}}
 
-                {{~#if (get "read-freq") ~}}
-                    {{~set "f" (op "+" (regexMatch "\d+" "" this.frequency)) ~}}
+                    {{~#if (op "!" (get "read-freq") ) ~}}
+                        {{~#set "rx-match-keep-freqs" ~}}
+                            {{~#regexMatch (get "opt-keep-freqs-past-first-regex") "gu"~}}{{this.dictionary}}{{~/regexMatch~}}
+                        {{/set~}}
 
-                    {{~#if (op "===" (get "opt-freq-sorting-method") "min") ~}}
-                        {{~#if
-                            (op "||"
-                                (op "===" (get "result-freq") -1)
-                                (op ">" (get "result-freq") (get "f"))
-                            )
-                        ~}}
-                            {{~set "result-freq" (op "+" (get "f")) ~}}
-                        {{~/if~}}
+                        {{~! rx-match-keep-freqs is not empty if keep freqs ~}}
+                        {{~#if (op "!==" (get "rx-match-keep-freqs") "") ~}}
+                            {{~set "read-freq" true ~}}
+                        {{/if~}}
+                    {{/if~}}
 
-                    {{~else if (op "===" (get "opt-freq-sorting-method") "first") ~}}
-                        {{~#if (op "===" (get "result-freq") -1) ~}}
-                            {{~set "result-freq" (get "f") ~}}
-                        {{~/if~}}
+                    {{~#if (get "read-freq") ~}}
+                        {{~set "f" (op "+" (regexMatch "\d+" "" this.frequency)) ~}}
 
-                    {{~else if (op "===" (get "opt-freq-sorting-method") "avg") ~}}
-
-                        {{~#if (op "===" (get "result-freq") -1) ~}}
-                            {{~set "result-freq" (get "f") ~}}
-                        {{~else~}}
-                            {{~!
-                                iterative mean formula (to prevent floating point overflow):
-                                    $S_{(t+1)} = S_t + \frac{1}{t+1} (x - S_t)$
-                                - example java implementation: https://stackoverflow.com/a/1934266
-                                - proof: https://www.heikohoffmann.de/htmlthesis/node134.html
-                            ~}}
-                            {{~set "result-freq"
-                                (op "+"
-                                    (get "result-freq")
-                                    (op "/"
-                                        (op "-"
-                                            (get "f")
-                                            (get "result-freq")
-                                        )
-                                        (get "t")
-                                    )
+                        {{~#if (op "===" (get "opt-freq-sorting-method") "min") ~}}
+                            {{~#if
+                                (op "||"
+                                    (op "===" (get "result-freq") -1)
+                                    (op ">" (get "result-freq") (get "f"))
                                 )
-                            }}
-                        {{~/if~}}
-                        {{~set "t" (op "+" (get "t") 1) ~}}
+                            ~}}
+                                {{~set "result-freq" (op "+" (get "f")) ~}}
+                            {{~/if~}}
 
-                    {{~else if (op "===" (get "opt-freq-sorting-method") "harmonic") ~}}
-                        {{~#if (op ">" (get "f") 0) ~}} {{~! ensures only positive numbers are used ~}}
+                        {{~else if (op "===" (get "opt-freq-sorting-method") "first") ~}}
                             {{~#if (op "===" (get "result-freq") -1) ~}}
-                                {{~set "result-freq" (op "/" 1 (get "f")) ~}}
-                            {{~else ~}}
+                                {{~set "result-freq" (get "f") ~}}
+                            {{~/if~}}
+
+                        {{~else if (op "===" (get "opt-freq-sorting-method") "avg") ~}}
+
+                            {{~#if (op "===" (get "result-freq") -1) ~}}
+                                {{~set "result-freq" (get "f") ~}}
+                            {{~else~}}
+                                {{~!
+                                    iterative mean formula (to prevent floating point overflow):
+                                        $S_{(t+1)} = S_t + \frac{1}{t+1} (x - S_t)$
+                                    - example java implementation: https://stackoverflow.com/a/1934266
+                                    - proof: https://www.heikohoffmann.de/htmlthesis/node134.html
+                                ~}}
                                 {{~set "result-freq"
                                     (op "+"
                                         (get "result-freq")
-                                        (op "/" 1 (get "f"))
+                                        (op "/"
+                                            (op "-"
+                                                (get "f")
+                                                (get "result-freq")
+                                            )
+                                            (get "t")
+                                        )
                                     )
                                 }}
-                                {{~set "t" (op "+" (get "t") 1) ~}}
                             {{~/if~}}
+                            {{~set "t" (op "+" (get "t") 1) ~}}
+
+                        {{~else if (op "===" (get "opt-freq-sorting-method") "harmonic") ~}}
+                            {{~#if (op ">" (get "f") 0) ~}} {{~! ensures only positive numbers are used ~}}
+                                {{~#if (op "===" (get "result-freq") -1) ~}}
+                                    {{~set "result-freq" (op "/" 1 (get "f")) ~}}
+                                {{~else ~}}
+                                    {{~set "result-freq"
+                                        (op "+"
+                                            (get "result-freq")
+                                            (op "/" 1 (get "f"))
+                                        )
+                                    }}
+                                    {{~set "t" (op "+" (get "t") 1) ~}}
+                                {{~/if~}}
+                            {{~/if~}}
+
+                        {{~else if (op "===" (get "opt-freq-sorting-method") "debug") ~}}
+
+                            {{ this.dictionary }}: {{ this.frequency }} -> {{ get "f" }} <br>
+
+                        {{~else~}}
+                            (INVALID opt-freq-sorting-method value)
                         {{~/if~}}
 
-                    {{~else if (op "===" (get "opt-freq-sorting-method") "debug") ~}}
-
-                        {{ this.dictionary }}: {{ this.frequency }} -> {{ get "f" }} <br>
-
-                    {{~else~}}
-                        (INVALID opt-freq-sorting-method value)
                     {{~/if~}}
 
                 {{~/if~}}
 
-            {{~/if~}}
-
-        {{~/each~}}
-
-        {{~! (x) >> 0 apparently floors x: https://stackoverflow.com/a/4228528 ~}}
-        {{~#if (op "===" (get "result-freq") -1) ~}}
-            {{~set "result-freq" (get "opt-no-freq-default-value") ~}}
-        {{~ else if (op "===" (get "opt-freq-sorting-method") "avg") ~}}
-            {{~set "result-freq"
-                (op ">>" (get "result-freq") 0 )
-            ~}}
-        {{~ else if (op "===" (get "opt-freq-sorting-method") "harmonic") ~}}
-            {{~set "result-freq"
-                (op ">>"
-                    (op "*"
-                        (op "/" 1 (get "result-freq"))
-                        (get "t")
-                    )
-                    0
-                )
-            ~}}
-        {{~/if~}}
-
-        {{~get "result-freq"~}}
-    {{~/scope~}}
-{{/inline}}
-```
-
-- `{main-def}` - for the **MainDefinition** field. If text is selected, return `{selection-text}` otherwise return `{jmdict-def}` (English/JMDict definition).
-```handlebars
-{{~#*inline "jmdict-def"~}}
-    <div style="text-align: left;">
-    {{~#scope~}}
-        {{~#if (op "===" definition.type "term")~}}
-            {{~#if (op "===" this.dictionary "JMdict (English)")~}}
-                {{~> glossary-single definition brief=brief noDictionaryTag=noDictionaryTag ~}}
-            {{/if}}
-        {{~else if (op "||" (op "===" definition.type "termGrouped") (op "===" definition.type "termMerged"))~}}
-            {{~#set "jmdict-length" 0}}{{/set~}}
-            {{~#each definition.definitions~}}
-                {{~#if (op "===" this.dictionary "JMdict (English)")~}}
-                    {{~#set "jmdict-length" (op "+" (get "jmdict-length") 1) ~}}{{~/set~}}
-                {{~/if~}}
             {{~/each~}}
 
-            {{~#if (op ">" (get "jmdict-length") 1)~}}
-                <ol>{{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}<li>{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}</li>{{/if}}{{~/each~}}</ol>
-            {{~else~}}
-                {{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}{{/if}}{{~/each~}}
+            {{~! (x) >> 0 apparently floors x: https://stackoverflow.com/a/4228528 ~}}
+            {{~#if (op "===" (get "result-freq") -1) ~}}
+                {{~set "result-freq" (get "opt-no-freq-default-value") ~}}
+            {{~ else if (op "===" (get "opt-freq-sorting-method") "avg") ~}}
+                {{~set "result-freq"
+                    (op ">>" (get "result-freq") 0 )
+                ~}}
+            {{~ else if (op "===" (get "opt-freq-sorting-method") "harmonic") ~}}
+                {{~set "result-freq"
+                    (op ">>"
+                        (op "*"
+                            (op "/" 1 (get "result-freq"))
+                            (get "t")
+                        )
+                        0
+                    )
+                ~}}
             {{~/if~}}
-        {{~/if~}}
-    {{~/scope~}}
-    </div>
-{{~/inline~}}
 
-{{~#*inline "main-def"~}}
-    {{~#set "selected"}}{{~> selection-text}}{{/set~}}
-    {{~#set "pattern1"~}}
-        [
-        {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
-        {{~> cloze-body}}
-        {{~/regexReplace~}}
-        ]
-    {{~/set~}}
-    {{~#set "pattern2"~}}
-        [
-        {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
-        {{~#getMedia "textFurigana" definition.cloze.body escape=false}}{{~/getMedia~}}
-        {{~/regexReplace~}}
-        ]
-    {{~/set~}}
-    {{~#set "diff1"}}{{~#regexReplace (get "pattern1") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
-    {{~#set "diff2"}}{{~#regexReplace (get "pattern2") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+            {{~get "result-freq"~}}
+        {{~/scope~}}
+    {{/inline}}
+    ```
 
-    {{~#if (op "&&"
-                (op ">" (property (get "diff1") "length") (op "-" (property (get "selected") "length") (property (get "diff1") "length")))
-                (op ">" (property (get "diff2") "length") (op "-" (property (get "selected") "length") (property (get "diff2") "length")))
-            )}}
-        {{~> selection-text}}
-    {{~else~}}
-        {{~> jmdict-def noDictionaryTag=true brief=true ~}}
-    {{/if~}}
-{{~/inline~}}
-```
+- `{main-def}` - for the **MainDefinition** field. If text is selected, the extracted definition is the highlighted text, otherwise defaults to the English/JMDict definition.
+    ```handlebars
+    {{~#*inline "jmdict-def"~}}
+        <div style="text-align: left;">
+        {{~#scope~}}
+            {{~#if (op "===" definition.type "term")~}}
+                {{~#if (op "===" this.dictionary "JMdict (English)")~}}
+                    {{~> glossary-single definition brief=brief noDictionaryTag=noDictionaryTag ~}}
+                {{/if}}
+            {{~else if (op "||" (op "===" definition.type "termGrouped") (op "===" definition.type "termMerged"))~}}
+                {{~#set "jmdict-length" 0}}{{/set~}}
+                {{~#each definition.definitions~}}
+                    {{~#if (op "===" this.dictionary "JMdict (English)")~}}
+                        {{~#set "jmdict-length" (op "+" (get "jmdict-length") 1) ~}}{{~/set~}}
+                    {{~/if~}}
+                {{~/each~}}
 
-- `{jlpt}` - space-separated jlpt tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on.
-
-```handlebars
-{{~#*inline "jlpt"~}}
-    {{~#if (op ">" definition.frequencies.length 0)~}}
-        {{~#each definition.frequencies~}}
-            {{~#if (op "===" this.dictionary "JLPT_Level")~}}
-                JLPT_{{frequency~}}
-                {{#unless @last}} {{/unless}}
+                {{~#if (op ">" (get "jmdict-length") 1)~}}
+                    <ol>{{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}<li>{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}</li>{{/if}}{{~/each~}}</ol>
+                {{~else~}}
+                    {{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}{{/if}}{{~/each~}}
+                {{~/if~}}
             {{~/if~}}
-        {{~/each~}}
-    {{~/if~}}
-{{/inline}}
-```
+        {{~/scope~}}
+        </div>
+    {{~/inline~}}
 
-- `{ln}` - "ラノベ" and the LN title tags for the [Field to Tag](https://ankiweb.net/shared/info/1600845494) add-on when on `reader.ttsu.app`.
+    {{~#*inline "main-def"~}}
+        {{~#set "selected"}}{{~> selection-text}}{{/set~}}
+        {{~#set "pattern1"~}}
+            [
+            {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
+            {{~> cloze-body}}
+            {{~/regexReplace~}}
+            ]
+        {{~/set~}}
+        {{~#set "pattern2"~}}
+            [
+            {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
+            {{~#getMedia "textFurigana" definition.cloze.body escape=false}}{{~/getMedia~}}
+            {{~/regexReplace~}}
+            ]
+        {{~/set~}}
+        {{~#set "diff1"}}{{~#regexReplace (get "pattern1") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+        {{~#set "diff2"}}{{~#regexReplace (get "pattern2") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
 
-```handlebars
-{{#*inline "ln"}}
-    {{~#set "ttsu" ~}}
-        {{~#regexMatch "reader\.ttsu\.app"~}} {{definition.url}} {{~/regexMatch~}}
-    {{/set~}}
-    {{~#if (op "!==" "" (get "ttsu"))~}}
-        ラノベ 
-        {{#regexReplace "　" "_" "g"~}}
-            {{~#regexReplace "\| ッツ Ebook Reader" ""~}}{{~context.document.title~}}{{/regexReplace~}}
-        {{/regexReplace~}}
-    {{~/if~}}
-{{/inline}}
-```
+        {{~#if (op "&&"
+                    (op ">" (property (get "diff1") "length") (op "-" (property (get "selected") "length") (property (get "diff1") "length")))
+                    (op ">" (property (get "diff2") "length") (op "-" (property (get "selected") "length") (property (get "diff2") "length")))
+                )}}
+            {{~> selection-text}}
+        {{~else~}}
+            {{~> jmdict-def noDictionaryTag=true brief=true ~}}
+        {{/if~}}
+    {{~/inline~}}
+    ```
 
 - `{grammar-pt}` - fills out **\*IsSentenceCard** Field when a grammar dictionary has an entry.
 
-```handlebars
-{{#*inline "grammar-pt"}}
-    {{~#set "is-grammar" false}}{{/set~}}
-    {{~#each definition.definitions~}}
-        {{~#if (op "||" (op "===" this.dictionary "JLPT文法解説まとめ") (op "===" this.dictionary "日本語文法辞典(全集)"))~}}
-            {{~#set "is-grammar" true ~}}{{~/set~}}
+    ```handlebars
+    {{#*inline "grammar-pt"}}
+        {{~#set "grammar-dicts" ~}}
+            {{~#regexMatch "JLPT文法解説まとめ|日本語文法辞典\(全集\)"~}}
+                {{~> glossary}}
+            {{~/regexMatch~}}
+        {{/set~}}
+        {{~#if (op "!==" "" (get "grammar-dicts"))~}}x{{/if}}
+    {{/inline}}
+    ```
+
+- `{jlpt}` - JLPT tags for [FieldReporter](https://github.com/rudnam/FieldReporter).
+
+    ```handlebars
+    {{~#*inline "jlpt"~}}
+        {{~#if (op ">" definition.frequencies.length 0)~}}
+            {{~#each definition.frequencies~}}
+                {{~#if (op "===" this.dictionary "JLPT_Level")~}}
+                    JLPT_{{frequency~}}{{#unless @last}}${{/unless}}
+                {{~/if~}}
+            {{~/each~}}
         {{~/if~}}
-    {{~/each~}}
-    {{~#if (op "===" (get "is-grammar") true)~}}x{{/if}}
-{{/inline}}
-```
+    {{/inline}}
+    ```
 
-### Popup Appearance custom CSS
+- `{ln}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro or reader.ttsu.app.
 
-<img src="images/popup.png" width="60%" />
-<kbd><img src="images/search.png" width="100%" /></kbd>
+    ```handlebars
+    {{#*inline "context"}}
+        {{~#set "ttsu" ~}}
+            {{~#regexMatch "reader\.ttsu\.app"~}} {{definition.url}} {{~/regexMatch~}}
+        {{/set~}}
+        {{~#set "mokuro" ~}}
+            {{~#regexMatch "mokuro"~}} {{~context.document.title~}} {{~/regexMatch~}}
+        {{/set~}}
+        {{~#if (op "!==" "" (get "ttsu"))~}}
+            ラノベ::{{~context.document.title~}}
+        {{~else if (op "!==" "" (get "mokuro"))~}}
+            漫画::{{~context.document.title~}}
+        {{~/if~}}
+    {{/inline}}
+    ```
+
+## Yomichan popup custom CSS
+
+Custom CSS for changing the Yomichan popup appearance.
+
+<img src="./assets/images/popup.png" width="60%" />
+<kbd><img src="./assets/images/search.png" width="100%" /></kbd>
+
+<br>
+
+Font download links:
+- Source Sans 3: [https://fonts.google.com/specimen/Source+Sans+3](https://fonts.google.com/specimen/Source+Sans+3)
+- Source Han Sans: [https://github.com/adobe-fonts/source-han-sans/raw/release/Variable/TTF/SourceHanSans-VF.ttf](https://github.com/adobe-fonts/source-han-sans/raw/release/Variable/TTF/SourceHanSans-VF.ttf)
+
+Just copy and paste the following CSS into Yomichan's custom CSS.
 
 ```css
 body {
-   font-family: IPAexGothic;
+    font-family: "Source Sans 3", "Source Han Sans VF", sans-serif;
 }
 
 .source-text {
-    font-family: UD Digi Kyokasho N-R;
+    font-family: "UD Digi Kyokasho N-R";
+}
+
+.kanji-glyph {
+    font-family: "kanji-stroke-orders";
 }
 
 :root[data-theme="dark"] {
@@ -350,337 +393,331 @@ ol.pronunciation-group-list[data-count='2'] {
 }
 
 /* Only show JMDict on hover */
-.definition-list li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
+li.definition-item[data-dictionary='JMdict'] .gloss-list {
     opacity: 0;
 }
-.definition-list:has(li.definition-item[data-dictionary='JMdict (English)']:hover) .gloss-list {
+.definition-list:hover li.definition-item[data-dictionary='JMdict'] .gloss-list {
     opacity: 1;
 }
+*:not([data-dictionary='JMdict']):hover ~ li.definition-item[data-dictionary='JMdict (English)'] .gloss-list{
+    opacity: 0;
+}
 
-/* Disable furigana selection */
-ruby rt {
-    user-select: none;
+/* Disable furigana on search page */
+ruby.query-parser-segment > rt.query-parser-segment-reading {
+    display: none;
+}
+
+/* For Kanji, link: https://github.com/MarvNC/yomichan-dictionaries#yomichan-css-for-kanji-dictionaries */
+/* remove misc dict classifications/codepoints/stats */
+.kanji-glyph-data > tbody > tr:nth-child(n + 3) {
+    display: none;
+}
+
+/* remove stroke diagram, freq, header for next entries */
+div.entry[data-type='kanji']:nth-child(n + 2) .kanji-glyph-container,
+div.entry[data-type='kanji']:nth-child(n + 2) [data-section-type='frequencies'],
+div.entry[data-type='kanji']:nth-child(n + 2) table.kanji-glyph-data > tbody > tr:first-child {
+    display: none;
+}
+
+/* remove 'No data found' */
+.kanji-info-table-item-value-empty {
+    display: none;
+}
+
+/* reduce extra padding */
+.kanji-glyph-data,
+div.entry[data-type='kanji'],
+div.entry[data-type='kanji']:nth-child(n + 2) .kanji-glyph-data > tbody > tr > *,
+.kanji-glyph-data dl.kanji-readings-japanese,
+div.entry[data-type='kanji']:nth-child(n + 2)
+.kanji-glyph-data
+dl.kanji-readings-chinese[data-count='0'] {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0em;
+    margin-top: 0 !important;
+}
+/* remove horizontal lines */
+.entry + .entry[data-type='kanji'],
+div#dictionary-entries > div.entry:nth-child(n + 2) .kanji-glyph-data > tbody > tr > * {
+    border-top: none !important;
+}
+/* change decimal list */
+.kanji-gloss-list {
+    list-style-type: circle;
 }
 ```
 
-## Other Templates
+## Kanken Deck Template
 
-### Kanken Deck ([link](https://ankiweb.net/shared/info/759825185))
+Anki card template for the [Kanken Deck](https://ankiweb.net/shared/info/759825185).
 
 <p align="center">
-    <kbd><img src="images/kanken_back.png" width="70%" /></kbd>
+    <kbd><img src="./assets/images/kanken_back.png" width="70%" /></kbd>
 </p>
 
-- Front
+Just copy and paste the following templates into Anki.
 
-```javascript
-<div id="content"> 
-    Kanken Level: ?
-    <div class="sentence_front">
+Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release/Variable/TTF/SourceHanSerif-VF.ttf](https://github.com/adobe-fonts/source-han-serif/raw/release/Variable/TTF/SourceHanSerif-VF.ttf)
+
+- Front Template
+
+    ```html
+    <div id=deck deck_name="{{Deck}}"></div>
+    <div id="content"> 
+      Kanken Level: ?
+      <div class="sentence_front">
         {{SentenceFront}}
-    </div>
-    {{#Picture}}
+      </div>
+      {{#Picture}}
         {{Picture}}
         <br>
-    {{/Picture}}	
-    {{KankenAudio}}
-    <hr>
-    <div id="box">
-        <div class='vert'></div>
-        <div class='hori'></div>
+      {{/Picture}}	
+      {{KankenAudio}}
+      <hr>
+      <div id="container">
         <div id="diagram" style="opacity: 0;">
-            {{Diagram}}
+          {{Diagram}}
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-    function makeGrid() {
-        const tategaki = true;      /* toggle vertical writing */
-        const boxes = -1;           /* specify # of boxes; -1 to change based on word, 0 to hide */
-        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140); /* max boxsize = 140px */
+    <script>
+      function makeGrid() {
+        const TATEGAKI = true;      /* toggle vertical writing */
+        const NUMOFBOXES = -1;      /* specify # of boxes; -1 to change based on word, 0 to hide */
+        const MAXBOXSIZE = 140;     /* specify max boxsize (in px) */
 
+        const boxSize = Math.min(document.documentElement.clientWidth/4.5, MAXBOXSIZE);
+        const container = document.getElementById('container');
         const diagram = document.getElementById('diagram');
-        const box = document.getElementById('box');
-        const hori = document.getElementsByClassName('hori')[0];
-        const vert = document.getElementsByClassName('vert')[0];
+        const diagramHTML = container.innerHTML;
 
-        let size = boxes <= 0 ? boxsize * diagram.childElementCount : boxsize * boxes;
-        let x = boxsize;
-        if (tategaki) {
-            const long = vert;
-            box.style.height = `${size}px`;
-            box.style.width = `${boxsize}px`;
-            long.style.height = `${size}px`;
-            long.style.width = `${boxsize/2}px`;
-            hori.style.height = `${boxsize/2}px`;
-            hori.style.width = `${boxsize}px`;
-            while (x < size) {
-                const short = document.createElement('div');
-                short.classList.add('hori');
-                short.style.height = `${x}px`;
-                short.style.width = `${boxsize}px`;
-                box.insertBefore(short,diagram);
-                x += boxsize/2;
-            }
+        let fullSize = NUMOFBOXES === -1 ? (boxSize * diagram.childElementCount) : (boxSize * NUMOFBOXES);
+        let currSize = boxSize / 2;
+
+        container.innerHTML = "";
+        if (TATEGAKI) {
+          container.style.height = `${fullSize}px`;
+          container.style.width = `${boxSize}px`;
+          container.innerHTML += `<div class="vert-line" style="height:${fullSize}px;width:${boxSize/2}px"></div>`
+          while (currSize < fullSize) {
+            container.innerHTML += `<div class="hori-line" style="height:${currSize}px;width:${boxSize}px;"></div>`
+            currSize += boxSize / 2;
+          }
+          container.innerHTML += diagramHTML;
         } else {
-            diagram.style.textAlign = "left";
-            const long = hori;
-            box.style.height = `${boxsize}px`;
-            box.style.width = `${size}px`;
-            long.style.height = `${boxsize/2}px`;
-            long.style.width = `${size}px`;
-            vert.style.height = `${boxsize}px`;
-            vert.style.width = `${boxsize/2}px`;
-            while (x < size) {
-                const short = document.createElement('div');
-                short.classList.add('vert');
-                short.style.height = `${boxsize}px`;
-                short.style.width = `${x}px`;
-                box.insertBefore(short,diagram);
-                x += boxsize/2;
-            }
+          container.style.height = `${boxSize}px`;
+          container.style.width = `${fullSize}px`;
+          container.innerHTML += `<div class="hori-line" style="height:${boxSize/2}px;width:${fullSize}px"></div>`
+          while (currSize < fullSize) {
+            container.innerHTML += `<div class="vert-line" style="height:${boxSize}px;width:${currSize}px;"></div>`
+            currSize += boxSize / 2;
+          }
+          container.innerHTML += diagramHTML;
         }
 
         for (child of diagram.children) {child.style.height = `${boxsize}px`; child.style.width = `${boxsize}px`;}
         
-        if (boxes == 0) {
-            box.style.border = "none";
-            for (child of box.children) {
-                child.style.border = "none";
-            }
+        if (NUMOFBOXES === 0) {
+          container.style.border = "none";
+          for (child of container.children) {
+            child.style.border = "none";
+          }
         }
 
         return;
-    }
-    makeGrid();
-</script>
-```
+      }
+      makeGrid();
+    </script>
+    ```
 
-- Back
+- Back Template
 
-```javascript
-<div id="content"> 
-    Kanken Level: {{KankenLevel}}
-    <div class="sentence_front">
-        {{SentenceBack}}
-    </div>
-    {{#Picture}}
+    ```html
+    <div id=deck deck_name="{{Deck}}"></div>
+    <div id="content"> 
+      Kanken Level: ?
+      <div class="sentence_front">
+        {{SentenceFront}}
+      </div>
+      {{#Picture}}
         {{Picture}}
         <br>
-    {{/Picture}}
-    {{KankenAudio}}
-    <hr>
-    <div id="box">
-        <div class='vert'></div>
-        <div class='hori'></div>
+      {{/Picture}}	
+      {{KankenAudio}}
+      <hr>
+      <div id="container">
         <div id="diagram">
-            {{Diagram}}
+          {{Diagram}}
         </div>
+      </div>
     </div>
-    <div id="extra">
-        {{Kana}}【{{Kanji}}】
-        <br>
-        {{Meaning}}
-    </div>
-</div>
 
-<script>
-    function makeGrid() {
-        const tategaki = true;      /* toggle vertical writing */
-        const boxes = -1;           /* specify # of boxes; -1 to change based on word, 0 to hide */
-        const boxsize = Math.min(document.documentElement.clientWidth/4.5, window.innerWidth/4.5, 140); /* max boxsize = 140px */
+    <script>
+      function makeGrid() {
+        const TATEGAKI = true;      /* toggle vertical writing */
+        const NUMOFBOXES = -1;      /* specify # of boxes; -1 to change based on word, 0 to hide */
+        const MAXBOXSIZE = 140;     /* specify max boxsize (in px) */
 
+        const boxSize = Math.min(document.documentElement.clientWidth/4.5, MAXBOXSIZE);
+        const container = document.getElementById('container');
         const diagram = document.getElementById('diagram');
-        const box = document.getElementById('box');
-        const hori = document.getElementsByClassName('hori')[0];
-        const vert = document.getElementsByClassName('vert')[0];
+        const diagramHTML = container.innerHTML;
 
-        let size = boxes <= 0 ? boxsize * diagram.childElementCount : boxsize * boxes;
-        let x = boxsize;
-        if (tategaki) {
-            const long = vert;
-            box.style.height = `${size}px`;
-            box.style.width = `${boxsize}px`;
-            long.style.height = `${size}px`;
-            long.style.width = `${boxsize/2}px`;
-            hori.style.height = `${boxsize/2}px`;
-            hori.style.width = `${boxsize}px`;
-            while (x < size) {
-                const short = document.createElement('div');
-                short.classList.add('hori');
-                short.style.height = `${x}px`;
-                short.style.width = `${boxsize}px`;
-                box.insertBefore(short,diagram);
-                x += boxsize/2;
-            }
+        let fullSize = NUMOFBOXES === -1 ? (boxSize * diagram.childElementCount) : (boxSize * NUMOFBOXES);
+        let currSize = boxSize / 2;
+
+        container.innerHTML = "";
+        if (TATEGAKI) {
+          container.style.height = `${fullSize}px`;
+          container.style.width = `${boxSize}px`;
+          container.innerHTML += `<div class="vert-line" style="height:${fullSize}px;width:${boxSize/2}px"></div>`
+          while (currSize < fullSize) {
+            container.innerHTML += `<div class="hori-line" style="height:${currSize}px;width:${boxSize}px;"></div>`
+            currSize += boxSize / 2;
+          }
+          container.innerHTML += diagramHTML;
         } else {
-            diagram.style.textAlign = "left";
-            const long = hori;
-            box.style.height = `${boxsize}px`;
-            box.style.width = `${size}px`;
-            long.style.height = `${boxsize/2}px`;
-            long.style.width = `${size}px`;
-            vert.style.height = `${boxsize}px`;
-            vert.style.width = `${boxsize/2}px`;
-            while (x < size) {
-                const short = document.createElement('div');
-                short.classList.add('vert');
-                short.style.height = `${boxsize}px`;
-                short.style.width = `${x}px`;
-                box.insertBefore(short,diagram);
-                x += boxsize/2;
-            }
+          container.style.height = `${boxSize}px`;
+          container.style.width = `${fullSize}px`;
+          container.innerHTML += `<div class="hori-line" style="height:${boxSize/2}px;width:${fullSize}px"></div>`
+          while (currSize < fullSize) {
+            container.innerHTML += `<div class="vert-line" style="height:${boxSize}px;width:${currSize}px;"></div>`
+            currSize += boxSize / 2;
+          }
+          container.innerHTML += diagramHTML;
         }
 
         for (child of diagram.children) {child.style.height = `${boxsize}px`; child.style.width = `${boxsize}px`;}
         
-        if (boxes == 0) {
-            box.style.border = "none";
-            for (child of box.children) {
-                child.style.border = "none";
-            }
+        if (NUMOFBOXES === 0) {
+          container.style.border = "none";
+          for (child of container.children) {
+            child.style.border = "none";
+          }
         }
 
         return;
-    }
-    makeGrid();
-</script>
-```
+      }
+      makeGrid();
+    </script>
+    ```
 
-- CSS
+- Styling
 
-```css
-.card.nightMode {
+    ```css
+    .card.nightMode {
     --main-bg: #0d1117;
     --sub-bg: #161b22;
     --main-color: #ffffff;
     --sub-color: #8b949e;
     --grey: rgba(128,128,128, 0.1);
-    --main-font: "Yu Mincho";
+    --main-font: "Source Han Serif";
     font-family: var(--main-font);
     background-color: var(--main-bg);
     color: var(--main-color);
     font-size: 20px;
     text-align: center;
-}
+    }
 
-#qa {
+    #qa {
     display: flex;
     align-items: stretch;
     flex-direction: column;
     min-height: calc(100vh - 40px);
-}
+    }
 
-@font-face {
-    font-family: "Yu Mincho";
-    src: local("Yu Mincho"), local("游明朝"), url("_yumin.ttf");
-}
-
-@font-face {
-    font-family: "IPAExGothic";
-    src: local("IPAExGothic"), url("_ipaexg.ttf");
-}
+    @font-face {
+    font-family: "Source Han Serif";
+    src: local("Source Han Serif VF"), url("_SourceHanSerif-Regular.otf");
+    }
 
 
+    /* ----- Front elements ----- */
 
-/* ----- Front elements ----- */
+    .sentence_front {font-size: 28px;}
 
+    /* PC replay button */
+    .replay-button {margin-top: -5px;}
+    .replay-button svg {width: 30px; height: auto;}
+    .replay-button svg path {fill: var(--main-color); transition: .2s;}
+    .replay-button svg circle {fill: var(--main-bg); display: none;}
+    .replay-button:hover svg path {fill: var(--sub-color);}
 
-.sentence_front {font-size: 28px;}
-
-
-/* PC replay button */
-.replay-button {margin-top: -5px;}
-.replay-button svg {width: 30px; height: auto;}
-.replay-button svg path {fill: var(--main-color); transition: .2s;}
-.replay-button svg circle {fill: var(--main-bg); display: none;}
-.replay-button:hover svg path {fill: var(--sub-color);}
-
-
-/* Grid */
-#box {
-    width: 140px;
-    height: 140px;
+    /* Grid */
+    #container {
     margin: auto;
     border-style: solid;
     border-color: var(--grey);
     background-color: rgba(255,255,255,0);
-}
-.vert {
+    }
+    .vert-line {
     position: absolute;
-    height: 140px;
-    width: 70px;
-    margin: auto;
     border-style: none;
     border-right-style: dotted;
     border-color: var(--grey);
-}
-.hori {
+    }
+    .hori-line {
     position: absolute;
-    height: 70px;
-    width: 140px;
-    margin: auto;
     border-style: none;
     border-bottom-style: dotted;
     border-color: var(--grey);
-}
+    }
 
 
-/* ----- Back elements ----- */
+    /* ----- Back elements ----- */
 
-
-/* Stroke diagram */
-#diagram {line-height: 0;}
-#diagram > img {
+    /* Stroke diagram */
+    #diagram {line-height: 0;}
+    #diagram > img {
     height: 140px;
     width: 140px;
     position: relative;
     z-index: 100;
-}
+    }
 
 
-/* Extra info */
-#extra {
+    /* Extra info */
+    #extra {
     opacity: 0;
-}
+    }
 
-#extra:hover {
+    #extra:hover {
     opacity: 1;
-}
+    }
 
 
-/* ---------- Misc ---------- */
+    /* ---------- Misc ---------- */
 
-
-/* Remove default margins */
-* {
+    /* Remove default margins */
+    * {
     margin: 0px;
     padding: 0px;
-}
+    }
 
 
-/* Images */
-img {
+    /* Images */
+    img {
     height: 200px;
     width: auto;
     border-radius: 8px;
-}
+    }
 
 
-/* Underline CSS */
-u {
+    /* Underline CSS */
+    u {
     text-decoration: none;
     color: #c19fff;
     font-weight: 400;
-}
+    }
 
 
-/* Line margins */
-hr {
+    /* Line margins */
+    hr {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-}
-
-
-```
+    }
+    ```
