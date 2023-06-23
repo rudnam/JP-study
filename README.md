@@ -265,47 +265,6 @@ li.definition-item[data-dictionary='JMdict'] .gloss-list {
 ruby.query-parser-segment > rt.query-parser-segment-reading {
     display: none;
 }
-
-/* For Kanji, link: https://github.com/MarvNC/yomichan-dictionaries#yomichan-css-for-kanji-dictionaries */
-/* remove misc dict classifications/codepoints/stats */
-.kanji-glyph-data > tbody > tr:nth-child(n + 3) {
-    display: none;
-}
-
-/* remove stroke diagram, freq, header for next entries */
-div.entry[data-type='kanji']:nth-child(n + 2) .kanji-glyph-container,
-div.entry[data-type='kanji']:nth-child(n + 2) [data-section-type='frequencies'],
-div.entry[data-type='kanji']:nth-child(n + 2) table.kanji-glyph-data > tbody > tr:first-child {
-    display: none;
-}
-
-/* remove 'No data found' */
-.kanji-info-table-item-value-empty {
-    display: none;
-}
-
-/* reduce extra padding */
-.kanji-glyph-data,
-div.entry[data-type='kanji'],
-div.entry[data-type='kanji']:nth-child(n + 2) .kanji-glyph-data > tbody > tr > *,
-.kanji-glyph-data dl.kanji-readings-japanese,
-div.entry[data-type='kanji']:nth-child(n + 2)
-.kanji-glyph-data
-dl.kanji-readings-chinese[data-count='0'] {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    margin-bottom: 0em;
-    margin-top: 0 !important;
-}
-/* remove horizontal lines */
-.entry + .entry[data-type='kanji'],
-div#dictionary-entries > div.entry:nth-child(n + 2) .kanji-glyph-data > tbody > tr > * {
-    border-top: none !important;
-}
-/* change decimal list */
-.kanji-gloss-list {
-    list-style-type: circle;
-}
 ```
 
 ## Kanken Deck Template
