@@ -336,7 +336,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           container.innerHTML += diagramHTML;
         }
 
-        for (child of diagram.children) {child.style.height = `${boxsize}px`; child.style.width = `${boxsize}px`;}
+        for (child of diagram.children) {child.style.height = `${boxSize}px`; child.style.width = `${boxSize}px`;}
         
         if (NUMOFBOXES === 0) {
           container.style.border = "none";
@@ -413,7 +413,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           container.innerHTML += diagramHTML;
         }
 
-        for (child of diagram.children) {child.style.height = `${boxsize}px`; child.style.width = `${boxsize}px`;}
+        for (child of diagram.children) {child.style.height = `${boxSize}px`; child.style.width = `${boxSize}px`;}
         
         if (NUMOFBOXES === 0) {
           container.style.border = "none";
@@ -432,29 +432,29 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
 
     ```css
     .card.nightMode {
-    --main-bg: #0d1117;
-    --sub-bg: #161b22;
-    --main-color: #ffffff;
-    --sub-color: #8b949e;
-    --grey: rgba(128,128,128, 0.1);
-    --main-font: "Source Han Serif";
-    font-family: var(--main-font);
-    background-color: var(--main-bg);
-    color: var(--main-color);
-    font-size: 20px;
-    text-align: center;
+      --main-bg: #0d1117;
+      --sub-bg: #161b22;
+      --main-color: #ffffff;
+      --sub-color: #8b949e;
+      --grey: rgba(128,128,128, 0.1);
+      --main-font: "Source Han Serif";
+      font-family: var(--main-font);
+      background-color: var(--main-bg);
+      color: var(--main-color);
+      font-size: 20px;
+      text-align: center;
     }
 
     #qa {
-    display: flex;
-    align-items: stretch;
-    flex-direction: column;
-    min-height: calc(100vh - 40px);
+      display: flex;
+      align-items: stretch;
+      flex-direction: column;
+      min-height: calc(100vh - 40px);
     }
 
     @font-face {
-    font-family: "Source Han Serif";
-    src: local("Source Han Serif VF"), url("_SourceHanSerif-Regular.otf");
+      font-family: "Source Han Serif";
+      src: local("Source Han Serif VF"), url("_SourceHanSerif-Regular.otf");
     }
 
 
@@ -471,22 +471,22 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
 
     /* Grid */
     #container {
-    margin: auto;
-    border-style: solid;
-    border-color: var(--grey);
-    background-color: rgba(255,255,255,0);
+      margin: auto;
+      border-style: solid;
+      border-color: var(--grey);
+      background-color: rgba(255,255,255,0);
     }
     .vert-line {
-    position: absolute;
-    border-style: none;
-    border-right-style: dotted;
-    border-color: var(--grey);
+      position: absolute;
+      border-style: none;
+      border-right-style: dotted;
+      border-color: var(--grey);
     }
     .hori-line {
-    position: absolute;
-    border-style: none;
-    border-bottom-style: dotted;
-    border-color: var(--grey);
+      position: absolute;
+      border-style: none;
+      border-bottom-style: dotted;
+      border-color: var(--grey);
     }
 
 
@@ -495,20 +495,20 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
     /* Stroke diagram */
     #diagram {line-height: 0;}
     #diagram > img {
-    height: 140px;
-    width: 140px;
-    position: relative;
-    z-index: 100;
+      height: 140px;
+      width: 140px;
+      position: relative;
+      z-index: 100;
     }
 
 
     /* Extra info */
     #extra {
-    opacity: 0;
+      opacity: 0;
     }
 
     #extra:hover {
-    opacity: 1;
+      opacity: 1;
     }
 
 
@@ -516,30 +516,30 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
 
     /* Remove default margins */
     * {
-    margin: 0px;
-    padding: 0px;
+      margin: 0px;
+      padding: 0px;
     }
 
 
     /* Images */
     img {
-    height: 200px;
-    width: auto;
-    border-radius: 8px;
+      height: 200px;
+      width: auto;
+      border-radius: 8px;
     }
 
 
     /* Underline CSS */
     u {
-    text-decoration: none;
-    color: #c19fff;
-    font-weight: 400;
+      text-decoration: none;
+      color: #c19fff;
+      font-weight: 400;
     }
 
 
     /* Line margins */
     hr {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
     }
     ```
