@@ -310,6 +310,8 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
         const boxSize = Math.min(document.documentElement.clientWidth/4.5, MAXBOXSIZE);
         const container = document.getElementById('container');
         const diagram = document.getElementById('diagram');
+
+        for (child of diagram.children) {child.style.height = `${boxSize}px`; child.style.width = `${boxSize}px`;}
         const diagramHTML = container.innerHTML;
 
         let fullSize = NUMOFBOXES === -1 ? (boxSize * diagram.childElementCount) : (boxSize * NUMOFBOXES);
@@ -336,8 +338,6 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           container.innerHTML += diagramHTML;
         }
 
-        for (child of diagram.children) {child.style.height = `${boxSize}px`; child.style.width = `${boxSize}px`;}
-        
         if (NUMOFBOXES === 0) {
           container.style.border = "none";
           for (child of container.children) {
@@ -387,6 +387,8 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
         const boxSize = Math.min(document.documentElement.clientWidth/4.5, MAXBOXSIZE);
         const container = document.getElementById('container');
         const diagram = document.getElementById('diagram');
+
+        for (child of diagram.children) {child.style.height = `${boxSize}px`; child.style.width = `${boxSize}px`;}
         const diagramHTML = container.innerHTML;
 
         let fullSize = NUMOFBOXES === -1 ? (boxSize * diagram.childElementCount) : (boxSize * NUMOFBOXES);
@@ -413,8 +415,6 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           container.innerHTML += diagramHTML;
         }
 
-        for (child of diagram.children) {child.style.height = `${boxSize}px`; child.style.width = `${boxSize}px`;}
-        
         if (NUMOFBOXES === 0) {
           container.style.border = "none";
           for (child of container.children) {
