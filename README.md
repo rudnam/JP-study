@@ -62,6 +62,8 @@ More info can be added using other applications and add-ons.
 - I usually use the fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
 
     ```
+    model_name=Mining
+
     sentence_field=Sentence
     secondary_field=Translation
     audio_field=Sentence (audio)
@@ -285,7 +287,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
     <div id=deck deck_name="{{Deck}}"></div>
     <div id="content"> 
       Kanken Level: ?
-      <div class="sentence_front">
+      <div lang="ja" class="sentence_front">
         {{SentenceFront}}
       </div>
       {{#Picture}}
@@ -302,6 +304,16 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
     </div>
 
     <script>
+      function addScriptToHead() {
+        let head = document.getElementsByTagName('head')[0];
+
+        // For loading japanese fonts from web
+        let scriptElement = document.createElement('script');
+        scriptElement.innerHTML = "(function(d) {var config = {kitId: 'uud0evt',scriptTimeout: 3000,async: true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\\bwf-loading\\b/g,'')+' wf-inactive';},config.scriptTimeout),tk=d.createElement('script'),f=false,s=d.getElementsByTagName('script')[0],a;h.className+=' wf-loading';tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!='complete'&&a!='loaded')return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);";
+
+        head.appendChild(scriptElement);
+      }
+
       function makeGrid() {
         const TATEGAKI = true;      /* toggle vertical writing */
         const NUMOFBOXES = -1;      /* specify # of boxes; -1 to change based on word, 0 to hide */
@@ -337,7 +349,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           }
           container.innerHTML += diagramHTML;
         }
-
+        
         if (NUMOFBOXES === 0) {
           container.style.border = "none";
           for (child of container.children) {
@@ -347,7 +359,11 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
 
         return;
       }
+
       makeGrid();
+      if (navigator.userAgentData.mobile) {
+        addScriptToHead();
+      };
     </script>
     ```
 
@@ -357,7 +373,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
     <div id=deck deck_name="{{Deck}}"></div>
     <div id="content"> 
       Kanken Level: ?
-      <div class="sentence_front">
+      <div lang="ja" class="sentence_front">
         {{SentenceFront}}
       </div>
       {{#Picture}}
@@ -371,11 +387,11 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           {{Diagram}}
         </div>
       </div>
-      <div id="extra">
+      <div lang="ja" id="extra">
         {{Kana}}【{{Kanji}}】
         <br>
         {{Meaning}}
-	  </div>
+      </div>
     </div>
 
     <script>
@@ -415,6 +431,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
           container.innerHTML += diagramHTML;
         }
 
+        
         if (NUMOFBOXES === 0) {
           container.style.border = "none";
           for (child of container.children) {
@@ -431,13 +448,22 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
 - Styling
 
     ```css
+    html.win,
+    html.mac,
+    html.linux:not(.android) {
+      --main-font: "Source Han Serif", serif;
+    }
+
+    html.mobile {
+      --main-font: source-han-serif-japanese, serif;
+    }
+
     .card.nightMode {
       --main-bg: #0d1117;
       --sub-bg: #161b22;
       --main-color: #ffffff;
       --sub-color: #8b949e;
       --grey: rgba(128,128,128, 0.1);
-      --main-font: "Source Han Serif";
       font-family: var(--main-font);
       background-color: var(--main-bg);
       color: var(--main-color);
