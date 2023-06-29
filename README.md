@@ -202,6 +202,7 @@ Custom CSS for changing the Yomichan popup appearance.
 Font download links:
 - Source Sans 3: [https://fonts.google.com/specimen/Source+Sans+3](https://fonts.google.com/specimen/Source+Sans+3)
 - Source Han Sans: [https://github.com/adobe-fonts/source-han-sans/raw/release/Variable/TTF/SourceHanSans-VF.ttf](https://github.com/adobe-fonts/source-han-sans/raw/release/Variable/TTF/SourceHanSans-VF.ttf)
+- UD Digi Kyokasho N-R: [https://learnjapanese.moe/font/#windows-10](https://learnjapanese.moe/font/#windows-10)
 
 Just copy and paste the following CSS into Yomichan's custom CSS.
 
@@ -237,6 +238,10 @@ body {
     --link-color: #3d4993;
 }
 
+.tag-label {
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+}
+
 /* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
 .jp-quote-text {
     text-indent: -1em;
@@ -253,13 +258,13 @@ ol.pronunciation-group-list[data-count='2'] {
 }
 
 /* Only show JMDict on hover */
-li.definition-item[data-dictionary='JMdict'] .gloss-list {
+li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
     opacity: 0;
 }
-.definition-list:hover li.definition-item[data-dictionary='JMdict'] .gloss-list {
+.definition-list:hover li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
     opacity: 1;
 }
-*:not([data-dictionary='JMdict']):hover ~ li.definition-item[data-dictionary='JMdict (English)'] .gloss-list{
+*:not([data-dictionary='JMdict (English)']):hover ~ li.definition-item[data-dictionary='JMdict (English)'] .gloss-list{
     opacity: 0;
 }
 
