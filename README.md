@@ -13,7 +13,7 @@ Mining card template I use for Anki. I usually use it with [mpvacious](https://g
 
 [Preview (PC only)](https://rudnam.github.io/JP-study/mining_preview.html)
 
-[Download link](https://drive.google.com/drive/u/2/folders/1et5YNL6pGRwELfWSTRpIs-pwFVX74Nbq)
+[Download](https://github.com/rudnam/JP-study/raw/main/Mining_temp.apkg)
 
 
 

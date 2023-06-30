@@ -20,8 +20,6 @@ html.mobile {
   --sub-color: #7d8590;
   --tag-color: #959da5;
   --border-color: #30363d;
-  --main-font: source-han-serif-japanese, "Source Han Serif", serif;
-  --sub-font: source-sans-pro, "Source Sans", source-han-sans-japanese, "Source Han Sans", sans-serif;
   --max-width: 800px;
   font-family: var(--main-font);
   background-color: var(--main-bg);
