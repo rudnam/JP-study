@@ -7,19 +7,19 @@
 
 <!--------- Vocab card ---------->
 {{^*IsSentenceCard}}
-	<div lang="ja" class="vocab">{{Expression}}</div>
-	{{#Hint}}<div id="hint">{{Hint}}</div>{{/Hint}}
+  <div lang="ja" class="vocab">{{Expression}}</div>
+  {{#Hint}}<div id="hint">{{Hint}}</div>{{/Hint}}
 {{/*IsSentenceCard}}
 
 
 
 <!------- Sentence card --------->
 {{#*IsSentenceCard}}
-	<div lang="ja" class="sentence-big">
-		{{#Sentence (furigana)}} {{kanji:Sentence (furigana)}} {{/Sentence (furigana)}}
-		{{^Sentence (furigana)}} {{kanji:Sentence}} {{/Sentence (furigana)}}
-	</div>
-	{{#Hint}}<div id="hint">{{Hint}}</div>{{/Hint}}
+  <div lang="ja" class="sentence-big">
+    {{#Sentence (furigana)}} {{kanji:Sentence (furigana)}} {{/Sentence (furigana)}}
+    {{^Sentence (furigana)}} {{kanji:Sentence}} {{/Sentence (furigana)}}
+  </div>
+  {{#Hint}}<div id="hint">{{Hint}}</div>{{/Hint}}
 {{/*IsSentenceCard}}
 
 </main>
@@ -37,45 +37,45 @@
     head.appendChild(scriptElement);
   }
 
-	function isOdaka(pitchNumber) {
-  	const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
-  	return kana !== null && kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber;
-	}
+  function isOdaka(pitchNumber) {
+    const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
+    return kana !== null && kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber;
+  }
 
-	function getPitchColor(pitchPosition) {
-  	const colors = {
-    	heiban: "#1d9bf0",
-    	atamadaka: "red",
-    	nakadaka: "#f5751d",
-    	odaka: "#3bd16f"
-  	};
+  function getPitchColor(pitchPosition) {
+    const colors = {
+      heiban: "#1d9bf0",
+      atamadaka: "red",
+      nakadaka: "#f5751d",
+      odaka: "#3bd16f"
+    };
   
-  	if (pitchPosition === 0) {
-    	return colors.heiban;
-  	} else if (pitchPosition === 1) {
-    	return colors.atamadaka;
-  	} else if (pitchPosition > 1) {
-    	return isOdaka(pitchPosition) ? colors.odaka : colors.nakadaka;
-  	}
-	}
+    if (pitchPosition === 0) {
+      return colors.heiban;
+    } else if (pitchPosition === 1) {
+      return colors.atamadaka;
+    } else if (pitchPosition > 1) {
+      return isOdaka(pitchPosition) ? colors.odaka : colors.nakadaka;
+    }
+  }
 
-	function paintTargetWord() {
-  	const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
-  	if (pitchPositions === null) return;
+  function paintTargetWord() {
+    const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
+    if (pitchPositions === null) return;
 
-  	const pitchPosition = Number(pitchPositions[0]);
-  	const sentences = [...document.getElementsByClassName("sentence"), ...document.getElementsByClassName("sentence-big")];
-  	for (const sentence of sentences) {
-    	for (const targetWord of sentence.getElementsByTagName("b")) {
-      	targetWord.style.color = getPitchColor(pitchPosition);
-    	}
-  	}
-	}
+    const pitchPosition = Number(pitchPositions[0]);
+    const sentences = [...document.getElementsByClassName("sentence"), ...document.getElementsByClassName("sentence-big")];
+    for (const sentence of sentences) {
+      for (const targetWord of sentence.getElementsByTagName("b")) {
+        targetWord.style.color = getPitchColor(pitchPosition);
+      }
+    }
+  }
 
   if (navigator.userAgentData.mobile) {
     addScriptToHead();
   };
-	// Uncomment this to show pitch color on front side
-	// paintTargetWord()
+  // Uncomment this to show pitch color on front side
+  // paintTargetWord()
 
 </script>
