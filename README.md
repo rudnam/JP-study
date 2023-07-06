@@ -172,7 +172,7 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{/inline}}
     ```
 
-- `{ln}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro or reader.ttsu.app.
+- `{context}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro or reader.ttsu.app.
 
     ```handlebars
     {{#*inline "context"}}
