@@ -62,7 +62,7 @@ More info can be added using other applications and add-ons.
 - I usually use the fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
 
     ```
-    model_name=Mining_JA
+    model_name=Mining-JA
 
     sentence_field=Sentence
     secondary_field=Translation
