@@ -266,7 +266,7 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
 .definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child) * {
     display: inline;
 }
-.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child):not(:last-child)::after {
+.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-item:has(.gloss-content > a:only-child):not(:last-child)::after {
     content: " | ";
 }
 
@@ -279,7 +279,7 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
 .definition-item[data-dictionary="JMnedict"] .gloss-list * {
     display: inline;
 }
-.definition-item[data-dictionary="JMnedict"] ul.gloss-list > li.gloss-item:not(:last-child)::after {
+.definition-item[data-dictionary="JMnedict"] .gloss-list > .gloss-item:not(:last-child)::after {
     content: " | ";
 }
 ```
