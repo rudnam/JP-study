@@ -62,7 +62,7 @@ More info can be added using other applications and add-ons.
 - I usually use the fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
 
     ```
-    model_name=Mining
+    model_name=Mining_JA
 
     sentence_field=Sentence
     secondary_field=Translation
@@ -117,27 +117,10 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
 
     {{~#*inline "main-def"~}}
         {{~#set "selected"}}{{~> selection-text}}{{/set~}}
-        {{~#set "pattern1"~}}
-            [
-            {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
-            {{~> cloze-body}}
-            {{~/regexReplace~}}
-            ]
-        {{~/set~}}
-        {{~#set "pattern2"~}}
-            [
-            {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
-            {{~#getMedia "textFurigana" definition.cloze.body escape=false}}{{~/getMedia~}}
-            {{~/regexReplace~}}
-            ]
-        {{~/set~}}
-        {{~#set "diff1"}}{{~#regexReplace (get "pattern1") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
-        {{~#set "diff2"}}{{~#regexReplace (get "pattern2") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
-
-        {{~#if (op "&&"
-                    (op ">" (property (get "diff1") "length") (op "-" (property (get "selected") "length") (property (get "diff1") "length")))
-                    (op ">" (property (get "diff2") "length") (op "-" (property (get "selected") "length") (property (get "diff2") "length")))
-                )}}
+        {{~#set "pattern"~}}[{{~> cloze-body}}]{{~/set~}}
+        {{~#set "diff"}}{{~#regexReplace (get "pattern") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+    
+        {{~#if (op ">" (property (get "diff") "length") (op "-" (property (get "selected") "length") (property (get "diff") "length")))}}
             {{~> selection-text}}
         {{~else~}}
             {{~> jmdict-def noDictionaryTag=true brief=true ~}}
@@ -172,20 +155,25 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{/inline}}
     ```
 
-- `{context}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro or reader.ttsu.app.
+- `{context}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro, etc.
 
     ```handlebars
     {{#*inline "context"}}
-        {{~#set "ttsu" ~}}
-            {{~#regexMatch "reader\.ttsu\.app"~}} {{definition.url}} {{~/regexMatch~}}
-        {{/set~}}
-        {{~#set "mokuro" ~}}
-            {{~#regexMatch "mokuro"~}} {{~context.document.title~}} {{~/regexMatch~}}
-        {{/set~}}
-        {{~#if (op "!==" "" (get "ttsu"))~}}
+        {{~#if (regexMatch "reader\.ttsu\.app" "" definition.url)~}}
             ラノベ::{{~context.document.title~}}
-        {{~else if (op "!==" "" (get "mokuro"))~}}
+        {{~else if (regexMatch "mokuro" "" context.document.title)~}}
             漫画::{{~context.document.title~}}
+        {{~else if (regexMatch "nhk.or.jp" "" definition.url)~}}
+            {{~#set "news-category" ~}}
+                {{~#regexMatch "[^(||｜)]+$"~}} {{~context.document.title~}} {{~/regexMatch~}}
+            {{/set~}}
+            ニュース::{{~get "news-category"~}}
+        {{~else if (regexMatch "twitter.com" "" definition.url)~}}
+            {{~set "twitter-user" (regexMatch ".+?(?= on|さん)" "" context.document.title)~}}
+            ツイッター::{{~get "twitter-user"~}}
+        {{~else if (regexMatch "youtube.com" "" definition.url)~}}
+            {{~set "youtube-title" (regexMatch ".+?(?= - YouTube)" "" context.document.title)~}}
+            ユーチューブ::{{~get "youtube-title"~}}
         {{~/if~}}
     {{/inline}}
     ```
@@ -213,10 +201,6 @@ body {
 
 .source-text {
     font-family: "UD Digi Kyokasho N-R";
-}
-
-.kanji-glyph {
-    font-family: "kanji-stroke-orders";
 }
 
 :root[data-theme="dark"] {
@@ -271,6 +255,32 @@ li.definition-item[data-dictionary='JMdict (English)'] .gloss-list {
 /* Disable furigana on search page */
 ruby.query-parser-segment > rt.query-parser-segment-reading {
     display: none;
+}
+
+/* Collapse lists of links */
+.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child) {
+    list-style: none;
+    display: inline;
+    padding-left: 0;
+}
+.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child) * {
+    display: inline;
+}
+.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child):not(:last-child)::after {
+    content: " | ";
+}
+
+/* Collapse JMnedict entries */
+.definition-item[data-dictionary="JMnedict"] .gloss-list {
+    list-style: none;
+    display: inline;
+    padding-left: 0;
+}
+.definition-item[data-dictionary="JMnedict"] .gloss-list * {
+    display: inline;
+}
+.definition-item[data-dictionary="JMnedict"] ul.gloss-list > li.gloss-item:not(:last-child)::after {
+    content: " | ";
 }
 ```
 
