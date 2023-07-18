@@ -12,8 +12,6 @@
 
 Mining card template I use for Anki. I usually use it with [mpvacious](https://github.com/Ajatt-Tools/mpvacious) and [Yomichan](https://chrome.google.com/webstore/detail/yomichan/ogmnaimimemjmbakcfefmnahgdfhfami).
 
-[Preview (PC only)](https://rudnam.github.io/JP-study/mining_preview.html)
-
 [Download](https://github.com/rudnam/JP-study/raw/main/Mining_temp.apkg)
 
 
