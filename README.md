@@ -146,7 +146,7 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{/inline}}
     ```
 
-- `{jlpt}` - JLPT tags for [FieldReporter](https://github.com/rudnam/FieldReporter).
+- `{jlpt}` - JLPT tags (separated by `$`)
 
     ```handlebars
     {{~#*inline "jlpt"~}}
@@ -160,24 +160,34 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{/inline}}
     ```
 
-- `{context}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro, etc.
+- `{context}` - Context tag. e.g. `ラノベ::また、同じ夢を見ていた` if in ttsu, etc.
 
     ```handlebars
     {{#*inline "context"}}
         {{~#if (regexMatch "reader\.ttsu\.app" "" definition.url)~}}
-            ラノベ::{{~context.document.title~}}
+            {{~#set "ln-title" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= \| ッツ Ebook Reader)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            ラノベ::{{~get "ln-title"~}}
         {{~else if (regexMatch "mokuro" "" context.document.title)~}}
-            漫画::{{~context.document.title~}}
+            {{~#set "manga-title" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= \| mokuro)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            漫画::{{~get "manga-title"~}}
         {{~else if (regexMatch "nhk.or.jp" "" definition.url)~}}
-            {{~#set "news-category" ~}}
-                {{~#regexMatch "[^(||｜)]+$"~}} {{~context.document.title~}} {{~/regexMatch~}}
-            {{/set~}}
-            ニュース::{{~get "news-category"~}}
+            {{~#set "news-category" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch "[^(| |｜ )]+$"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            NHK::{{~get "news-category"~}}
         {{~else if (regexMatch "twitter.com" "" definition.url)~}}
-            {{~set "twitter-user" (regexMatch ".+?(?= on|さん)" "" context.document.title)~}}
+            {{~#set "twitter-user" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= on|さん)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
             ツイッター::{{~get "twitter-user"~}}
         {{~else if (regexMatch "youtube.com" "" definition.url)~}}
-            {{~set "youtube-title" (regexMatch ".+?(?= - YouTube)" "" context.document.title)~}}
+            {{~#set "youtube-title" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= - YouTube)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
             ユーチューブ::{{~get "youtube-title"~}}
         {{~/if~}}
     {{/inline}}
