@@ -24,7 +24,7 @@ Mining card template I use for Anki. I usually use it with [mpvacious](https://g
 
 ### Yomichan fields
 
-How I fill the mining template's fields from Yomichan.
+How the mining template's fields can be filled from Yomichan.
 | Field                 | Value                                             |
 | --------------------- | ------------------------------------------------- |
 | Expression            | `{expression}`                                    |
@@ -58,7 +58,7 @@ Notes:
 
 More info can be added using other applications and add-ons.
 
-- I usually use the fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
+- The fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** can be used for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
 
     ```
     model_name=Mining_JP
@@ -73,12 +73,12 @@ More info can be added using other applications and add-ons.
     note_tag=subs2srs アニメ::%n 
     ```
 
-- I use [FieldReporter](https://ankiweb.net/shared/info/569864517) for reordering cards based on the **FreqSort** field. The addon also supports converting a field to a tag but it doesn't support adding multiple tags so I use my own [fork](https://github.com/rudnam/FieldReporter) with **ExtraField** as the source field:
-    | Field | Value |
-    |----------|----------|
-    | ExtraField | `{jlpt}${context}` |
+- [FieldReporter](https://ankiweb.net/shared/info/569864517) can be used for reordering cards based on the **FreqSort** field. The addon also supports converting a field to a tag. e.g. **ExtraField** as the source field:
+    |   Field    |    Value    |
+    |------------|-------------|
+    | ExtraField | `{context}` |
     
-    `{jlpt}` and `{context}` are [custom templates/handlebars](#yomichan-handlebars-templates).
+    `{context}` is a [custom template/handlebars](#yomichan-handlebars-templates).
 
 ### Sentence mining example
 
