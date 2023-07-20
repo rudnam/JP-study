@@ -148,16 +148,53 @@ header {
 /* Main definition */
 #main-def {
   max-width: var(--max-width);
-  font-family: var(--sub-font);
-  background-color: var(--sub-bg);
-  display: inline-block;
   font-size: 24px;
   line-height: 1.75em;
-  border-radius: 8px;
-  padding: 10px;
   margin: 15px 0px;
   width: calc(100% - 20px);
-  border: 1px solid var(--border-color);
+}
+.mono-def {
+  text-align: left;
+  display: inline-flex;
+  gap: 1rem;
+  line-height: initial;
+  width: fit-content;
+  max-width: 100%;
+}
+.text-container {
+  flex-grow: 1;
+  max-width: 100%;
+}
+.images-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 30%;
+}
+.images-container img {
+  max-width: 200px;
+  height: auto;
+}
+@media (max-width: 768px) {
+  .mono-def {
+    flex-direction: column;
+  }
+  .images-container {
+    justify-content: space-around;
+    flex-direction: row;
+    max-width: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .images-container img {
+    width: 30%;
+  }
+}
+
+@media (max-width: 512px) {
+  .images-container img {
+    width: 44%;
+  }
 }
 
 /* Sentence */
@@ -225,12 +262,14 @@ footer {
 /* Popup CSS */
 
 .popup {
+  font-family: var(--sub-font);
   border: 1px solid var(--border-color);
   background-color: var(--sub-bg);
   display: inline-block;
   border-radius: 8px;
   padding: 10px;
   margin: 5px;
+  max-width: var(--max-width);
 }
 
 /* Misc. info */
@@ -244,7 +283,6 @@ footer {
 
 /* Full definition */
 #full-def {
-  max-width: var(--max-width);
   font-family: var(--sub-font);
   font-size: 18px;
   line-height: 1.5em;
@@ -316,7 +354,7 @@ footer {
 }
 
 /* Images */
-img {
+#template > img {
   height: 200px;
   width: auto;
   border-radius: 8px;

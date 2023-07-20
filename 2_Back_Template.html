@@ -24,10 +24,9 @@
       <div id="pitch"></div>
       {{#PitchPosition}}
       <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
-      {{/PitchPosition}}
-      【{{Expression}}】
+      {{/PitchPosition}} 【{{Expression}}】
     </div>
-    <div lang="ja" id="main-def">{{MainDefinition}}</div>
+    <div lang="ja" id="main-def" class="popup">{{MainDefinition}}</div>
     <br />
     {{Image}}
     <br />
@@ -37,8 +36,7 @@
     </div>
     {{#Translation}}
     <div id="translation" lang="en">{{hint:Translation}}</div>
-    {{/Translation}}
-    {{/*IsSentenceCard}}
+    {{/Translation}} {{/*IsSentenceCard}}
 
     <!------- Sentence card --------->
     {{#*IsSentenceCard}}
@@ -48,8 +46,7 @@
     </div>
     {{#Hint}}
     <div id="hint">{{Hint}}</div>
-    {{/Hint}}
-    {{#Translation}}
+    {{/Hint}} {{#Translation}}
     <div id="translation" lang="en">{{hint:Translation}}</div>
     {{/Translation}}
     <hr id="divider" />
@@ -58,10 +55,9 @@
       <div id="pitch"></div>
       {{#PitchPosition}}
       <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
-      {{/PitchPosition}}
-      【{{Expression}}】
+      {{/PitchPosition}} 【{{Expression}}】
     </div>
-    <div lang="ja" id="main-def">{{MainDefinition}}</div>
+    <div lang="ja" id="main-def" class="popup">{{MainDefinition}}</div>
     <br />
     {{Image}}
     <br />
@@ -77,18 +73,14 @@
           <div class="popup" id="misc-info">
             === Details ===
             <br />
-            {{MiscInfo}}
-            {{#Frequency}}
+            {{MiscInfo}} {{#Frequency}}
             <br />
-            == Frequency ==
-            {{Frequency}}
-            {{/Frequency}}
+            == Frequency == {{Frequency}} {{/Frequency}}
           </div>
         </details>
       </div>
     </div>
-    {{/MiscInfo}}
-    {{#FullDefinition}}
+    {{/MiscInfo}} {{#FullDefinition}}
     <div style="text-align: center">
       <div lang="ja">
         <details>
@@ -226,8 +218,8 @@
 
   function getPitchPattern(pitchPosition) {
     /*	0 = low
-			 	1 = high
-				2 = high to low */
+  	 	1 = high
+  		2 = high to low */
 
     const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
     const moras = groupMoras(kana);
@@ -336,12 +328,12 @@
     let dictEntries = [];
 
     for (const dictName of dictNames) {
-      if (dictEntries.length > 0) {
-        break;
-      }
       dictEntries = Array.from(allEntries).filter((dictEntry) =>
         dictEntry.textContent.toLowerCase().includes(dictName)
       );
+      if (dictEntries.length > 0) {
+        break;
+      }
     }
 
     if (dictEntries.length === 0) {
@@ -349,42 +341,79 @@
       return;
     }
 
-    // For non-JMdict dicts
     if (!dictEntries[0].innerText.toLowerCase().includes("jmdict")) {
-      const container = document.createElement("div");
-      container.classList.add("mono-def");
-      container.style.setProperty("text-align", "left", "important");
-      container.style.display = "inline-block";
-      container.style.lineHeight = "initial";
-      container.style.width = "fit-content";
-      container.innerHTML = dictEntries[0].innerHTML;
-      mainDefContainer.appendChild(container);
-      return;
+      // For non-JMdict dicts
+      const selectedEntry = dictEntries[0];
+      const monoDefContainer = document.createElement("div");
+      monoDefContainer.classList.add("mono-def");
+
+      const textContainer = document.createElement("div");
+      textContainer.classList.add("text-container");
+      const imagesContainer = document.createElement("div");
+      imagesContainer.classList.add("images-container");
+
+      const ul = selectedEntry.querySelector("ul");
+      if (ul !== null) {
+        const [definitionItem, ...otherItems] = ul.querySelectorAll("li");
+        textContainer.innerHTML = definitionItem.innerHTML;
+        otherItems.forEach((item) => {
+          item.querySelectorAll("a > span > img").forEach((img) => {
+            let width = parseFloat(
+              img.parentNode.style.width.replace("em", "")
+            );
+            if (width > 25) {
+              const image = document.createElement("img");
+              image.src = img.src;
+              imagesContainer.appendChild(image);
+            }
+          });
+        });
+        mainDefContainer.appendChild(monoDefContainer);
+      } else {
+        const cleanedText = selectedEntry.innerHTML.replace(
+          /<br>筆順：<br><a[^>]*>.*<\/a><br>/g,
+          ""
+        );
+        textContainer.innerHTML = cleanedText;
+        textContainer.querySelectorAll("a > span > img").forEach((img) => {
+          let width = parseFloat(img.parentNode.style.width.replace("em", ""));
+          if (width > 25) {
+            const image = document.createElement("img");
+            const anchor = img.closest("a");
+            image.src = img.src;
+            imagesContainer.appendChild(image);
+            anchor.parentNode.removeChild(anchor);
+          }
+        });
+      }
+      monoDefContainer.appendChild(textContainer);
+      monoDefContainer.appendChild(imagesContainer);
+      mainDefContainer.appendChild(monoDefContainer);
+    } else {
+      // For JMdict
+      const jmdictDefContainer = document.createElement("div");
+      let newHtml = dictEntries
+        .map((dictEntry) => {
+          const ul = dictEntry.querySelector("ul");
+          if (ul !== null) {
+            return dictEntries.length > 1
+              ? `<li>${ul.outerHTML}</li>`
+              : ul.outerHTML;
+          } else {
+            const innerText = Array.from(dictEntry.childNodes)
+              .filter((node) => node.nodeType === Node.TEXT_NODE)
+              .map((node) => node.textContent.trim())
+              .join(" ");
+            return dictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
+          }
+        })
+        .join("");
+      if (dictEntries.length > 1) {
+        newHtml = `<ol>${newHtml}</ol>`;
+      }
+      jmdictDefContainer.innerHTML = newHtml;
+      mainDefContainer.appendChild(jmdictDefContainer);
     }
-
-    // For JMdict
-    let newHtml = dictEntries
-      .map((dictEntry) => {
-        const ul = dictEntry.querySelector("ul");
-        if (ul !== null) {
-          return dictEntries.length > 1
-            ? `<li>${ul.outerHTML}</li>`
-            : ul.outerHTML;
-        } else {
-          const innerText = Array.from(dictEntry.childNodes)
-            .filter((node) => node.nodeType === Node.TEXT_NODE)
-            .map((node) => node.textContent.trim())
-            .join(" ");
-          return dictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
-        }
-      })
-      .join("");
-
-    if (dictEntries.length > 1) {
-      newHtml = `<ol>${newHtml}</ol>`;
-    }
-
-    mainDefContainer.innerHTML = newHtml;
   }
 
   function initialize() {
@@ -393,7 +422,7 @@
     getStars();
     tweakHTML();
     constructPitch();
-    if (document.querySelector("#main-def").innerText === "") {
+    if (document.querySelector("#main-def").innerHTML === "") {
       let dictNames = [
         "jmdict",
         "実用日本語表現辞典",
