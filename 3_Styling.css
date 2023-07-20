@@ -288,6 +288,9 @@ footer {
 #main-def > ol > li {
   margin-left: 40px;
 }
+#main-def .mono-def ul {
+  margin-left: 40px;
+}
 
 /* Pitch formatting */
 .info ul {
