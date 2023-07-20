@@ -166,11 +166,6 @@ Custom Yomichan Handlebars templates.
                 {{~#regexMatch "[^(| |｜ )]+$"~}}{{~context.document.title~}}{{~/regexMatch~}}
             {{~/regexReplace~}}{{/set~}}
             NHK::{{~get "news-category"~}}
-        {{~else if (regexMatch "twitter.com" "" definition.url)~}}
-            {{~#set "twitter-user" ~}}{{~#regexReplace " |　" "_"~}}
-                {{~#regexMatch ".+?(?= on|さん)"~}}{{~context.document.title~}}{{~/regexMatch~}}
-            {{~/regexReplace~}}{{/set~}}
-            ツイッター::{{~get "twitter-user"~}}
         {{~else if (regexMatch "youtube.com" "" definition.url)~}}
             {{~#set "youtube-title" ~}}{{~#regexReplace " |　" "_"~}}
                 {{~#regexMatch ".+?(?= - YouTube)"~}}{{~context.document.title~}}{{~/regexMatch~}}
