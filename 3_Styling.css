@@ -28,19 +28,18 @@ html.mobile {
   text-align: center;
 }
 
-
 /* Remove default margins */
 * {
   margin: 0px;
   padding: 0px;
 }
 
-
 #qa {
   display: flex;
   align-items: stretch;
   flex-direction: column;
-   min-height: calc(100vh - 40px);}
+  min-height: calc(100vh - 40px);
+}
 
 @font-face {
   font-family: "Source Han Sans";
@@ -57,18 +56,21 @@ html.mobile {
   src: local("Source Sans 3"), url("_SourceSans.ttf");
 }
 
-
-
 /* ----- Front elements ----- */
 
-
-.vocab {font-size: 48px;}
-.sentence-big {font-size: 36px;}
-#hint {margin-top: -15px; font-size: 20px;}
-
+.vocab {
+  font-size: 48px;
+}
+.sentence-big {
+  font-size: 36px;
+  display: inline-block;
+}
+#hint {
+  margin-top: -15px;
+  font-size: 20px;
+}
 
 /* ----- Back elements ----- */
-
 
 /* Header */
 header {
@@ -87,27 +89,45 @@ header {
   margin-bottom: -5px;
 }
 
-
-
-
 /* PC replay button */
-.replay-button {margin-top: -5px;}
-.replay-button svg {width: 30px; height: auto;}
-.replay-button svg path {fill: var(--main-color);}
-.replay-button svg circle {fill: var(--main-bg); display: none;}
-.replay-button:hover svg path {fill: var(--sub-color);}
+.replay-button {
+  margin-top: -5px;
+}
+.replay-button svg {
+  width: 30px;
+  height: auto;
+}
+.replay-button svg path {
+  fill: var(--main-color);
+}
+.replay-button svg circle {
+  fill: var(--main-bg);
+  display: none;
+}
+.replay-button:hover svg path {
+  fill: var(--sub-color);
+}
 
 /* AnkiDroid replay button */
-.nightMode .replaybutton span svg {fill: var(--main-bg); background: var(--main-color);}
-.replaybutton {margin: 0; margin-right: 3px; text-decoration: none;}
-.replaybutton span {padding: 0; font-size: 16px;}
+.nightMode .replaybutton span svg {
+  fill: var(--main-bg);
+  background: var(--main-color);
+}
+.replaybutton {
+  margin: 0;
+  margin-right: 3px;
+  text-decoration: none;
+}
+.replaybutton span {
+  padding: 0;
+  font-size: 16px;
+}
 .replaybutton span svg {
   border-radius: 8px;
   vertical-align: top;
   min-width: 16px;
   min-height: 16px;
 }
-
 
 /* Info */
 .info {
@@ -125,7 +145,6 @@ header {
   margin-right: -5px;
 }
 
-
 /* Main definition */
 #main-def {
   max-width: var(--max-width);
@@ -141,12 +160,13 @@ header {
   border: 1px solid var(--border-color);
 }
 
-
 /* Sentence */
 .sentence {
   font-size: 24px;
+  display: inline-block;
+  width: calc(100% - 20px);
+  max-width: var(--max-width);
 }
-
 
 /* Translation button */
 a.hint {
@@ -165,7 +185,6 @@ a.hint:hover {
   color: var(--main-color);
 }
 
-
 /* Footer */
 footer {
   margin-top: auto;
@@ -178,7 +197,7 @@ footer {
   margin: 0px auto;
   width: calc(100% - 20px);
 }
-#tags-container{
+#tags-container {
   flex-grow: 1;
 }
 .tags {
@@ -193,9 +212,8 @@ footer {
   font-size: 12px;
   line-height: 14px;
   margin: auto 3px;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
-
 
 /* ----- Extras ----- */
 
@@ -204,18 +222,16 @@ footer {
   display: none;
 }
 
-
 /* Popup CSS */
 
 .popup {
   border: 1px solid var(--border-color);
-  background-color: var(--sub-bg);;
+  background-color: var(--sub-bg);
   display: inline-block;
   border-radius: 8px;
   padding: 10px;
   margin: 5px;
 }
-
 
 /* Misc. info */
 #misc-info {
@@ -225,7 +241,6 @@ footer {
 #misc-info li {
   margin-left: 25px;
 }
-
 
 /* Full definition */
 #full-def {
@@ -238,37 +253,64 @@ footer {
   margin-left: 25px;
 }
 
-
-
 /* ----- Misc ----- */
 
-
 /* Class for showing furigana */
-.show-furigana > ruby rt {opacity: 1;}
-
+.show-furigana > ruby rt {
+  opacity: 1;
+}
 
 /* Reformat Yomichan definitions */
-#main-def div {text-align: center !important; margin: auto;}
-#main-def ul {list-style: none; display: inline;}
-#main-def ul>li {display: inline;}
-#main-def ul>li:not(:last-child)::after {content: "; ";}
-#main-def ol {max-width: var(--max-width);display: inline-block; text-align: left;}
-#main-def ol>li {margin-left: 40px;}
-
+#main-def > *:not(.mono-def) {
+  text-align: center !important;
+  margin: auto;
+}
+#main-def *:not(.mono-def) ul,
+#main-def > ul {
+  list-style: none;
+  display: inline;
+}
+#main-def *:not(.mono-def) ul > li,
+#main-def > ul > li {
+  display: inline;
+}
+#main-def *:not(.mono-def) ul > li:not(:last-child)::after,
+#main-def > ul > li:not(:last-child)::after {
+  content: "; ";
+}
+#main-def *:not(.mono-def) ol,
+#main-def > ol {
+  max-width: var(--max-width);
+  display: inline-block;
+  text-align: left;
+}
+#main-def *:not(.mono-def) ol > li,
+#main-def > ol > li {
+  margin-left: 40px;
+}
 
 /* Pitch formatting */
-.info ul {list-style: none; display: inline; margin: 0; padding: 0;}
-.info li {display: inline;}
-.info ul>li.hide-separator::after {content: "";}
-.info ul>li:not(:last-child)::after {content: "・";}
-
+.info ul {
+  list-style: none;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.info li {
+  display: inline;
+}
+.info ul > li.hide-separator::after {
+  content: "";
+}
+.info ul > li:not(:last-child)::after {
+  content: "・";
+}
 
 /* Remove default margins */
 * {
   margin: 0px;
   padding: 0px;
 }
-
 
 /* Images */
 img {
@@ -284,8 +326,6 @@ img {
   margin-bottom: -0.5em;
 }
 
-
-
 /* Bold CSS */
 b {
   color: var(--sub-color);
@@ -295,7 +335,6 @@ b > ruby rt {
   opacity: 1;
 }
 
-
 /* Furigana */
 ruby rt {
   user-select: none;
@@ -304,7 +343,6 @@ ruby rt {
 ruby:hover rt {
   opacity: 1;
 }
-
 
 /* Dropdown CSS */
 details {
@@ -318,7 +356,6 @@ summary {
   margin: 0px auto;
 }
 
-
 /* Line margins */
 hr {
   margin-top: 0.5em;
@@ -326,7 +363,7 @@ hr {
 }
 
 /* Extra toggle */
-input[type=checkbox] {
+input[type="checkbox"] {
   height: 12px;
   width: auto;
 }

@@ -1,135 +1,126 @@
-<div id=deck deck_name="{{Deck}}"></div>
+<div id="deck" deck_name="{{Deck}}"></div>
 <!---------- Header ------------->
 <header>
-  <div id="top-container"><p id="stars"></p>{{FreqSort}}</div>
+  <div id="top-container">
+    <p id="stars"></p>
+    {{FreqSort}}
+  </div>
 </header>
 
-
 <main>
-
-<div id="template">
-
-<!--------- Vocab card ---------->
-{{^*IsSentenceCard}}
-  <div lang="ja" class="show-furigana vocab">
-    {{#Expression (furigana)}}{{furigana:Expression (furigana)}}{{/Expression (furigana)}}
-    {{^Expression (furigana)}}{{Expression}}{{/Expression (furigana)}}
-    {{#Hint}}<div id="hint">{{Hint}}</div>{{/Hint}}
-  </div>
-  <hr id="divider">
-  <div lang="ja" class="info">
-    {{Expression (audio)}}
-    {{Sentence (audio)}}
-    <div id="pitch"></div>
-    {{#PitchPosition}}
-      <span id="pitch-tags" class="tags">
-        {{PitchPosition}}
-      </span>
-    {{/PitchPosition}}
-    【{{Expression}}】
-  </div>
-  <div lang="ja" id="main-def">{{MainDefinition}}</div>
-  <br>
-  {{Image}}
-  <br>
-  <div lang="ja" class="sentence">
-    {{#Sentence (furigana)}} {{furigana:Sentence (furigana)}} {{/Sentence (furigana)}}
-    {{^Sentence (furigana)}} {{furigana:Sentence}} {{/Sentence (furigana)}}
-  </div>
-  {{#Translation}}
+  <div id="template">
+    <!--------- Vocab card ---------->
+    {{^*IsSentenceCard}}
+    <div lang="ja" class="show-furigana vocab">
+      {{#Expression (furigana)}}{{furigana:Expression (furigana)}}{{/Expression (furigana)}}
+      {{^Expression (furigana)}}{{Expression}}{{/Expression (furigana)}}
+      {{#Hint}}
+      <div id="hint">{{Hint}}</div>
+      {{/Hint}}
+    </div>
+    <hr id="divider" />
+    <div lang="ja" class="info">
+      {{Expression (audio)}} {{Sentence (audio)}}
+      <div id="pitch"></div>
+      {{#PitchPosition}}
+      <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
+      {{/PitchPosition}}
+      【{{Expression}}】
+    </div>
+    <div lang="ja" id="main-def">{{MainDefinition}}</div>
+    <br />
+    {{Image}}
+    <br />
+    <div lang="ja" class="sentence">
+      {{#Sentence (furigana)}} {{furigana:Sentence (furigana)}} {{/Sentence (furigana)}}
+      {{^Sentence (furigana)}} {{furigana:Sentence}} {{/Sentence (furigana)}}
+    </div>
+    {{#Translation}}
     <div id="translation" lang="en">{{hint:Translation}}</div>
-  {{/Translation}}
-{{/*IsSentenceCard}}
+    {{/Translation}}
+    {{/*IsSentenceCard}}
 
-
-<!------- Sentence card --------->
-{{#*IsSentenceCard}}
-  <div lang="ja" class="sentence-big">
-    {{#Sentence (furigana)}} {{furigana:Sentence (furigana)}} {{/Sentence (furigana)}}
-    {{^Sentence (furigana)}} {{furigana:Sentence}} {{/Sentence (furigana)}}
-  </div>
-  {{#Hint}}<div id="hint">{{Hint}}</div>{{/Hint}}
-  {{#Translation}}
+    <!------- Sentence card --------->
+    {{#*IsSentenceCard}}
+    <div lang="ja" class="sentence-big">
+      {{#Sentence (furigana)}} {{furigana:Sentence (furigana)}} {{/Sentence (furigana)}}
+      {{^Sentence (furigana)}} {{furigana:Sentence}} {{/Sentence (furigana)}}
+    </div>
+    {{#Hint}}
+    <div id="hint">{{Hint}}</div>
+    {{/Hint}}
+    {{#Translation}}
     <div id="translation" lang="en">{{hint:Translation}}</div>
-  {{/Translation}}
-  <hr id="divider">
-  <div lang="ja" class="info">
-    {{Expression (audio)}}
-    {{Sentence (audio)}}
-    <div id="pitch"></div>
-    {{#PitchPosition}}
-      <span id="pitch-tags" class="tags">
-        {{PitchPosition}}
-      </span>
-    {{/PitchPosition}}
-    【{{Expression}}】
+    {{/Translation}}
+    <hr id="divider" />
+    <div lang="ja" class="info">
+      {{Expression (audio)}} {{Sentence (audio)}}
+      <div id="pitch"></div>
+      {{#PitchPosition}}
+      <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
+      {{/PitchPosition}}
+      【{{Expression}}】
+    </div>
+    <div lang="ja" id="main-def">{{MainDefinition}}</div>
+    <br />
+    {{Image}}
+    <br />
+    {{/*IsSentenceCard}}
   </div>
-  <div lang="ja" id="main-def">{{MainDefinition}}</div>
-  <br>
-  {{Image}}
-  <br>
-{{/*IsSentenceCard}}
 
-</div>
-
-
-<div id="extras">
-
-{{#MiscInfo}}
-  <div style="text-align: center;">
-    <div lang="ja">
-      <details>
-        <summary>Misc. info</summary>
-        <div class="popup" id="misc-info">
-          === Details ===
-          <br>
-          {{MiscInfo}}
-          {{#Frequency}}
-            <br>
+  <div id="extras">
+    {{#MiscInfo}}
+    <div style="text-align: center">
+      <div lang="ja">
+        <details>
+          <summary>Misc. info</summary>
+          <div class="popup" id="misc-info">
+            === Details ===
+            <br />
+            {{MiscInfo}}
+            {{#Frequency}}
+            <br />
             == Frequency ==
             {{Frequency}}
-          {{/Frequency}}
-        </div>
-      </details>
+            {{/Frequency}}
+          </div>
+        </details>
+      </div>
     </div>
-  </div>
-{{/MiscInfo}}
-
-{{#FullDefinition}}
-  <div style="text-align: center">
-    <div lang="ja">
-      <details>
-        <summary>Full definition</summary>
-        <div class="popup" id="full-def">{{FullDefinition}}</div>
-      </details>
+    {{/MiscInfo}}
+    {{#FullDefinition}}
+    <div style="text-align: center">
+      <div lang="ja">
+        <details>
+          <summary>Full definition</summary>
+          <div class="popup" id="full-def">{{FullDefinition}}</div>
+        </details>
+      </div>
     </div>
+    {{/FullDefinition}}
   </div>
-{{/FullDefinition}}
-
-</div>
-
 </main>
-
 
 <!----------- Footer ------------->
 <footer>
   <div id="bot-container">
     {{#Tags}}
-      <div lang="ja" id="tags-container">
-        <div class="tags">{{Tags}}</div>
-      </div>
+    <div lang="ja" id="tags-container">
+      <div class="tags">{{Tags}}</div>
+    </div>
     {{/Tags}}
-    <div id="checkbox"><input type="checkbox" onclick="showExtras()"></div>
+    <div id="checkbox"><input type="checkbox" onclick="showExtras()" /></div>
   </div>
 </footer>
-
-
 
 <!----------- Scripts ------------>
 <script>
   function isOdaka(pitchNumber) {
     const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
-    return kana !== null && kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber;
+    return (
+      kana !== null &&
+      kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber
+    );
   }
 
   function getPitchColor(pitchPosition) {
@@ -137,9 +128,9 @@
       heiban: "#1d9bf0",
       atamadaka: "red",
       nakadaka: "#f5751d",
-      odaka: "#3bd16f"
+      odaka: "#3bd16f",
     };
-  
+
     if (pitchPosition === 0) {
       return colors.heiban;
     } else if (pitchPosition === 1) {
@@ -154,14 +145,16 @@
     if (pitchPositions === null) return;
 
     const pitchPosition = Number(pitchPositions[0]);
-    const sentences = Array.from(document.querySelectorAll(".sentence, .sentence-big"));
+    const sentences = Array.from(
+      document.querySelectorAll(".sentence, .sentence-big")
+    );
     for (const sentence of sentences) {
       for (const targetWord of sentence.getElementsByTagName("b")) {
         targetWord.style.color = getPitchColor(pitchPosition);
       }
     }
   }
-  
+
   function showExtras() {
     const checkBox = document.querySelector("#checkbox > input[type=checkbox]");
     const extras = document.getElementById("extras");
@@ -172,31 +165,27 @@
     const freq = `{{FreqSort}}`;
     const stars = document.getElementById("stars");
     if (freq === "") return;
-    if (freq > 0 && freq < 1500) {stars.innerHTML = "★★★★★";}
-    else if (freq >= 1500 && freq < 5000) {stars.innerHTML = "★★★★";}
-    else if (freq >= 5000 && freq < 15000) {stars.innerHTML = "★★★";}
-    else if (freq >= 15000 && freq < 30000) {stars.innerHTML = "★★";}
-    else if (freq >= 30000 && freq < 60000) {stars.innerHTML = "★";}
-    else {stars.innerHTML = "";}
-        
+    if (freq > 0 && freq < 1500) {
+      stars.innerHTML = "★★★★★";
+    } else if (freq >= 1500 && freq < 5000) {
+      stars.innerHTML = "★★★★";
+    } else if (freq >= 5000 && freq < 15000) {
+      stars.innerHTML = "★★★";
+    } else if (freq >= 15000 && freq < 30000) {
+      stars.innerHTML = "★★";
+    } else if (freq >= 30000 && freq < 60000) {
+      stars.innerHTML = "★";
+    } else {
+      stars.innerHTML = "";
+    }
+
     // Don't show if freq is 0
-    if (Number(freq) === 0) {document.getElementById("top-container").innerHTML = "";} 
+    if (Number(freq) === 0) {
+      document.getElementById("top-container").innerHTML = "";
+    }
   }
 
   function tweakHTML() {
-    // Remove duplicate pitch tags
-    const pitchTags = document.getElementById("pitch-tags");
-    const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
-    if (pitchPositions !== null) {
-      let uniquePitchPositions = [...new Set(pitchPositions)];
-      let hold = `<ul>`;
-      for (let pitchPosition of uniquePitchPositions) {
-        hold += `<li>${pitchPosition}</li>`
-      }
-      hold += `</ul>`;
-      pitchTags.innerHTML = hold;
-    }
-
     // Modify translation button label
     const tlButton = document.querySelector("#translation > a.hint");
     if (tlButton) {
@@ -211,72 +200,77 @@
       for (tag of tags) {
         const tagElem = document.createElement("div");
         tagElem.className = "tags";
-         tagElem.innerText = tag;
-         tagsContainer.appendChild(tagElem);
+        tagElem.innerText = tag;
+        tagsContainer.appendChild(tagElem);
       }
     }
-
   }
 
   function groupMoras(kana) {
-    let currentChar = ""
-    let nextChar = ""
-    const groupedMoras = []
-    const check = ["ャ","ュ","ョ","ゃ","ゅ","ょ"]
-    for (let i=0; i < kana.length; i++) {
-      currentChar = kana[i]
-      nextChar = (i < kana.length - 1) && kana[i+1]
+    let currentChar = "";
+    let nextChar = "";
+    const groupedMoras = [];
+    const check = ["ャ", "ュ", "ョ", "ゃ", "ゅ", "ょ"];
+    for (let i = 0; i < kana.length; i++) {
+      currentChar = kana[i];
+      nextChar = i < kana.length - 1 && kana[i + 1];
       if (check.includes(nextChar)) {
-        groupedMoras.push(currentChar + nextChar)
-        i += 1
+        groupedMoras.push(currentChar + nextChar);
+        i += 1;
       } else {
-        groupedMoras.push(currentChar)
+        groupedMoras.push(currentChar);
       }
     }
-    return groupedMoras
+    return groupedMoras;
   }
-
 
   function getPitchPattern(pitchPosition) {
     /*	0 = low
-         1 = high
-        2 = high to low */
+			 	1 = high
+				2 = high to low */
 
     const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
-    const moras = groupMoras(kana)
-    let pattern = []
+    const moras = groupMoras(kana);
+    let pattern = [];
 
     if (pitchPosition === 0) {
       // 平板
-      pattern = Array(moras[0].length).fill("0")
-      pattern = [...pattern, ...Array(kana.length - moras[0].length).fill("1")]
+      pattern = Array(moras[0].length).fill("0");
+      pattern = [...pattern, ...Array(kana.length - moras[0].length).fill("1")];
     } else if (pitchPosition === 1) {
       // 頭高
-      pattern = moras[0].length === 2 ? ["1", "2"] : ["2"]
-      pattern = [...pattern, ...Array(kana.length - moras[0].length).fill("0")]
+      pattern = moras[0].length === 2 ? ["1", "2"] : ["2"];
+      pattern = [...pattern, ...Array(kana.length - moras[0].length).fill("0")];
     } else if (pitchPosition > 1) {
       if (isOdaka(pitchPosition)) {
         // 尾高
-        pattern = Array(moras[0].length).fill("0")
-        pattern = [...pattern, ...Array(kana.length - moras[0].length - 1).fill("1"), "2"]
+        pattern = Array(moras[0].length).fill("0");
+        pattern = [
+          ...pattern,
+          ...Array(kana.length - moras[0].length - 1).fill("1"),
+          "2",
+        ];
       } else {
         // 中高
         let afterDrop = false;
-        for (let i=0; i < moras.length; i++) {
+        for (let i = 0; i < moras.length; i++) {
           if (i === 0) {
-            pattern = [...pattern, ...Array(moras[0].length).fill("0")]
-          } else if (i+1 === pitchPosition) {
-            pattern = moras[i].length === 2 ? [...pattern, "1", "2"] : [...pattern, "2"]
-            afterDrop = true
+            pattern = [...pattern, ...Array(moras[0].length).fill("0")];
+          } else if (i + 1 === pitchPosition) {
+            pattern =
+              moras[i].length === 2
+                ? [...pattern, "1", "2"]
+                : [...pattern, "2"];
+            afterDrop = true;
           } else if (afterDrop) {
-            pattern = [...pattern, ...Array(moras[i].length).fill("0")]
+            pattern = [...pattern, ...Array(moras[i].length).fill("0")];
           } else {
-            pattern = [...pattern, ...Array(moras[i].length).fill("1")]
+            pattern = [...pattern, ...Array(moras[i].length).fill("1")];
           }
         }
       }
     }
-    return pattern
+    return pattern;
   }
 
   function constructPitch() {
@@ -285,20 +279,24 @@
     const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
     if (!pitchPositions) {
       pitch.innerHTML = `<div style="margin-right: -15px; display: inline;">${kana}</div>`;
-      return
+      return;
     }
-    
+
+    const pitchTags = document.getElementById("pitch-tags");
     let uniquePitchPositions = [...new Set(pitchPositions)];
-    let hold = ""
-    
+    let hold = ``;
+    let holdTags = `<ul>`;
+
     for (let pitchPosition of uniquePitchPositions) {
       if (pitchPosition !== uniquePitchPositions[0]) hold += `・`;
+
+      holdTags += `<li>${pitchPosition}</li>`;
 
       const pattern = getPitchPattern(Number(pitchPosition));
       const color = getPitchColor(Number(pitchPosition)) || "#ffffff";
 
       hold += `<span class="pitch-container" style="color:${color};">`;
-      for (let i=0; i < kana.length; i++) {
+      for (let i = 0; i < kana.length; i++) {
         if (pattern[i] === "0") {
           hold += `<span class="pitch-low">`;
           hold += `<span class="pitch-char">${kana[i]}</span>`;
@@ -314,14 +312,79 @@
           hold += `<span class="pitch-char">${kana[i]}</span>`;
           hold += `<span class="pitch-line"></span>`;
           hold += `</span>`;
-        }	else {
-          console.error("pattern[i] found undefined value. pattern is", pattern)
+        } else {
+          console.error(
+            "pattern[i] found undefined value. pattern is",
+            pattern
+          );
         }
       }
       hold += `</span>`;
     }
 
     pitch.innerHTML += hold;
+    pitchTags.innerHTML = holdTags;
+  }
+
+  function fillMainDef(dictNames) {
+    const mainDefContainer = document.querySelector("#main-def");
+    const fullDefContainer = document.querySelector("#full-def");
+    const liEntries = fullDefContainer.querySelectorAll("ol > li");
+    const divEntry = fullDefContainer.querySelectorAll("div");
+    const allEntries = liEntries.length > 0 ? liEntries : divEntry;
+
+    let dictEntries = [];
+
+    for (const dictName of dictNames) {
+      if (dictEntries.length > 0) {
+        break;
+      }
+      dictEntries = Array.from(allEntries).filter((dictEntry) =>
+        dictEntry.textContent.toLowerCase().includes(dictName)
+      );
+    }
+
+    if (dictEntries.length === 0) {
+      mainDefContainer.innerHTML = "No definition found";
+      return;
+    }
+
+    // For non-JMdict dicts
+    if (!dictEntries[0].innerText.toLowerCase().includes("jmdict")) {
+      const container = document.createElement("div");
+      container.classList.add("mono-def");
+      container.style.setProperty("text-align", "left", "important");
+      container.style.display = "inline-block";
+      container.style.lineHeight = "initial";
+      container.style.width = "fit-content";
+      container.innerHTML = dictEntries[0].innerHTML;
+      mainDefContainer.appendChild(container);
+      return;
+    }
+
+    // For JMdict
+    let newHtml = dictEntries
+      .map((dictEntry) => {
+        const ul = dictEntry.querySelector("ul");
+        if (ul !== null) {
+          return dictEntries.length > 1
+            ? `<li>${ul.outerHTML}</li>`
+            : ul.outerHTML;
+        } else {
+          const innerText = Array.from(dictEntry.childNodes)
+            .filter((node) => node.nodeType === Node.TEXT_NODE)
+            .map((node) => node.textContent.trim())
+            .join(" ");
+          return dictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
+        }
+      })
+      .join("");
+
+    if (dictEntries.length > 1) {
+      newHtml = `<ol>${newHtml}</ol>`;
+    }
+
+    mainDefContainer.innerHTML = newHtml;
   }
 
   function initialize() {
@@ -330,6 +393,20 @@
     getStars();
     tweakHTML();
     constructPitch();
+    if (document.querySelector("#main-def").innerText === "") {
+      let dictNames = [
+        "jmdict",
+        "実用日本語表現辞典",
+        "三省堂国語辞典",
+        "旺文社国語辞典",
+        "明鏡国語辞典",
+        "大辞林",
+        "新明解国語辞典",
+        "デジタル大辞泉",
+        "広辞苑",
+      ];
+      fillMainDef(dictNames);
+    }
   }
 
   window.onload = initialize();

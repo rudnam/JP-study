@@ -11,8 +11,6 @@
 
 Mining card template I use for Anki. I usually use it with [mpvacious](https://github.com/Ajatt-Tools/mpvacious) and [Yomichan](https://chrome.google.com/webstore/detail/yomichan/ogmnaimimemjmbakcfefmnahgdfhfami).
 
-[Preview (PC only)](https://rudnam.github.io/JP-study/mining_preview.html)
-
 [Download](https://github.com/rudnam/JP-study/raw/main/Mining_temp.apkg)
 
 
@@ -27,32 +25,33 @@ Mining card template I use for Anki. I usually use it with [mpvacious](https://g
 ### Yomichan fields
 
 How I fill the mining template's fields from Yomichan.
-| Field | Value |
-|----------|----------|
-| Expression | `{expression}` |
-| Expression (furigana) | `{furigana-plain}` | 
-| Expression (reading) | `{reading}` |
-| Expression (audio) | `{audio}` | 
-| MainDefinition | `{main-def}`|
-| Sentence | `{cloze-prefix}<b>{cloze-body}</b>{cloze-suffix}` | 
-| Sentence (furigana) |  |
-| Sentence (audio) |  | 
-| FullDefinition | `{glossary}` |
-| Image |  | 
-| Translation |  |
-| PitchPosition | `{pitch-accent-positions}` |
-| Hint |  |
-| Frequency | `{frequencies}` | 
-| FreqSort | `{freq}` |
-| MiscInfo | `{document-title}` | 
-| ExtraField |  |
-| *IsSentenceCard | `{grammar-pt}` | 
+| Field                 | Value                                             |
+| --------------------- | ------------------------------------------------- |
+| Expression            | `{expression}`                                    |
+| Expression (furigana) | `{furigana-plain}`                                |
+| Expression (reading)  | `{reading}`                                       |
+| Expression (audio)    | `{audio}`                                         |
+| MainDefinition        | `{selection-text}`                                |
+| Sentence              | `{cloze-prefix}<b>{cloze-body}</b>{cloze-suffix}` |
+| Sentence (furigana)   |                                                   |
+| Sentence (audio)      |                                                   |
+| FullDefinition        | `{glossary}`                                      |
+| Image                 |                                                   |
+| Translation           |                                                   |
+| PitchPosition         | `{pitch-accent-positions}`                        |
+| Hint                  |                                                   |
+| Frequency             | `{frequencies}`                                   |
+| FreqSort              |                                                   |
+| MiscInfo              | `{document-title}`                                |
+| ExtraField            |                                                   |
+| *IsSentenceCard       |                                                   |
 
 Notes:
-- When **\*IsSentenceCard** is filled with any character, card is turned into a sentence card. When empty, it is turned into a vocab card.
-- **PitchPosition** takes in `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` will **not** work.
-- `{main-def}`, `{freq}`, and `{grammar-pt}` are [custom templates/handlebars](#yomichan-handlebars-templates).
-- **Hint** is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
+- When the **\*IsSentenceCard** field is filled with any character, card is turned into a sentence card. When empty, it is turned into a vocab card.
+- The **MainDefinition** field is for the displayed definition on the card. When empty it defaults to a definition from the **FullDefinition** field.
+- The **PitchPosition** field takes in `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` will **not** work.
+- The **FreqSort** field is for frequency sorting. (See [freq](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency))
+- The **Hint** field is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
 - The furigana fields only take in plain furigana. (e.g. 漢字[かんじ] not <ruby>漢字<rt>かんじ</rt></ruby>).
 
 ### Other applications/add-ons
@@ -62,7 +61,7 @@ More info can be added using other applications and add-ons.
 - I usually use the fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
 
     ```
-    model_name=Mining_JA
+    model_name=Mining_JP
 
     sentence_field=Sentence
     secondary_field=Translation
@@ -83,49 +82,38 @@ More info can be added using other applications and add-ons.
 
 ## Yomichan Handlebars templates
 
-Custom Yomichan Handlebars templates for toggling between English and Japanese definitions and adding extra info such as average frequency rank and context tags.
-
-- `{freq}` - Gives the frequency value for sorting new cards. From [MarvNC](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency). Copy it from here: [https://github.com/MarvNC/JP-Resources#freq-handlebar](https://github.com/MarvNC/JP-Resources#freq-handlebar)
+Custom Yomichan Handlebars templates.
 
 
-- `{main-def}` - If text is selected, the extracted definition is the highlighted text, otherwise defaults to the English/JMDict definition.
+- `{selection-text-modified}` - Basically the same as the built-in `{selection-text}` but will ignore selected text if it is the same as the target vocab (useful for Yomichan search page).
+
     ```handlebars
-    {{~#*inline "jmdict-def"~}}
-        <div style="text-align: left;">
-        {{~#scope~}}
-            {{~#if (op "===" definition.type "term")~}}
-                {{~#if (op "===" this.dictionary "JMdict (English)")~}}
-                    {{~> glossary-single definition brief=brief noDictionaryTag=noDictionaryTag ~}}
-                {{/if}}
-            {{~else if (op "||" (op "===" definition.type "termGrouped") (op "===" definition.type "termMerged"))~}}
-                {{~#set "jmdict-length" 0}}{{/set~}}
-                {{~#each definition.definitions~}}
-                    {{~#if (op "===" this.dictionary "JMdict (English)")~}}
-                        {{~#set "jmdict-length" (op "+" (get "jmdict-length") 1) ~}}{{~/set~}}
-                    {{~/if~}}
-                {{~/each~}}
+    {{~#*inline "selection-text-modified"~}}
+      {{~#set "selected"}}{{~> selection-text}}{{/set~}}
+      {{~#set "pattern1"~}}
+          [
+          {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
+          {{~> cloze-body}}
+          {{~/regexReplace~}}
+          ]
+      {{~/set~}}
+      {{~#set "pattern2"~}}
+          [
+          {{~#regexReplace "(<span class=\"term\">)|(</span>)|(<ruby>)|(</ruby>)|(<rt>)|(</rt>)|[\[\]]" "" "g"~}}
+          {{~#getMedia "textFurigana" definition.cloze.body escape=false}}{{~/getMedia~}}
+          {{~/regexReplace~}}
+          ]
+      {{~/set~}}
+      {{~#set "diff1"}}{{~#regexReplace (get "pattern1") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+      {{~#set "diff2"}}{{~#regexReplace (get "pattern2") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
 
-                {{~#if (op ">" (get "jmdict-length") 1)~}}
-                    <ol>{{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}<li>{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}</li>{{/if}}{{~/each~}}</ol>
-                {{~else~}}
-                    {{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}{{/if}}{{~/each~}}
-                {{~/if~}}
-            {{~/if~}}
-        {{~/scope~}}
-        </div>
-    {{~/inline~}}
-
-    {{~#*inline "main-def"~}}
-        {{~#set "selected"}}{{~> selection-text}}{{/set~}}
-        {{~#set "pattern"~}}[{{~> cloze-body}}]{{~/set~}}
-        {{~#set "diff"}}{{~#regexReplace (get "pattern") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
-    
-        {{~#if (op ">" (property (get "diff") "length") (op "-" (property (get "selected") "length") (property (get "diff") "length")))}}
-            {{~> selection-text}}
-        {{~else~}}
-            {{~> jmdict-def noDictionaryTag=true brief=true ~}}
-        {{/if~}}
-    {{~/inline~}}
+      {{~#if (op "&&"
+                  (op ">" (property (get "diff1") "length") (op "-" (property (get "selected") "length") (property (get "diff1") "length")))
+                  (op ">" (property (get "diff2") "length") (op "-" (property (get "selected") "length") (property (get "diff2") "length")))
+              )}}
+          {{~> selection-text}}
+      {{/if~}}
+  {{~/inline~}}
     ```
 
 - `{grammar-pt}` - fills out a field when a grammar dictionary has an entry.
@@ -141,7 +129,7 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{/inline}}
     ```
 
-- `{jlpt}` - JLPT tags for [FieldReporter](https://github.com/rudnam/FieldReporter).
+- `{jlpt}` - JLPT tags.
 
     ```handlebars
     {{~#*inline "jlpt"~}}
@@ -155,24 +143,29 @@ Custom Yomichan Handlebars templates for toggling between English and Japanese d
     {{/inline}}
     ```
 
-- `{context}` - Context tags for [FieldReporter](https://github.com/rudnam/FieldReporter). Tags like `ラノベ::また、同じ夢を見ていた` if in mokuro, etc.
+- `{context}` - Context tag. e.g. `ラノベ::また、同じ夢を見ていた` if in ttsu, etc.
 
     ```handlebars
     {{#*inline "context"}}
         {{~#if (regexMatch "reader\.ttsu\.app" "" definition.url)~}}
-            ラノベ::{{~context.document.title~}}
+            {{~#set "ln-title" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= \| ッツ Ebook Reader)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            ラノベ::{{~get "ln-title"~}}
         {{~else if (regexMatch "mokuro" "" context.document.title)~}}
-            漫画::{{~context.document.title~}}
+            {{~#set "manga-title" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= \| mokuro)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            漫画::{{~get "manga-title"~}}
         {{~else if (regexMatch "nhk.or.jp" "" definition.url)~}}
-            {{~#set "news-category" ~}}
-                {{~#regexMatch "[^(||｜)]+$"~}} {{~context.document.title~}} {{~/regexMatch~}}
-            {{/set~}}
-            ニュース::{{~get "news-category"~}}
-        {{~else if (regexMatch "twitter.com" "" definition.url)~}}
-            {{~set "twitter-user" (regexMatch ".+?(?= on|さん)" "" context.document.title)~}}
-            ツイッター::{{~get "twitter-user"~}}
+            {{~#set "news-category" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch "[^(| |｜ )]+$"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            NHK::{{~get "news-category"~}}
         {{~else if (regexMatch "youtube.com" "" definition.url)~}}
-            {{~set "youtube-title" (regexMatch ".+?(?= - YouTube)" "" context.document.title)~}}
+            {{~#set "youtube-title" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= - YouTube)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
             ユーチューブ::{{~get "youtube-title"~}}
         {{~/if~}}
     {{/inline}}
