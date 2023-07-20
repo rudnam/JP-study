@@ -3,6 +3,7 @@
 - [Anki Mining Template](#anki-mining-template)
     - [Yomichan fields](#yomichan-fields)
     - [Other applications/add-ons](#other-applicationsadd-ons)
+    - [Sentence mining example](#sentence-mining-example)
 - [Yomichan Handlebars templates](#yomichan-handlebars-templates)
 - [Yomichan popup custom CSS](#yomichan-popup-custom-css)
 - [Kanken Deck Template](#kanken-deck-template)
@@ -12,7 +13,6 @@
 Mining card template I use for Anki. I usually use it with [mpvacious](https://github.com/Ajatt-Tools/mpvacious) and [Yomichan](https://chrome.google.com/webstore/detail/yomichan/ogmnaimimemjmbakcfefmnahgdfhfami).
 
 [Download](https://github.com/rudnam/JP-study/raw/main/Mining_temp.apkg)
-
 
 
 <p align="center">
@@ -80,6 +80,10 @@ More info can be added using other applications and add-ons.
     
     `{jlpt}` and `{context}` are [custom templates/handlebars](#yomichan-handlebars-templates).
 
+### Sentence mining example
+
+https://github.com/rudnam/JP-study/assets/70255485/2e0da75d-c2f9-46a8-86cd-bd9f5eba7d75
+
 ## Yomichan Handlebars templates
 
 Custom Yomichan Handlebars templates.
@@ -129,7 +133,7 @@ Custom Yomichan Handlebars templates.
     {{/inline}}
     ```
 
-- `{jlpt}` - JLPT tags.
+- `{jlpt}` - JLPT tags (separated by `$`)
 
     ```handlebars
     {{~#*inline "jlpt"~}}
@@ -162,6 +166,11 @@ Custom Yomichan Handlebars templates.
                 {{~#regexMatch "[^(| |｜ )]+$"~}}{{~context.document.title~}}{{~/regexMatch~}}
             {{~/regexReplace~}}{{/set~}}
             NHK::{{~get "news-category"~}}
+        {{~else if (regexMatch "twitter.com" "" definition.url)~}}
+            {{~#set "twitter-user" ~}}{{~#regexReplace " |　" "_"~}}
+                {{~#regexMatch ".+?(?= on|さん)"~}}{{~context.document.title~}}{{~/regexMatch~}}
+            {{~/regexReplace~}}{{/set~}}
+            ツイッター::{{~get "twitter-user"~}}
         {{~else if (regexMatch "youtube.com" "" definition.url)~}}
             {{~#set "youtube-title" ~}}{{~#regexReplace " |　" "_"~}}
                 {{~#regexMatch ".+?(?= - YouTube)"~}}{{~context.document.title~}}{{~/regexMatch~}}
@@ -259,7 +268,7 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
 .definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child) * {
     display: inline;
 }
-.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-list:has(.gloss-content > a:only-child):not(:last-child)::after {
+.definition-item:not([data-dictionary="JMdict (English)"]) .gloss-item:has(.gloss-content > a:only-child):not(:last-child)::after {
     content: " | ";
 }
 
@@ -272,7 +281,7 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
 .definition-item[data-dictionary="JMnedict"] .gloss-list * {
     display: inline;
 }
-.definition-item[data-dictionary="JMnedict"] ul.gloss-list > li.gloss-item:not(:last-child)::after {
+.definition-item[data-dictionary="JMnedict"] .gloss-list > .gloss-item:not(:last-child)::after {
     content: " | ";
 }
 ```
