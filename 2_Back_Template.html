@@ -101,7 +101,7 @@
       <div class="tags">{{Tags}}</div>
     </div>
     {{/Tags}}
-    <div id="checkbox"><input type="checkbox" onclick="showExtras()" /></div>
+    <div id="checkbox"><input type="checkbox" /></div>
   </div>
 </footer>
 
@@ -147,36 +147,6 @@
     }
   }
 
-  function showExtras() {
-    const checkBox = document.querySelector("#checkbox > input[type=checkbox]");
-    const extras = document.getElementById("extras");
-    extras.style.display = checkBox.checked ? "block" : "none";
-  }
-
-  function getStars() {
-    const freq = `{{FreqSort}}`;
-    const stars = document.getElementById("stars");
-    if (freq === "") return;
-    if (freq > 0 && freq < 1500) {
-      stars.innerHTML = "★★★★★";
-    } else if (freq >= 1500 && freq < 5000) {
-      stars.innerHTML = "★★★★";
-    } else if (freq >= 5000 && freq < 15000) {
-      stars.innerHTML = "★★★";
-    } else if (freq >= 15000 && freq < 30000) {
-      stars.innerHTML = "★★";
-    } else if (freq >= 30000 && freq < 60000) {
-      stars.innerHTML = "★";
-    } else {
-      stars.innerHTML = "";
-    }
-
-    // Don't show if freq is 0
-    if (Number(freq) === 0) {
-      document.getElementById("top-container").innerHTML = "";
-    }
-  }
-
   function tweakHTML() {
     // Modify translation button label
     const tlButton = document.querySelector("#translation > a.hint");
@@ -196,6 +166,35 @@
         tagsContainer.appendChild(tagElem);
       }
     }
+
+    // Get stars
+    const freq = `{{FreqSort}}`;
+    const stars = document.getElementById("stars");
+    if (freq === "") return;
+    if (freq > 0 && freq < 1500) {
+      stars.innerHTML = "★★★★★";
+    } else if (freq >= 1500 && freq < 5000) {
+      stars.innerHTML = "★★★★";
+    } else if (freq >= 5000 && freq < 15000) {
+      stars.innerHTML = "★★★";
+    } else if (freq >= 15000 && freq < 30000) {
+      stars.innerHTML = "★★";
+    } else if (freq >= 30000 && freq < 60000) {
+      stars.innerHTML = "★";
+    } else {
+      stars.innerHTML = "";
+    }
+    if (Number(freq) === 0) {
+      document.getElementById("top-container").innerHTML = "";
+    }
+
+    // Toggle extras display
+    const checkBox = document.querySelector("#checkbox > input[type=checkbox]");
+    const extras = document.getElementById("extras");
+    checkBox.addEventListener("change", (e) => {
+      extras.style.display = checkBox.checked ? "block" : "none";
+    });
+    extras.style.display = checkBox.checked ? "block" : "none";
   }
 
   function groupMoras(kana) {
@@ -318,17 +317,26 @@
     pitchTags.innerHTML = holdTags;
   }
 
-  function fillMainDef(dictNames) {
+  function createDefinition(dictNames) {
     const mainDefContainer = document.querySelector("#main-def");
     const fullDefContainer = document.querySelector("#full-def");
     const liEntries = fullDefContainer.querySelectorAll("ol > li");
     const divEntry = fullDefContainer.querySelectorAll("div");
+    const ignoredDictNames = ["Nico/Pixiv"];
     const allEntries = liEntries.length > 0 ? liEntries : divEntry;
+
+    const filteredEntries = Array.from(allEntries).filter((dictEntry) => {
+      return !ignoredDictNames.some((ignoredDictName) =>
+        dictEntry.textContent
+          .toLowerCase()
+          .includes(ignoredDictName.toLowerCase())
+      );
+    });
 
     let dictEntries = [];
 
     for (const dictName of dictNames) {
-      dictEntries = Array.from(allEntries).filter((dictEntry) =>
+      dictEntries = Array.from(filteredEntries).filter((dictEntry) =>
         dictEntry.textContent.toLowerCase().includes(dictName)
       );
       if (dictEntries.length > 0) {
@@ -337,8 +345,9 @@
     }
 
     if (dictEntries.length === 0) {
-      mainDefContainer.innerHTML = "No definition found";
-      return;
+      const span = document.createElement("span");
+      span.innerText = "No definition found";
+      return span;
     }
 
     if (!dictEntries[0].innerText.toLowerCase().includes("jmdict")) {
@@ -352,32 +361,30 @@
       const imagesContainer = document.createElement("div");
       imagesContainer.classList.add("images-container");
 
-      const ul = selectedEntry.querySelector("ul");
+      const ul = selectedEntry.querySelector(":scope > ul");
+      const minImageWidthEm = 131;
       if (ul !== null) {
         const [definitionItem, ...otherItems] = ul.querySelectorAll("li");
-        textContainer.innerHTML = definitionItem.innerHTML;
+        const cleanedElement = cleanMonoDef(definitionItem);
+        textContainer.innerHTML = cleanedElement.innerHTML;
         otherItems.forEach((item) => {
           item.querySelectorAll("a > span > img").forEach((img) => {
             let width = parseFloat(
               img.parentNode.style.width.replace("em", "")
             );
-            if (width > 25) {
+            if (width > minImageWidthEm) {
               const image = document.createElement("img");
               image.src = img.src;
               imagesContainer.appendChild(image);
             }
           });
         });
-        mainDefContainer.appendChild(monoDefContainer);
       } else {
-        const cleanedText = selectedEntry.innerHTML.replace(
-          /<br>筆順：<br><a[^>]*>.*<\/a><br>/g,
-          ""
-        );
-        textContainer.innerHTML = cleanedText;
+        const cleanedElement = cleanMonoDef(selectedEntry);
+        textContainer.innerHTML = cleanedElement.innerHTML;
         textContainer.querySelectorAll("a > span > img").forEach((img) => {
           let width = parseFloat(img.parentNode.style.width.replace("em", ""));
-          if (width > 25) {
+          if (width > minImageWidthEm) {
             const image = document.createElement("img");
             const anchor = img.closest("a");
             image.src = img.src;
@@ -388,10 +395,11 @@
       }
       monoDefContainer.appendChild(textContainer);
       monoDefContainer.appendChild(imagesContainer);
-      mainDefContainer.appendChild(monoDefContainer);
+      return monoDefContainer;
     } else {
       // For JMdict
       const jmdictDefContainer = document.createElement("div");
+      jmdictDefContainer.classList.add("jmdict-def");
       let newHtml = dictEntries
         .map((dictEntry) => {
           const ul = dictEntry.querySelector("ul");
@@ -412,19 +420,100 @@
         newHtml = `<ol>${newHtml}</ol>`;
       }
       jmdictDefContainer.innerHTML = newHtml;
-      mainDefContainer.appendChild(jmdictDefContainer);
+      return jmdictDefContainer;
     }
+  }
+
+  function cleanMonoDef(element, options = {}) {
+    const {
+      removeDictName = true,
+      removeHeadword = true,
+      pixivOnlySummary = true,
+    } = options;
+    let cleanedElement = element.cloneNode(true);
+
+    const headwordSpan = cleanedElement.querySelector(
+      "span[data-sc-name='見出部']"
+    );
+    const navHeader = cleanedElement.querySelector(
+      "span[data-sc-pixiv='nav-header']"
+    );
+    const mainSpan = cleanedElement.querySelector(":scope > span");
+    if (headwordSpan !== null) {
+      removeDictName
+        ? (cleanedElement.querySelector(":scope > i").style.display = "none")
+        : null;
+      removeHeadword ? (headwordSpan.style.display = "none") : null;
+    } else if (navHeader !== null) {
+      removeDictName
+        ? (cleanedElement.querySelector(":scope > i").style.display = "none")
+        : null;
+      removeHeadword ? (navHeader.style.display = "none") : null;
+      const pixivSummary = cleanedElement.querySelector(
+        "div[data-sc-pixiv='summary']"
+      );
+      cleanedElement.innerHTML = pixivOnlySummary
+        ? pixivSummary.innerHTML
+        : cleanedElement.innerHTML;
+    } else if (mainSpan !== null) {
+      const regex = /(<span\b[^>]*>)(.*?)(<br>|<div>)/;
+      const matchResult = cleanedElement.innerHTML.match(regex);
+      removeDictName
+        ? (cleanedElement.querySelector(":scope > i").style.display = "none")
+        : null;
+      const headword = removeHeadword ? "" : "$2";
+      const breakOrDiv =
+        removeHeadword &&
+        removeDictName &&
+        matchResult &&
+        matchResult[3] === "<br>"
+          ? ""
+          : "$3";
+      cleanedElement.innerHTML = cleanedElement.innerHTML.replace(
+        regex,
+        `$1${headword}${breakOrDiv}`
+      );
+    } else {
+      const regex = /(<i>.*?<\/i>)(.*?)(<br>)/;
+      const dictName = removeDictName ? "" : "$1";
+      const headword = removeHeadword ? "" : "$2";
+      const breakTag = removeHeadword && removeDictName ? "" : "$3";
+      cleanedElement.innerHTML = cleanedElement.innerHTML.replace(
+        regex,
+        `${dictName}${headword}${breakTag}`
+      );
+    }
+
+    const regex = /(<br>筆順：<br>)(<a[^>]*>.*<\/a>)<br>/g;
+    cleanedElement.innerHTML = cleanedElement.innerHTML.replace(regex, "");
+    if (
+      cleanedElement.firstChild &&
+      cleanedElement.firstChild.tagName === "BR"
+    ) {
+      cleanedElement.removeChild(cleanedElement.firstChild);
+    }
+    if (
+      cleanedElement.firstChild &&
+      cleanedElement.firstChild.firstChild &&
+      cleanedElement.firstChild.firstChild.tagName === "BR"
+    ) {
+      cleanedElement.firstChild.removeChild(
+        cleanedElement.firstChild.firstChild
+      );
+    }
+
+    return cleanedElement;
   }
 
   function initialize() {
     paintTargetWord();
-    showExtras();
-    getStars();
-    tweakHTML();
     constructPitch();
-    if (document.querySelector("#main-def").innerHTML === "") {
+    tweakHTML();
+    const mainDefContainer = document.getElementById("main-def");
+    if (mainDefContainer.innerHTML === "") {
       let dictNames = [
         "jmdict",
+        "pixiv",
         "実用日本語表現辞典",
         "三省堂国語辞典",
         "旺文社国語辞典",
@@ -434,7 +523,7 @@
         "デジタル大辞泉",
         "広辞苑",
       ];
-      fillMainDef(dictNames);
+      mainDefContainer.appendChild(createDefinition(dictNames));
     }
   }
 
