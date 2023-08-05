@@ -120,6 +120,47 @@ Custom Yomichan Handlebars templates.
   {{~/inline~}}
     ```
 
+- `{main-def}` - gets either the currently selected text or defaults to the jmdict definition when empty. Requires `{selection-text-modified}`
+
+    ```handlebars
+    {{~#*inline "jmdict-def"~}}
+        <div style="text-align: left;">
+        {{~#scope~}}
+            {{~#if (op "===" definition.type "term")~}}
+                {{~#if (op "===" this.dictionary "JMdict (English)")~}}
+                    {{~> glossary-single definition brief=brief noDictionaryTag=noDictionaryTag ~}}
+                {{/if}}
+            {{~else if (op "||" (op "===" definition.type "termGrouped") (op "===" definition.type "termMerged"))~}}
+                {{~#set "jmdict-length" 0}}{{/set~}}
+                {{~#each definition.definitions~}}
+                    {{~#if (op "===" this.dictionary "JMdict (English)")~}}
+                        {{~#set "jmdict-length" (op "+" (get "jmdict-length") 1) ~}}{{~/set~}}
+                    {{~/if~}}
+                {{~/each~}}
+    
+                {{~#if (op ">" (get "jmdict-length") 1)~}}
+                    <ol>{{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}<li>{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}</li>{{/if}}{{~/each~}}</ol>
+                {{~else~}}
+                    {{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}{{/if}}{{~/each~}}
+                {{~/if~}}
+            {{~/if~}}
+        {{~/scope~}}
+        </div>
+    {{~/inline~}}
+
+    {{~#*inline "main-def"~}}
+        {{~#set "selected"}}{{~> selection-text-modified}}{{/set~}}
+        {{~#set "pattern"~}}[{{~> cloze-body}}]{{~/set~}}
+        {{~#set "diff"}}{{~#regexReplace (get "pattern") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
+    
+        {{~#if (op ">" (property (get "diff") "length") (op "-" (property (get "selected") "length") (property (get "diff") "length")))}}
+            {{~> selection-text-modified}}
+        {{~else~}}
+            {{~> jmdict-def noDictionaryTag=true brief=true ~}}
+        {{/if~}}
+    {{~/inline~}}
+    ```
+
 - `{grammar-pt}` - fills out a field when a grammar dictionary has an entry.
 
     ```handlebars
