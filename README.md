@@ -47,7 +47,7 @@ How the mining template's fields can be filled from Yomichan.
 Notes:
 
 - When the **\*IsSentenceCard** field is filled with any character, card is turned into a sentence card. When empty, it is turned into a vocab card.
-- The **MainDefinition** field is for the displayed definition on the card. When empty it defaults to a definition from the **FullDefinition** field. The preferred dictionaries for the default definition can be specified in the [back template](https://github.com/rudnam/JP-study/blob/cb24755e9b35425a9cbff4f7eb2b5428342cd352/2_Back_Template.html#L397-L407).
+- The **MainDefinition** field is for the displayed definition on the card. When empty, the template displays a definition from the **FullDefinition** field. The preferred dictionaries for the default definition can be specified in the [back template](https://github.com/rudnam/JP-study/blob/cb24755e9b35425a9cbff4f7eb2b5428342cd352/2_Back_Template.html#L397-L407).
 - The **PitchPosition** field takes in `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` will **not** work.
 - The **FreqSort** field is for frequency sorting. (See [freq](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency))
 - The **Hint** field is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
@@ -76,6 +76,7 @@ More info can be added using other applications and add-ons.
   | Field | Value |
   |------------|-------------|
   | ExtraField | `{context}` |
+
   `{context}` is a [custom template/handlebars](#yomichan-handlebars-templates).
 
 ### Sentence mining example
