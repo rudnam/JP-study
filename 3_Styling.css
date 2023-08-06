@@ -153,6 +153,14 @@ header {
   margin: 15px 0px;
   width: calc(100% - 20px);
   cursor: pointer;
+  position: relative;
+}
+#def-index {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  font-size: 0.75em;
+  color: var(--sub-color);
 }
 .mono-def {
   text-align: left;

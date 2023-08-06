@@ -521,6 +521,9 @@
     const mainDefContainer = document.getElementById("main-def");
 
     currentIndex = index % validDefs.length;
+    const indexDisplay = document.createElement("div");
+    indexDisplay.id = "def-index"
+    indexDisplay.innerText = `${currentIndex + 1}/${validDefs.length}`
 
     mainDefContainer.innerHTML = "";
     if (validDefs[currentIndex] === "MainDefField") {
@@ -528,6 +531,7 @@
     } else {
       mainDefContainer.appendChild(createDefinition(validDefs[currentIndex]));
     }
+    mainDefContainer.appendChild(indexDisplay)
   }
 
   function initialize() {
