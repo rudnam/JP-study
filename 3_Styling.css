@@ -157,7 +157,7 @@ header {
 }
 #def-index {
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 10px;
   font-size: 0.75em;
   color: var(--sub-color);
