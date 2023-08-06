@@ -152,6 +152,7 @@ header {
   line-height: 1.75em;
   margin: 15px 0px;
   width: calc(100% - 20px);
+  cursor: pointer;
 }
 .mono-def {
   text-align: left;

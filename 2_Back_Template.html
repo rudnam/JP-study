@@ -110,8 +110,7 @@
   function isOdaka(pitchNumber) {
     const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
     return (
-      kana !== null &&
-      kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber
+      kana !== null && kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber
     );
   }
 
@@ -217,8 +216,8 @@
 
   function getPitchPattern(pitchPosition) {
     /*	0 = low
-  	 	1 = high
-  		2 = high to low */
+      1 = high
+      2 = high to low */
 
     const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
     const moras = groupMoras(kana);
@@ -249,9 +248,7 @@
             pattern = [...pattern, ...Array(moras[0].length).fill("0")];
           } else if (i + 1 === pitchPosition) {
             pattern =
-              moras[i].length === 2
-                ? [...pattern, "1", "2"]
-                : [...pattern, "2"];
+              moras[i].length === 2 ? [...pattern, "1", "2"] : [...pattern, "2"];
             afterDrop = true;
           } else if (afterDrop) {
             pattern = [...pattern, ...Array(moras[i].length).fill("0")];
@@ -304,10 +301,7 @@
           hold += `<span class="pitch-line"></span>`;
           hold += `</span>`;
         } else {
-          console.error(
-            "pattern[i] found undefined value. pattern is",
-            pattern
-          );
+          console.error("pattern[i] found undefined value. pattern is", pattern);
         }
       }
       hold += `</span>`;
@@ -317,111 +311,31 @@
     pitchTags.innerHTML = holdTags;
   }
 
-  function createDefinition(dictNames) {
-    const mainDefContainer = document.querySelector("#main-def");
-    const fullDefContainer = document.querySelector("#full-def");
-    const liEntries = fullDefContainer.querySelectorAll("ol > li");
-    const divEntry = fullDefContainer.querySelectorAll("div");
-    const ignoredDictNames = ["Nico/Pixiv"];
-    const allEntries = liEntries.length > 0 ? liEntries : divEntry;
+  function createJmdictDef(dictEntries) {
+    const jmdictDefContainer = document.createElement("div");
+    jmdictDefContainer.classList.add("jmdict-def");
 
-    const filteredEntries = Array.from(allEntries).filter((dictEntry) => {
-      return !ignoredDictNames.some((ignoredDictName) =>
-        dictEntry.textContent
-          .toLowerCase()
-          .includes(ignoredDictName.toLowerCase())
-      );
-    });
-
-    let dictEntries = [];
-
-    for (const dictName of dictNames) {
-      dictEntries = Array.from(filteredEntries).filter((dictEntry) =>
-        dictEntry.textContent.toLowerCase().includes(dictName)
-      );
-      if (dictEntries.length > 0) {
-        break;
-      }
+    let newHtml = dictEntries
+      .map((dictEntry) => {
+        const ul = dictEntry.querySelector("ul");
+        if (ul !== null) {
+          return dictEntries.length > 1
+            ? `<li>${ul.outerHTML}</li>`
+            : ul.outerHTML;
+        } else {
+          const innerText = Array.from(dictEntry.childNodes)
+            .filter((node) => node.nodeType === Node.TEXT_NODE)
+            .map((node) => node.textContent.trim())
+            .join(" ");
+          return dictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
+        }
+      })
+      .join("");
+    if (dictEntries.length > 1) {
+      newHtml = `<ol>${newHtml}</ol>`;
     }
-
-    if (dictEntries.length === 0) {
-      const span = document.createElement("span");
-      span.innerText = "No definition found";
-      return span;
-    }
-
-    if (!dictEntries[0].innerText.toLowerCase().includes("jmdict")) {
-      // For non-JMdict dicts
-      const selectedEntry = dictEntries[0];
-      const monoDefContainer = document.createElement("div");
-      monoDefContainer.classList.add("mono-def");
-
-      const textContainer = document.createElement("div");
-      textContainer.classList.add("text-container");
-      const imagesContainer = document.createElement("div");
-      imagesContainer.classList.add("images-container");
-
-      const ul = selectedEntry.querySelector(":scope > ul");
-      const minImageWidthEm = 131;
-      if (ul !== null) {
-        const [definitionItem, ...otherItems] = ul.querySelectorAll("li");
-        const cleanedElement = cleanMonoDef(definitionItem);
-        textContainer.innerHTML = cleanedElement.innerHTML;
-        otherItems.forEach((item) => {
-          item.querySelectorAll("a > span > img").forEach((img) => {
-            let width = parseFloat(
-              img.parentNode.style.width.replace("em", "")
-            );
-            if (width > minImageWidthEm) {
-              const image = document.createElement("img");
-              image.src = img.src;
-              imagesContainer.appendChild(image);
-            }
-          });
-        });
-      } else {
-        const cleanedElement = cleanMonoDef(selectedEntry);
-        textContainer.innerHTML = cleanedElement.innerHTML;
-        textContainer.querySelectorAll("a > span > img").forEach((img) => {
-          let width = parseFloat(img.parentNode.style.width.replace("em", ""));
-          if (width > minImageWidthEm) {
-            const image = document.createElement("img");
-            const anchor = img.closest("a");
-            image.src = img.src;
-            imagesContainer.appendChild(image);
-            anchor.parentNode.removeChild(anchor);
-          }
-        });
-      }
-      monoDefContainer.appendChild(textContainer);
-      monoDefContainer.appendChild(imagesContainer);
-      return monoDefContainer;
-    } else {
-      // For JMdict
-      const jmdictDefContainer = document.createElement("div");
-      jmdictDefContainer.classList.add("jmdict-def");
-      let newHtml = dictEntries
-        .map((dictEntry) => {
-          const ul = dictEntry.querySelector("ul");
-          if (ul !== null) {
-            return dictEntries.length > 1
-              ? `<li>${ul.outerHTML}</li>`
-              : ul.outerHTML;
-          } else {
-            const innerText = Array.from(dictEntry.childNodes)
-              .filter((node) => node.nodeType === Node.TEXT_NODE)
-              .map((node) => node.textContent.trim())
-              .join(" ");
-            return dictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
-          }
-        })
-        .join("");
-      if (dictEntries.length > 1) {
-        newHtml = `<ol>${newHtml}</ol>`;
-      }
-      jmdictDefContainer.innerHTML = newHtml;
-      return jmdictDefContainer;
-    }
+    jmdictDefContainer.innerHTML = newHtml;
+    return jmdictDefContainer;
   }
 
   function cleanMonoDef(element, options = {}) {
@@ -486,10 +400,7 @@
 
     const regex = /(<br>筆順：<br>)(<a[^>]*>.*<\/a>)<br>/g;
     cleanedElement.innerHTML = cleanedElement.innerHTML.replace(regex, "");
-    if (
-      cleanedElement.firstChild &&
-      cleanedElement.firstChild.tagName === "BR"
-    ) {
+    if (cleanedElement.firstChild && cleanedElement.firstChild.tagName === "BR") {
       cleanedElement.removeChild(cleanedElement.firstChild);
     }
     if (
@@ -497,34 +408,144 @@
       cleanedElement.firstChild.firstChild &&
       cleanedElement.firstChild.firstChild.tagName === "BR"
     ) {
-      cleanedElement.firstChild.removeChild(
-        cleanedElement.firstChild.firstChild
-      );
+      cleanedElement.firstChild.removeChild(cleanedElement.firstChild.firstChild);
     }
 
     return cleanedElement;
+  }
+
+  function createMonoDef(dictEntries) {
+    const selectedEntry = dictEntries[0];
+    const monoDefContainer = document.createElement("div");
+    monoDefContainer.classList.add("mono-def");
+
+    const textContainer = document.createElement("div");
+    textContainer.classList.add("text-container");
+    const imagesContainer = document.createElement("div");
+    imagesContainer.classList.add("images-container");
+
+    const ul = selectedEntry.querySelector(":scope > ul");
+    const minImageWidthEm = 131;
+    if (ul !== null) {
+      const [definitionItem, ...otherItems] = ul.querySelectorAll("li");
+      const cleanedElement = cleanMonoDef(definitionItem);
+      textContainer.innerHTML = cleanedElement.innerHTML;
+      otherItems.forEach((item) => {
+        item.querySelectorAll("a > span > img").forEach((img) => {
+          let width = parseFloat(img.parentNode.style.width.replace("em", ""));
+          if (width > minImageWidthEm) {
+            const image = document.createElement("img");
+            image.src = img.src;
+            imagesContainer.appendChild(image);
+          }
+        });
+      });
+    } else {
+      const cleanedElement = cleanMonoDef(selectedEntry);
+      textContainer.innerHTML = cleanedElement.innerHTML;
+      textContainer.querySelectorAll("a > span > img").forEach((img) => {
+        let width = parseFloat(img.parentNode.style.width.replace("em", ""));
+        if (width > minImageWidthEm) {
+          const image = document.createElement("img");
+          const anchor = img.closest("a");
+          image.src = img.src;
+          imagesContainer.appendChild(image);
+          anchor.parentNode.removeChild(anchor);
+        }
+      });
+    }
+    monoDefContainer.appendChild(textContainer);
+    monoDefContainer.appendChild(imagesContainer);
+    return monoDefContainer;
+  }
+
+  function createDefinition(dictName) {
+    const fullDefContainer = document.querySelector("#full-def");
+    const liEntries = fullDefContainer.querySelectorAll("ol > li");
+    const divEntry = fullDefContainer.querySelectorAll("div");
+    const allEntries = liEntries.length > 0 ? liEntries : divEntry;
+
+    const dictEntries = Array.from(allEntries).filter((dictEntry) =>
+      dictEntry.textContent.toLowerCase().includes(dictName)
+    );
+
+    if (dictEntries.length === 0) {
+      const span = document.createElement("span");
+      span.innerText = "No definition found";
+      return span;
+    }
+
+    if (!dictName.toLowerCase().includes("jmdict")) {
+      return createMonoDef(dictEntries);
+    } else {
+      return createJmdictDef(dictEntries);
+    }
+  }
+
+  function initializeDef(dictNames) {
+    const fullDefContainer = document.getElementById("full-def");
+    const mainDefContainer = document.getElementById("main-def");
+    dictNames =
+      dictNames ||
+      Array.from(
+        fullDefContainer.querySelectorAll("ol > li > i:first-child")
+      ).map((i) => i.textContent);
+
+    const ignoredDictNames = ["Nico/Pixiv"];
+    let validNames = dictNames
+      .filter((name) => !ignoredDictNames.includes(name))
+      .filter((name) =>
+        fullDefContainer.innerHTML.toLowerCase().includes(name.toLowerCase())
+      );
+
+    let validDefs;
+    if (
+      mainDefContainer.innerText === "" &&
+      !mainDefContainer.innerHTML.includes("img")
+    ) {
+      validDefs = validNames;
+      mainDefContainer.appendChild(createDefinition(validDefs[0]));
+    } else {
+      validDefs = ["MainDefField", ...validNames];
+    }
+
+    let index = 0;
+
+    mainDefContainer.addEventListener("click", (e) => {
+      index += 1;
+      toggleDef(validDefs, index);
+    });
+  }
+
+  function toggleDef(validDefs, index) {
+    const mainDefContainer = document.getElementById("main-def");
+
+    currentIndex = index % validDefs.length;
+
+    mainDefContainer.innerHTML = "";
+    if (validDefs[currentIndex] === "MainDefField") {
+      mainDefContainer.innerHTML = `{{MainDefinition}}`;
+    } else {
+      mainDefContainer.appendChild(createDefinition(validDefs[currentIndex]));
+    }
   }
 
   function initialize() {
     paintTargetWord();
     constructPitch();
     tweakHTML();
-    const mainDefContainer = document.getElementById("main-def");
-    if (mainDefContainer.innerHTML === "") {
-      let dictNames = [
-        "jmdict",
-        "pixiv",
-        "実用日本語表現辞典",
-        "三省堂国語辞典",
-        "旺文社国語辞典",
-        "明鏡国語辞典",
-        "大辞林",
-        "新明解国語辞典",
-        "デジタル大辞泉",
-        "広辞苑",
-      ];
-      mainDefContainer.appendChild(createDefinition(dictNames));
-    }
+    let dictNames = [
+      "jmdict",
+      "実用日本語表現辞典",
+      "三省堂国語辞典",
+      "旺文社国語辞典",
+      "明鏡国語辞典",
+      "大辞林",
+      "新明解国語辞典",
+      "デジタル大辞泉",
+      "広辞苑",
+    ];
+    initializeDef(dictNames);
   }
 
   window.onload = initialize();
