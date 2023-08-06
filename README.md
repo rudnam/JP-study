@@ -3,7 +3,6 @@
 - [Anki Mining Template](#anki-mining-template)
   - [Yomichan fields](#yomichan-fields)
   - [Other applications/add-ons](#other-applicationsadd-ons)
-  - [Sentence mining example](#sentence-mining-example)
 - [Yomichan Handlebars templates](#yomichan-handlebars-templates)
 - [Yomichan popup custom CSS](#yomichan-popup-custom-css)
 - [Kanken Deck Template](#kanken-deck-template)
@@ -78,10 +77,6 @@ More info can be added using other applications and add-ons.
   | ExtraField | `{context}` |
 
   `{context}` is a [custom template/handlebars](#yomichan-handlebars-templates).
-
-### Sentence mining example
-
-https://github.com/rudnam/JP-study/assets/70255485/2e0da75d-c2f9-46a8-86cd-bd9f5eba7d75
 
 ## Yomichan Handlebars templates
 
