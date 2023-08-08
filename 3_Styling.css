@@ -109,24 +109,26 @@ header {
 }
 
 /* AnkiDroid replay button */
-.nightMode .replaybutton span svg {
-  fill: var(--main-bg);
-  background: var(--main-color);
-}
-.replaybutton {
-  margin: 0;
-  margin-right: 3px;
-  text-decoration: none;
-}
-.replaybutton span {
-  padding: 0;
-  font-size: 16px;
-}
-.replaybutton span svg {
-  border-radius: 8px;
-  vertical-align: top;
-  min-width: 16px;
-  min-height: 16px;
+@media (max-width: 512px) {
+  .replay-button {
+    margin: 0;
+    margin-right: 3px;
+    text-decoration: none;
+  }
+  .replay-button span {
+    padding: 0;
+    font-size: 16px;
+  }
+  .replay-button span svg {
+    border-radius: 8px;
+    vertical-align: top;
+    min-width: 16px;
+    min-height: 16px;
+    background: var(--main-color);
+  }
+  .replay-button span path {
+    fill: var(--main-bg);
+  }
 }
 
 /* Info */
@@ -363,8 +365,8 @@ footer {
 }
 
 /* Images */
-#template > img {
-  height: 200px;
+#image > img {
+  max-height: 200px;
   width: auto;
   border-radius: 8px;
 }

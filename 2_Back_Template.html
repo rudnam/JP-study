@@ -28,8 +28,7 @@
     </div>
     <div lang="ja" id="main-def" class="popup">{{MainDefinition}}</div>
     <br />
-    {{Image}}
-    <br />
+    <div id="image">{{Image}}</div>
     <div lang="ja" class="sentence">
       {{#Sentence (furigana)}} {{furigana:Sentence (furigana)}} {{/Sentence (furigana)}}
       {{^Sentence (furigana)}} {{furigana:Sentence}} {{/Sentence (furigana)}}
@@ -59,8 +58,7 @@
     </div>
     <div lang="ja" id="main-def" class="popup">{{MainDefinition}}</div>
     <br />
-    {{Image}}
-    <br />
+    <div id="image">{{Image}}</div>
     {{/*IsSentenceCard}}
   </div>
 
@@ -216,8 +214,8 @@
 
   function getPitchPattern(pitchPosition) {
     /*	0 = low
-      1 = high
-      2 = high to low */
+          1 = high
+          2 = high to low */
 
     const kana = `{{kana:Expression (furigana)}}` || `{{Expression (reading)}}`;
     const moras = groupMoras(kana);
@@ -515,6 +513,15 @@
       index += 1;
       toggleDef(validDefs, index);
     });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        index = index > 0 ? index - 1 : index + validDefs.length - 1;
+      } else if (e.key === "ArrowRight") {
+        index += 1;
+      }
+      toggleDef(validDefs, index);
+    });
   }
 
   function toggleDef(validDefs, index) {
@@ -522,8 +529,8 @@
 
     currentIndex = index % validDefs.length;
     const indexDisplay = document.createElement("div");
-    indexDisplay.id = "def-index"
-    indexDisplay.innerText = `${currentIndex + 1}/${validDefs.length}`
+    indexDisplay.id = "def-index";
+    indexDisplay.innerText = `${currentIndex + 1}/${validDefs.length}`;
 
     mainDefContainer.innerHTML = "";
     if (validDefs[currentIndex] === "MainDefField") {
@@ -531,15 +538,30 @@
     } else {
       mainDefContainer.appendChild(createDefinition(validDefs[currentIndex]));
     }
-    mainDefContainer.appendChild(indexDisplay)
+    mainDefContainer.appendChild(indexDisplay);
+  }
+
+  function addBookCover(bookCovers) {
+    const tags = `{{Tags}}`;
+    const imageDiv = document.getElementById("image");
+    const bookCoverImg = document.createElement("img");
+
+    for (let key in bookCovers) {
+      if (tags.includes(key)) {
+        bookCoverImg.src = bookCovers[key];
+      }
+    }
+    imageDiv.appendChild(bookCoverImg);
   }
 
   function initialize() {
     paintTargetWord();
     constructPitch();
     tweakHTML();
+
     let dictNames = [
       "jmdict",
+      "デジタル大辞泉",
       "実用日本語表現辞典",
       "pixiv",
       "三省堂国語辞典",
@@ -547,10 +569,22 @@
       "明鏡国語辞典",
       "大辞林",
       "新明解国語辞典",
-      "デジタル大辞泉",
       "広辞苑",
+      "新選国語辞典",
     ];
     initializeDef(dictNames);
+
+    const tags = `{{Tags}}`;
+    if (!navigator.userAgentData.mobile && tags.includes("本")) {
+      let bookCovers = {
+        "また、同じ夢を見ていた":
+          "https://m.media-amazon.com/images/I/5168HOJnx7L._SL500_.jpg",
+        化物語_上: "https://m.media-amazon.com/images/I/51lbTD0MTiL._SL500_.jpg",
+        "この素晴らしい世界に祝福を！_あぁ、駄女神さま":
+          "https://m.media-amazon.com/images/I/61nqVIzvvKL._SL500_.jpg",
+      };
+      addBookCover(bookCovers);
+    }
   }
 
   window.onload = initialize();
