@@ -9,7 +9,7 @@
 
 ## Anki Mining Template
 
-Mining card template I use for Anki. I usually use it with [mpvacious](https://github.com/Ajatt-Tools/mpvacious) and [Yomichan](https://chrome.google.com/webstore/detail/yomichan/ogmnaimimemjmbakcfefmnahgdfhfami).
+Anki Mining card template for Japanese.
 
 [Download](https://github.com/rudnam/JP-study/raw/main/Mining_temp.apkg)
 
@@ -21,27 +21,26 @@ Mining card template I use for Anki. I usually use it with [mpvacious](https://g
 
 ### Yomichan fields
 
-How the mining template's fields can be filled from Yomichan.
-| Field | Value |
-| --------------------- | ------------------------------------------------- |
-| Expression | `{expression}` |
-| Expression (furigana) | `{furigana-plain}` |
-| Expression (reading) | `{reading}` |
-| Expression (audio) | `{audio}` |
-| MainDefinition | `{selection-text}` |
-| Sentence | `{cloze-prefix}<b>{cloze-body}</b>{cloze-suffix}` |
-| Sentence (furigana) | |
-| Sentence (audio) | |
-| FullDefinition | `{glossary}` |
-| Image | |
-| Translation | |
-| PitchPosition | `{pitch-accent-positions}` |
-| Hint | |
-| Frequency | `{frequencies}` |
-| FreqSort | |
-| MiscInfo | `{document-title}` |
-| ExtraField | |
-| \*IsSentenceCard | |
+| Field              | Value                                             |
+| ------------------ | ------------------------------------------------- |
+| Expression         | `{expression}`                                    |
+| ExpressionFurigana | `{furigana-plain}`                                |
+| ExpressionReading  | `{reading}`                                       |
+| ExpressionAudio    | `{audio}`                                         |
+| MainDefinition     | `{selection-text}`                                |
+| Sentence           | `{cloze-prefix}<b>{cloze-body}</b>{cloze-suffix}` |
+| SentenceFurigana   |                                                   |
+| SentenceAudio      |                                                   |
+| FullDefinition     | `{glossary}`                                      |
+| Image              |                                                   |
+| Translation        |                                                   |
+| PitchPosition      | `{pitch-accent-positions}`                        |
+| Hint               |                                                   |
+| Frequency          | `{frequencies}`                                   |
+| FreqSort           |                                                   |
+| MiscInfo           | `{document-title}`                                |
+| ExtraField         |                                                   |
+| \*IsSentenceCard   |                                                   |
 
 Notes:
 
@@ -52,18 +51,18 @@ Notes:
 - The **Hint** field is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
 - The furigana fields only take in plain furigana. (e.g. 漢字[かんじ] not <ruby>漢字<rt>かんじ</rt></ruby>).
 
-### Other applications/add-ons
+### Other applications
 
-More info can be added using other applications and add-ons.
+More info can be added using other applications.
 
-- The fields **Sentence**, **Translation**, **Sentence (audio)**, **Image**, and **MiscInfo** can be used for data from [mpvacious](https://github.com/Ajatt-Tools/mpvacious). In `subs2srs.conf`:
+- For [mpvacious](https://github.com/Ajatt-Tools/mpvacious), fields can be filled like the following. In `subs2srs.conf`:
 
   ```
   model_name=Mining-JP
 
   sentence_field=Sentence
   secondary_field=Translation
-  audio_field=Sentence (audio)
+  audio_field=SentenceAudio
   image_field=Image
   miscinfo_field=MiscInfo
 
@@ -71,18 +70,27 @@ More info can be added using other applications and add-ons.
   note_tag=subs2srs アニメ::%n
   ```
 
-- [FieldReporter](https://ankiweb.net/shared/info/569864517) can be used for reordering cards based on the **FreqSort** field. The addon also supports converting a field to a tag. e.g. **ExtraField** as the source field:
-  | Field | Value |
-  |------------|-------------|
-  | ExtraField | `{context}` |
+- For [jidoujisho](https://github.com/lrorpilla/jidoujisho), fields can be filled like the following:
 
-  `{context}` is a [custom template/handlebars](#yomichan-handlebars-templates).
+  | Field              | Value            |
+  | ------------------ | ---------------- |
+  | Expression         | Term             |
+  | ExpressionFurigana | Furigana         |
+  | ExpressionReading  | Reading          |
+  | ExpressionAudio    | Term Audio       |
+  | MainDefinition     | Expanded Meaning |
+  | Sentence           | Sentence         |
+  | SentenceAudio      | Sentence Audio   |
+  | FullDefinition     | Meaning          |
+  | Image              | Image            |
+  | FreqSort           | Frequency        |
+  | MiscInfo           | Context          |
 
 ## Yomichan Handlebars templates
 
 Custom Yomichan Handlebars templates.
 
-- `{selection-text-modified}` - Basically the same as the built-in `{selection-text}` but will ignore selected text if it is the same as the target vocab (useful for Yomichan search page).
+- `{selection-text-modified}` - Basically the same as the built-in `{selection-text}` but will ignore selected text if it is the same as the target vocab (for Yomichan search page).
 
   ```handlebars
   {{~#*inline "selection-text-modified"~}}
@@ -113,47 +121,6 @@ Custom Yomichan Handlebars templates.
   {{~/inline~}}
   ```
 
-- `{main-def}` - gets either the currently selected text or defaults to the jmdict definition when empty. Requires `{selection-text-modified}`
-
-  ```handlebars
-  {{~#*inline "jmdict-def"~}}
-      <div style="text-align: left;">
-      {{~#scope~}}
-          {{~#if (op "===" definition.type "term")~}}
-              {{~#if (op "===" this.dictionary "JMdict (English)")~}}
-                  {{~> glossary-single definition brief=brief noDictionaryTag=noDictionaryTag ~}}
-              {{/if}}
-          {{~else if (op "||" (op "===" definition.type "termGrouped") (op "===" definition.type "termMerged"))~}}
-              {{~#set "jmdict-length" 0}}{{/set~}}
-              {{~#each definition.definitions~}}
-                  {{~#if (op "===" this.dictionary "JMdict (English)")~}}
-                      {{~#set "jmdict-length" (op "+" (get "jmdict-length") 1) ~}}{{~/set~}}
-                  {{~/if~}}
-              {{~/each~}}
-
-              {{~#if (op ">" (get "jmdict-length") 1)~}}
-                  <ol>{{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}<li>{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}</li>{{/if}}{{~/each~}}</ol>
-              {{~else~}}
-                  {{~#each definition.definitions~}}{{~#if (op "===" this.dictionary "JMdict (English)")~}}{{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}{{/if}}{{~/each~}}
-              {{~/if~}}
-          {{~/if~}}
-      {{~/scope~}}
-      </div>
-  {{~/inline~}}
-
-  {{~#*inline "main-def"~}}
-      {{~#set "selected"}}{{~> selection-text-modified}}{{/set~}}
-      {{~#set "pattern"~}}[{{~> cloze-body}}]{{~/set~}}
-      {{~#set "diff"}}{{~#regexReplace (get "pattern") ""~}}{{~#get "selected"}}{{/get~}}{{~/regexReplace~}}{{/set~}}
-
-      {{~#if (op ">" (property (get "diff") "length") (op "-" (property (get "selected") "length") (property (get "diff") "length")))}}
-          {{~> selection-text-modified}}
-      {{~else~}}
-          {{~> jmdict-def noDictionaryTag=true brief=true ~}}
-      {{/if~}}
-  {{~/inline~}}
-  ```
-
 - `{grammar-pt}` - fills out a field when a grammar dictionary has an entry.
 
   ```handlebars
@@ -167,21 +134,21 @@ Custom Yomichan Handlebars templates.
   {{/inline}}
   ```
 
-- `{jlpt}` - JLPT tags (separated by `$`)
+- `{jlpt}` - JLPT tags (separated by spaces). Needs the **JLPT_Level** dictionary.
 
   ```handlebars
   {{~#*inline "jlpt"~}}
       {{~#if (op ">" definition.frequencies.length 0)~}}
           {{~#each definition.frequencies~}}
               {{~#if (op "===" this.dictionary "JLPT_Level")~}}
-                  JLPT_{{frequency~}}{{#unless @last}}${{/unless}}
+                  JLPT_{{frequency~}}{{#unless @last}} {{/unless}}
               {{~/if~}}
           {{~/each~}}
       {{~/if~}}
   {{/inline}}
   ```
 
-- `{context}` - Context tag. e.g. `ラノベ::また、同じ夢を見ていた` if in ttsu, etc.
+- `{context}` - Context tag. e.g. `ラノベ::また、同じ夢を見ていた` if in ttsu, etc. Used with [Field To Tag](https://ankiweb.net/shared/info/1600845494) or [FieldReporter](https://ankiweb.net/shared/info/569864517)
 
   ```handlebars
   {{#*inline "context"}}
@@ -196,10 +163,11 @@ Custom Yomichan Handlebars templates.
           {{~/regexReplace~}}{{/set~}}
           漫画::{{~get "manga-title"~}}
       {{~else if (regexMatch "nhk.or.jp" "" definition.url)~}}
-          {{~#set "news-category" ~}}{{~#regexReplace " |　" "_"~}}
-              {{~#regexMatch "[^(| |｜ )]+$"~}}{{~context.document.title~}}{{~/regexMatch~}}
-          {{~/regexReplace~}}{{/set~}}
-          NHK::{{~get "news-category"~}}
+          ニュース::NHKニュース
+      {{~else if (regexMatch "news.yahoo.co.jp" "" definition.url)~}}
+          ニュース::Yahooニュース
+      {{~else if (regexMatch "twitter.com" "" definition.url)~}}
+          ツイッター
       {{~else if (regexMatch "youtube.com" "" definition.url)~}}
           {{~#set "youtube-title" ~}}{{~#regexReplace " |　" "_"~}}
               {{~#regexMatch ".+?(?= - YouTube)"~}}{{~context.document.title~}}{{~/regexMatch~}}
@@ -231,31 +199,27 @@ body {
   font-family: "Source Sans 3", "Source Han Sans VF", sans-serif;
 }
 
-.source-text {
+.headword {
   font-family: "UD Digi Kyokasho N-R";
 }
 
 :root[data-theme="dark"] {
   --text-color: #ffffff;
   --background-color: #0d1117;
-  --accent-color: #2d4446;
-  --accent-color-lighter: #416265;
-  --tag-pronunciation-dictionary-background-color: #2d3746;
-  --tag-dictionary-background-color: #2f2d46;
-  --tag-frequency-background-color: #2d4446;
+  --accent-color: #ffb454;
+  --accent-color-lighter: #ffca85;
+  --tag-pronunciation-dictionary-background-color: #252d41;
+  --tag-dictionary-background-color: #252d41;
+  --tag-frequency-background-color: #252d41;
   --tag-default-background-color: #51647e;
   --tag-name-background-color: #3d4993;
   --tag-expression-background-color: #4857ae;
   --tag-popular-background-color: #232d5a;
   --tag-frequent-background-color: #303e7c;
   --tag-archaism-background-color: #533642;
-  --tag-part-of-speech-background-color: #303e7c;
+  --tag-part-of-speech-background-color: #636a72;
   --input-background-color: #24292f;
   --link-color: #3d4993;
-}
-
-.tag-label {
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 /* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
@@ -271,21 +235,6 @@ body {
 ol.pronunciation-group-list[data-count="2"] {
   list-style: none;
   padding: 0;
-}
-
-/* Only show JMDict on hover */
-li.definition-item[data-dictionary="JMdict (English)"] .gloss-list {
-  opacity: 0;
-}
-.definition-list:hover
-  li.definition-item[data-dictionary="JMdict (English)"]
-  .gloss-list {
-  opacity: 1;
-}
-*:not([data-dictionary="JMdict (English)"]):hover
-  ~ li.definition-item[data-dictionary="JMdict (English)"]
-  .gloss-list {
-  opacity: 0;
 }
 
 /* Disable furigana on search page */
@@ -323,6 +272,23 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
   .gloss-list
   > .gloss-item:not(:last-child)::after {
   content: " | ";
+}
+
+/* Only show summary for Pixiv */
+[data-sc-pixiv="children"],
+[data-sc-pixiv="related-tags"],
+[data-sc-pixiv="continue-reading"],
+[data-sc-pixiv="nav-header"] {
+  display: none;
+}
+
+/* Only shows the first 2 frequency lists */
+span.frequency-group-item:nth-child(n + 3) {
+  display: none;
+}
+/* Show on hover */
+span.frequency-group-item:first-child:hover ~ * {
+  display: inline-block;
 }
 ```
 
