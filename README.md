@@ -297,12 +297,12 @@ span.frequency-group-item:first-child:hover ~ * {
 Anki card template for the [Kanken Deck](https://ankiweb.net/shared/info/759825185).
 
 <p align="center">
-    <kbd><img src="./images/kanken_back.png" width="70%" /></kbd>
+    <kbd><img src="./images/kanken.png" width="70%" /></kbd>
 </p>
 
-Just copy and paste the following templates into Anki.
-
 Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release/Variable/TTF/SourceHanSerif-VF.ttf](https://github.com/adobe-fonts/source-han-serif/raw/release/Variable/TTF/SourceHanSerif-VF.ttf)
+
+Just copy and paste the following templates into Anki.
 
 - Front Template
 
@@ -310,13 +310,13 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
   <div id="deck" deck_name="{{Deck}}"></div>
   <div id="content">
     Kanken Level: ?
-    <div lang="ja" class="sentence_front">{{SentenceFront}}</div>
+    <div lang="ja" class="sentence">{{SentenceFront}}</div>
     {{#Picture}} {{Picture}}
     <br />
     {{/Picture}} {{KankenAudio}}
     <hr />
     <div id="container">
-      <div id="diagram" style="opacity: 0;">{{Diagram}}</div>
+      <div id="diagram" style="opacity: 0">{{Diagram}}</div>
     </div>
   </div>
 
@@ -404,8 +404,8 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
   ```html
   <div id="deck" deck_name="{{Deck}}"></div>
   <div id="content">
-    Kanken Level: ?
-    <div lang="ja" class="sentence_front">{{SentenceFront}}</div>
+    Kanken Level: {{KankenLevel}}
+    <div lang="ja" class="sentence">{{SentenceBack}}</div>
     {{#Picture}} {{Picture}}
     <br />
     {{/Picture}} {{KankenAudio}}
@@ -498,11 +498,12 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
   }
 
   .card.nightMode {
-    --main-bg: #0d1117;
-    --sub-bg: #161b22;
+    --main-bg: #0b0e14;
+    --sub-bg: #11151c;
     --main-color: #ffffff;
-    --sub-color: #8b949e;
+    --sub-color: #7d8590;
     --grey: rgba(128, 128, 128, 0.1);
+    --accent: #ffb454;
     font-family: var(--main-font);
     background-color: var(--main-bg);
     color: var(--main-color);
@@ -523,8 +524,11 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
   }
 
   /* ----- Front elements ----- */
+  #content {
+    margin-top: 24px;
+  }
 
-  .sentence_front {
+  .sentence {
     font-size: 28px;
   }
 
@@ -608,7 +612,7 @@ Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release
   /* Underline CSS */
   u {
     text-decoration: none;
-    color: #c19fff;
+    color: var(--accent);
     font-weight: 400;
   }
 
