@@ -20,15 +20,18 @@
     <hr id="divider" />
     <div lang="ja" class="info">
       {{ExpressionAudio}} {{SentenceAudio}}
-      <div id="pitch"></div>
+      <div id="pitch">
+        <div style="margin-right: -15px; display: inline">
+          {{#ExpressionFurigana}}{{kana:ExpressionFurigana}}{{/ExpressionFurigana}}
+          {{^ExpressionFurigana}}{{ExpressionReading}}{{/ExpressionFurigana}}
+        </div>
+      </div>
       {{#PitchPosition}}
       <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
       {{/PitchPosition}} 【{{Expression}}】
     </div>
     <div lang="ja" id="main-def" class="popup">
       <div class="definition">{{MainDefinition}}</div>
-      <div class="left-edge"></div>
-      <div class="right-edge"></div>
       <div class="def-info"></div>
     </div>
     <br />
@@ -55,15 +58,18 @@
     <hr id="divider" />
     <div lang="ja" class="info">
       {{ExpressionAudio}} {{SentenceAudio}}
-      <div id="pitch"></div>
+      <div id="pitch">
+        <div style="margin-right: -15px; display: inline">
+          {{#ExpressionFurigana}}{{kana:ExpressionFurigana}}{{/ExpressionFurigana}}
+          {{^ExpressionFurigana}}{{ExpressionReading}}{{/ExpressionFurigana}}
+        </div>
+      </div>
       {{#PitchPosition}}
       <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
       {{/PitchPosition}} 【{{Expression}}】
     </div>
     <div lang="ja" id="main-def" class="popup">
       <div class="definition">{{MainDefinition}}</div>
-      <div class="left-edge"></div>
-      <div class="right-edge"></div>
       <div class="def-info"></div>
     </div>
     <br />
@@ -112,7 +118,7 @@
       <div class="tags">{{Tags}}</div>
     </div>
     {{/Tags}}
-    <div id="checkbox"><input type="checkbox" /></div>
+    <input type="checkbox" id="extras-toggle" />
   </div>
 </footer>
 
@@ -166,7 +172,7 @@
     }
 
     // Split tags
-    const tagsContainer = document.querySelector("#tags-container");
+    const tagsContainer = document.getElementById("tags-container");
     const tags = `{{Tags}}`.split(" ");
     if (tagsContainer) {
       tagsContainer.innerHTML = "";
@@ -179,28 +185,19 @@
     }
 
     // Get stars
-    const freq = `{{FreqSort}}`;
+    const freq = Number(`{{FreqSort}}`);
     const stars = document.getElementById("stars");
-    if (freq === "") return;
-    if (freq > 0 && freq < 1500) {
-      stars.innerText = "★★★★★";
-    } else if (freq >= 1500 && freq < 5000) {
-      stars.innerText = "★★★★";
-    } else if (freq >= 5000 && freq < 15000) {
-      stars.innerText = "★★★";
-    } else if (freq >= 15000 && freq < 30000) {
-      stars.innerText = "★★";
-    } else if (freq >= 30000 && freq < 60000) {
-      stars.innerText = "★";
-    } else {
-      stars.innerText = "";
-    }
-    if (Number(freq) === 0) {
-      document.getElementById("top-container").innerHTML = "";
-    }
+    if (freq > 0 && freq < 1500) stars.innerText = "★★★★★";
+    else if (freq >= 1500 && freq < 5000) stars.innerText = "★★★★";
+    else if (freq >= 5000 && freq < 15000) stars.innerText = "★★★";
+    else if (freq >= 15000 && freq < 30000) stars.innerText = "★★";
+    else if (freq >= 30000 && freq < 60000) stars.innerText = "★";
+    else stars.innerText = "";
+
+    if (freq === 0) document.getElementById("top-container").innerHTML = "";
 
     // Toggle extras display
-    const checkBox = document.querySelector("#checkbox > input[type=checkbox]");
+    const checkBox = document.getElementById("extras-toggle");
     const extras = document.getElementById("extras");
     checkBox.addEventListener("change", (e) => {
       extras.style.display = checkBox.checked ? "block" : "none";
@@ -213,6 +210,7 @@
     let nextChar = "";
     const groupedMoras = [];
     const check = ["ャ", "ュ", "ョ", "ゃ", "ゅ", "ょ"];
+
     for (let i = 0; i < kana.length; i++) {
       currentChar = kana[i];
       nextChar = i < kana.length - 1 && kana[i + 1];
@@ -227,9 +225,9 @@
   }
 
   function getPitchPattern(pitchPosition) {
-    /*	0 = low
-              1 = high
-              2 = high to low */
+    // 0 = low
+    // 1 = high
+    // 2 = high to low
 
     const kana = `{{kana:ExpressionFurigana}}` || `{{ExpressionReading}}`;
     const moras = groupMoras(kana);
@@ -237,18 +235,21 @@
 
     if (pitchPosition === 0) {
       // 平板
-      pattern = Array(moras[0].length).fill("0");
-      pattern = [...pattern, ...Array(kana.length - moras[0].length).fill("1")];
+      pattern = [
+        ...Array(moras[0].length).fill("0"),
+        ...Array(kana.length - moras[0].length).fill("1"),
+      ];
     } else if (pitchPosition === 1) {
       // 頭高
-      pattern = moras[0].length === 2 ? ["1", "2"] : ["2"];
-      pattern = [...pattern, ...Array(kana.length - moras[0].length).fill("0")];
+      pattern = [
+        ...(moras[0].length === 2 ? ["1", "2"] : ["2"]),
+        ...Array(kana.length - moras[0].length).fill("0"),
+      ];
     } else if (pitchPosition > 1) {
       if (isOdaka(pitchPosition)) {
         // 尾高
-        pattern = Array(moras[0].length).fill("0");
         pattern = [
-          ...pattern,
+          ...Array(moras[0].length).fill("0"),
           ...Array(kana.length - moras[0].length - 1).fill("1"),
           "2",
         ];
@@ -257,7 +258,7 @@
         let afterDrop = false;
         for (let i = 0; i < moras.length; i++) {
           if (i === 0) {
-            pattern = [...pattern, ...Array(moras[0].length).fill("0")];
+            pattern = Array(moras[0].length).fill("0");
           } else if (i + 1 === pitchPosition) {
             pattern =
               moras[i].length === 2
@@ -275,34 +276,36 @@
     return pattern;
   }
 
-  function createPitchSpan(pitchClass, pitchChar) {
-    const pitchSpan = document.createElement("span");
-    const charSpan = document.createElement("span");
-    const lineSpan = document.createElement("span");
-
-    pitchSpan.classList.add(pitchClass);
-    charSpan.classList.add("pitch-char");
-    charSpan.innerText = pitchChar;
-    lineSpan.classList.add("pitch-line");
-
-    pitchSpan.appendChild(charSpan);
-    pitchSpan.appendChild(lineSpan);
-
-    return pitchSpan;
-  }
-
   function constructPitch() {
     const kana = `{{kana:ExpressionFurigana}}` || `{{ExpressionReading}}`;
     const pitch = document.getElementById("pitch");
     const pitchTags = document.getElementById("pitch-tags");
     const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
+
     if (!pitchPositions) {
       pitch.innerHTML = `<div style="margin-right: -15px; display: inline;">${kana}</div>`;
       return;
-    } else {
-      pitch.innerHTML = "";
-      pitchTags.innerHTML = "";
     }
+
+    const createPitchSpan = (pitchClass, pitchChar) => {
+      const pitchSpan = document.createElement("span");
+      const charSpan = document.createElement("span");
+      const lineSpan = document.createElement("span");
+
+      pitchSpan.classList.add(pitchClass);
+      charSpan.classList.add("pitch-char");
+      charSpan.innerText = pitchChar;
+      lineSpan.classList.add("pitch-line");
+
+      pitchSpan.appendChild(charSpan);
+      pitchSpan.appendChild(lineSpan);
+
+      return pitchSpan;
+    };
+
+    pitch.innerHTML = "";
+    pitchTags.innerHTML = "";
+    pitchTags.style.display = "inline-block";
     let uniquePitchPositions = [...new Set(pitchPositions)];
 
     const pitchList = document.createElement("ul");
@@ -313,25 +316,24 @@
       pitchTag.textContent = pitchPosition;
 
       const pattern = getPitchPattern(Number(pitchPosition));
-      const color = getPitchColor(Number(pitchPosition)) || "inherit";
+      const pitchColor = getPitchColor(Number(pitchPosition)) || "inherit";
 
       const pitchItem = document.createElement("li");
       pitchItem.classList.add("pitch-item");
-      pitchItem.style.color = color;
+      pitchItem.style.color = pitchColor;
 
       for (let i = 0; i < kana.length; i++) {
-        if (pattern[i] === "0") {
+        if (pattern[i] === "0")
           pitchItem.appendChild(createPitchSpan("pitch-low", kana[i]));
-        } else if (pattern[i] === "1") {
+        else if (pattern[i] === "1")
           pitchItem.appendChild(createPitchSpan("pitch-high", kana[i]));
-        } else if (pattern[i] === "2") {
+        else if (pattern[i] === "2")
           pitchItem.appendChild(createPitchSpan("pitch-to-drop", kana[i]));
-        } else {
+        else
           console.error(
             "pattern[i] found undefined value. pattern is",
             pattern
           );
-        }
       }
       pitchTagList.appendChild(pitchTag);
       pitchList.appendChild(pitchItem);
@@ -341,15 +343,15 @@
     pitchTags.appendChild(pitchTagList);
   }
 
-  function createJmdictDef(dictEntries) {
+  function createJmdictDef(jmdictEntries) {
     const jmdictDefContainer = document.createElement("div");
     jmdictDefContainer.classList.add("jmdict-def");
 
-    let newHtml = dictEntries
+    let newHtml = jmdictEntries
       .map((dictEntry) => {
         const ul = dictEntry.querySelector("ul");
         if (ul !== null) {
-          return dictEntries.length > 1
+          return jmdictEntries.length > 1
             ? `<li>${ul.outerHTML}</li>`
             : ul.outerHTML;
         } else {
@@ -357,11 +359,11 @@
             .filter((node) => node.nodeType === Node.TEXT_NODE)
             .map((node) => node.textContent.trim())
             .join(" ");
-          return dictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
+          return jmdictEntries.length > 1 ? `<li>${innerText}</li>` : innerText;
         }
       })
       .join("");
-    if (dictEntries.length > 1) {
+    if (jmdictEntries.length > 1) {
       newHtml = `<ol>${newHtml}</ol>`;
     }
     jmdictDefContainer.innerHTML = newHtml;
@@ -369,11 +371,6 @@
   }
 
   function cleanMonoDef(element, options = {}) {
-    const {
-      removeHeadword = true,
-      removeDictName = true,
-      pixivOnlySummary = true,
-    } = options;
     let cleanedElement = element.cloneNode(true);
 
     const hide = (selector) => {
@@ -381,67 +378,41 @@
       if (target) target.style.display = "none";
     };
 
-    if (removeHeadword) {
-      if (
-        cleanedElement.querySelector("span[data-sc-name='見出部']") ||
-        cleanedElement.querySelector("span[data-sc-name='子見出部']")
-      ) {
-        // Newer dicts
-        hide("span[data-sc-name='見出部']");
-        hide("span[data-sc-name='子見出部']");
-      } else if (
-        cleanedElement.querySelector("span[data-sc-pixiv='nav-header']")
-      ) {
-        // Pixiv
-        hide("span[data-sc-pixiv='nav-header']");
-      } else if (
-        cleanedElement.querySelector(
-          ":scope > span > span+div[data-sc-name='definition']"
-        )
-      ) {
-        // New 実用
-        hide(":scope > span > span");
-      } else if (cleanedElement.querySelector(":scope > span")) {
-        // One main span
-        const regex = /(<span\b[^>]*>)(.*?)(<br>|<div>)/;
-        const matchResult = cleanedElement.innerHTML.match(regex);
-        const headword = removeHeadword ? "" : "$2";
-        const breakTag =
-          removeHeadword &&
-          removeDictName &&
-          matchResult &&
-          matchResult[3] === "<br>"
-            ? ""
-            : "$3";
-        cleanedElement.innerHTML = cleanedElement.innerHTML.replace(
-          regex,
-          `$1${headword}${breakTag}`
-        );
-      } else {
-        // Only uses break tags
-        const regex = /(<i>.*?<\/i>)(.*?)(<br>)/;
-        const dictName = removeDictName ? "" : "$1";
-        const headword = removeHeadword ? "" : "$2";
-        const breakTag = removeHeadword && removeDictName ? "" : "$3";
-        cleanedElement.innerHTML = cleanedElement.innerHTML.replace(
-          regex,
-          `${dictName}${headword}${breakTag}`
-        );
-      }
+    const containsText = (text) => cleanedElement.innerHTML.includes(text);
+
+    // Pixiv
+    hide("span[data-sc-pixiv='nav-header']");
+    hide('*[data-sc-pixiv="related-tags"]');
+    hide('*[data-sc-pixiv="children"]');
+    hide('*[data-sc-pixiv="continue-reading"]');
+
+    // Remove headword
+    hide("span[data-sc-name='見出部']");
+    hide("span[data-sc-name='子見出部']");
+    if (cleanedElement.querySelector("span+div[data-sc-name='definition']")) {
+      hide(":scope > span > span");
+    } else if (containsText("日本語文法辞典(全集)")) {
+      const regex = /\[意味\]<br>(.*?)<br>/;
+      const matchResult = cleanedElement.innerHTML.match(regex);
+      cleanedElement.innerHTML = matchResult[1];
+    } else if (containsText("JLPT文法解説まとめ")) {
+      const regex = /\[意味\]<br>(.*?)<br><br>/;
+      const matchResult = cleanedElement.innerHTML.match(regex);
+      cleanedElement.innerHTML = matchResult[1];
+    } else if (cleanedElement.querySelector(":scope > span")) {
+      const regex = /(<span\b[^>]*>)(.*?)(<br>|<div>)/;
+      cleanedElement.innerHTML = cleanedElement.innerHTML.replace(regex, `$1`);
+    } else {
+      const regex = /(<i>.*?<\/i>)(.*?)(<br>)/;
+      cleanedElement.innerHTML = cleanedElement.innerHTML.replace(regex, "");
     }
 
-    if (removeDictName) {
-      hide(":scope > i:first-child");
-    }
+    // Remove dict name
+    hide(":scope > i:first-child");
 
-    if (pixivOnlySummary) {
-      hide('*[data-sc-pixiv="related-tags"]');
-      hide('*[data-sc-pixiv="children"]');
-      hide('*[data-sc-pixiv="continue-reading"]');
-    }
-
+    // Remove images
+    const minImageWidthEm = 120;
     cleanedElement.querySelectorAll("a > span > img").forEach((img) => {
-      const minImageWidthEm = 130;
       const anchor = img.closest("a");
       const width = parseFloat(img.parentNode.style.width.replace("em", ""));
       if (width > minImageWidthEm) {
@@ -451,6 +422,12 @@
       }
     });
 
+    // Remove table
+    cleanedElement.querySelectorAll("div > table").forEach((table) => {
+      table.closest("div").style.display = "none";
+    });
+
+    // Remove extra newlines, etc.
     cleanedElement.innerHTML = cleanedElement.innerHTML
       .replace("筆順：", "")
       .replace(/(<br>\s*)+/gi, "<br>")
@@ -462,8 +439,7 @@
     return cleanedElement;
   }
 
-  function createMonoDef(dictEntries) {
-    const selectedEntry = dictEntries[0];
+  function createMonoDef(dictEntry) {
     const monoDefContainer = document.createElement("div");
     monoDefContainer.classList.add("mono-def");
 
@@ -472,8 +448,8 @@
     const imagesContainer = document.createElement("div");
     imagesContainer.classList.add("images-container");
 
-    const minImageWidthEm = 130;
-    selectedEntry.querySelectorAll("a > span > img").forEach((img) => {
+    const minImageWidthEm = 120;
+    dictEntry.querySelectorAll("a > span > img").forEach((img) => {
       let width = parseFloat(img.parentNode.style.width.replace("em", ""));
       if (width > minImageWidthEm) {
         const image = document.createElement("img");
@@ -483,15 +459,11 @@
       }
     });
 
-    const ul = selectedEntry.querySelector(":scope > ul");
-    if (ul !== null) {
-      const [definitionItem, ...otherItems] = ul.querySelectorAll("li");
-      const cleanedElement = cleanMonoDef(definitionItem);
-      textContainer.innerHTML = cleanedElement.innerHTML;
-    } else {
-      const cleanedElement = cleanMonoDef(selectedEntry);
-      textContainer.innerHTML = cleanedElement.innerHTML;
-    }
+    const ul = dictEntry.querySelector(":scope > ul");
+    const cleanedElement = cleanMonoDef(
+      ul !== null ? ul.querySelector("li") : dictEntry
+    );
+    textContainer.innerHTML = cleanedElement.innerHTML;
 
     monoDefContainer.appendChild(textContainer);
     monoDefContainer.appendChild(imagesContainer);
@@ -499,99 +471,137 @@
   }
 
   function createDefinition(dictName) {
-    const fullDefContainer = document.querySelector("#full-def");
-    const liEntries = fullDefContainer.querySelectorAll("ol > li");
-    const divEntry = fullDefContainer.querySelectorAll("div");
-    const allEntries = liEntries.length > 0 ? liEntries : divEntry;
-
-    const dictEntries = Array.from(allEntries).filter((dictEntry) =>
-      dictEntry.textContent.toLowerCase().includes(dictName)
-    );
-
-    if (dictEntries.length === 0) {
-      const span = document.createElement("span");
-      span.innerText = "No definition found";
-      return span;
-    }
-
-    if (!dictName.toLowerCase().includes("jmdict")) {
-      return createMonoDef(dictEntries);
+    if (dictName.toLowerCase().includes("jmdict")) {
+      let jmdictEntries = [];
+      Object.entries(dictEntries).forEach(([name, entry]) => {
+        if (name.toLowerCase().includes("jmdict") && !name.includes("forms")) {
+          jmdictEntries.push(entry);
+        }
+      });
+      return createJmdictDef(jmdictEntries);
     } else {
-      return createJmdictDef(dictEntries);
+      return createMonoDef(dictEntries[dictName]);
     }
   }
 
-  function initializeDef(dictNames) {
+  function initializeDef(priorityDicts, ignoredDicts) {
     const fullDefContainer = document.getElementById("full-def");
     const definitionContainer = document.querySelector(
       "#main-def > .definition"
     );
-    dictNames =
-      dictNames ||
-      Array.from(
-        fullDefContainer.querySelectorAll("ol > li > i:first-child")
-      ).map((i) => i.textContent);
+    const liEntries = fullDefContainer.querySelectorAll("ol > li");
+    const allEntries =
+      liEntries.length > 0
+        ? liEntries
+        : fullDefContainer.querySelectorAll("div");
 
-    let validNames = dictNames.filter((name) =>
-      fullDefContainer.innerText.toLowerCase().includes(name.toLowerCase())
-    );
+    dictEntries = Array.from(allEntries).reduce((entries, entry) => {
+      const dictName = entry.querySelector(":scope > i:first-child").innerText;
+      let newName = dictName;
+      let ctr = 2;
 
-    let validDefs;
-    if (
-      definitionContainer.innerText === "" &&
-      !definitionContainer.innerHTML.includes("img")
-    ) {
-      validDefs = validNames;
-      definitionContainer.appendChild(createDefinition(validDefs[0]));
-    } else {
-      validDefs = ["Field", ...validNames];
+      if (ignoredDicts.includes(newName.replace(/[()]/g, ""))) {
+        // skip
+      } else {
+        while (Object.keys(entries).includes(newName)) {
+          newName = `#${ctr} ${dictName}`;
+          ctr += 1;
+        }
+        entries[newName] = entry;
+      }
+
+      return entries;
+    }, {});
+
+    dictNames = Object.keys(dictEntries);
+    if (dictNames.toString().toLowerCase().includes("jmdict")) {
+      dictNames = dictNames.filter(
+        (name) => !name.toLowerCase().includes("jmdict")
+      );
+      dictNames.unshift("(JMdict)");
     }
 
-    let index = 0;
+    if (priorityDicts) {
+      dictNames = dictNames.sort((a, b) => {
+        const indexA = priorityDicts.findIndex((item) =>
+          a.toLowerCase().includes(item.toLowerCase())
+        );
+        const indexB = priorityDicts.findIndex((item) =>
+          b.toLowerCase().includes(item.toLowerCase())
+        );
 
-    const leftEdge = document.querySelector(".left-edge");
-    const rightEdge = document.querySelector(".right-edge");
+        if (indexA === -1 && indexB === -1) return 0;
+        else if (indexA === -1) return 1;
+        else if (indexB === -1) return -1;
 
-    leftEdge.addEventListener("click", function () {
-      index = index > 0 ? index - 1 : index + validDefs.length - 1;
-      toggleDef(validDefs, index);
-    });
+        return indexA - indexB;
+      });
+    }
 
-    rightEdge.addEventListener("click", function () {
-      index += 1;
-      toggleDef(validDefs, index);
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") {
-        index = index > 0 ? index - 1 : index + validDefs.length - 1;
-      } else if (e.key === "ArrowRight") {
-        index += 1;
-      }
-      toggleDef(validDefs, index);
-    });
+    if (
+      !`{{MainDefinition}}` &&
+      !definitionContainer.innerHTML.includes("img")
+    ) {
+      definitionContainer.appendChild(createDefinition(dictNames[0]));
+    } else {
+      dictEntries["Field"] = `{{MainDefinition}}`;
+      dictNames.unshift("Field");
+    }
   }
 
-  function toggleDef(validDefs, index) {
+  function toggleDef(index) {
     const definitionContainer = document.querySelector(
       "#main-def > .definition"
     );
 
     const indexDisplay = document.querySelector(".def-info");
     indexDisplay.style.opacity = 1;
-    currentIndex = index % validDefs.length;
-    indexDisplay.innerText = `${validDefs[currentIndex]} ${currentIndex + 1}/${
-      validDefs.length
+
+    currentIndex = index % dictNames.length;
+    while (currentIndex < 0) currentIndex += dictNames.length;
+
+    indexDisplay.innerText = `${dictNames[currentIndex]} ${currentIndex + 1}/${
+      dictNames.length
     }`;
 
     definitionContainer.innerHTML = "";
-    if (validDefs[currentIndex] === "Field") {
+    if (dictNames[currentIndex] === "Field") {
       definitionContainer.innerHTML += `{{MainDefinition}}`;
     } else {
       definitionContainer.appendChild(
-        createDefinition(validDefs[currentIndex])
+        createDefinition(dictNames[currentIndex])
       );
     }
+  }
+
+  function setUpDefToggle() {
+    const mainDefContainer = document.getElementById("main-def");
+
+    const leftEdge = document.createElement("div");
+    const rightEdge = document.createElement("div");
+    leftEdge.classList.add("left-edge");
+    rightEdge.classList.add("right-edge");
+    mainDefContainer.appendChild(leftEdge);
+    mainDefContainer.appendChild(rightEdge);
+
+    let index = 0;
+
+    leftEdge.addEventListener("click", (e) => {
+      index -= 1;
+      toggleDef(index);
+    });
+
+    rightEdge.addEventListener("click", (e) => {
+      index += 1;
+      toggleDef(index);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") index -= 1;
+      else if (e.key === "ArrowRight") index += 1;
+
+      toggleDef(index);
+    });
   }
 
   function setUpImageModal() {
@@ -630,13 +640,20 @@
   }
 
   function initialize() {
+    // Global vars
+    let dictEntries;
+    let dictNames;
+
     paintTargetWord();
     constructPitch();
     tweakHTML();
     setUpImageModal();
+    setUpDefToggle();
 
-    let dictNames = [
+    let priorityDicts = [
       "jmdict",
+      "日本語文法辞典(全集)",
+      "JLPT文法解説まとめ",
       "実用日本語表現辞典",
       "pixiv",
       "三省堂国語辞典",
@@ -648,8 +665,10 @@
       "広辞苑",
       "新選国語辞典",
     ];
-    initializeDef(dictNames);
+
+    let ignoredDicts = ["Nico/Pixiv"]; // Name should be exact here
+    initializeDef(priorityDicts, ignoredDicts);
   }
 
-  window.onload = initialize();
+  initialize();
 </script>
