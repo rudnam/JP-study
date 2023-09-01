@@ -370,7 +370,7 @@
     return jmdictDefContainer;
   }
 
-  function cleanMonoDef(element, options = {}) {
+  function cleanMonoDef(element) {
     let cleanedElement = element.cloneNode(true);
 
     const hide = (selector) => {
@@ -471,7 +471,9 @@
   }
 
   function createDefinition(dictName) {
-    if (dictName.toLowerCase().includes("jmdict")) {
+    if (isJidoujisho) {
+      return dictEntries[dictName];
+    } else if (dictName.toLowerCase().includes("jmdict")) {
       let jmdictEntries = [];
       Object.entries(dictEntries).forEach(([name, entry]) => {
         if (name.toLowerCase().includes("jmdict") && !name.includes("forms")) {
@@ -485,6 +487,7 @@
   }
 
   function initializeDef(priorityDicts, ignoredDicts) {
+    isJidoujisho = `{{Tags}}`.includes("Yuuna");
     const fullDefContainer = document.getElementById("full-def");
     const definitionContainer = document.querySelector(
       "#main-def > .definition"
@@ -493,18 +496,51 @@
     const allEntries =
       liEntries.length > 0
         ? liEntries
-        : fullDefContainer.querySelectorAll("div");
+        : [fullDefContainer.querySelector("div")];
 
     dictEntries = Array.from(allEntries).reduce((entries, entry) => {
-      const dictName = entry.querySelector(":scope > i:first-child").innerText;
+      let dictName;
+      if (entry) {
+        dictName = entry.querySelector(":scope > i:first-child").innerText;
+      } else if (isJidoujisho) {
+        dictName = "Jidoujisho";
+      } else {
+        dictName = "FullDefinition";
+      }
+
       let newName = dictName;
       let ctr = 2;
 
       if (ignoredDicts.includes(newName.replace(/[()]/g, ""))) {
         // skip
+      } else if (newName === "Jidoujisho") {
+        const jidoujishoEntries = `{{FullDefinition}}`.split("<br><br>");
+        jidoujishoEntries.forEach((entry) => {
+          const match = /(?<!\S)【(.*?)】<br>/.exec(entry);
+          if (match) {
+            newName = `(${match[1]})`;
+            entry = entry.replace(`【${match[1]}】<br>`, "");
+          }
+          if (entry.includes(`【{{Expression}}】`)) {
+            entry = entry.replace(/.*?<br>/i, "");
+          }
+
+          while (Object.keys(entries).includes(newName)) {
+            newName = `${dictName}-${ctr}`;
+            ctr += 1;
+          }
+          const jidouDiv = document.createElement("div");
+          jidouDiv.innerHTML = entry;
+          jidouDiv.classList.add("mono-def");
+          entries[newName] = jidouDiv;
+        });
+      } else if (newName === "FullDefinition") {
+        const fullDefDiv = document.createElement("div");
+        fullDefDiv.innerHTML = `{{FullDefinition}}`;
+        entries[newName] = fullDefDiv;
       } else {
         while (Object.keys(entries).includes(newName)) {
-          newName = `#${ctr} ${dictName}`;
+          newName = `${dictName}-${ctr}`;
           ctr += 1;
         }
         entries[newName] = entry;
@@ -514,7 +550,10 @@
     }, {});
 
     dictNames = Object.keys(dictEntries);
-    if (dictNames.toString().toLowerCase().includes("jmdict")) {
+    if (
+      !isJidoujisho &&
+      dictNames.toString().toLowerCase().includes("jmdict")
+    ) {
       dictNames = dictNames.filter(
         (name) => !name.toLowerCase().includes("jmdict")
       );
@@ -641,6 +680,7 @@
 
   function initialize() {
     // Global vars
+    let isJidoujisho;
     let dictEntries;
     let dictNames;
 
