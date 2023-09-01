@@ -72,19 +72,22 @@ More info can be added using other applications.
 
 - For [jidoujisho](https://github.com/lrorpilla/jidoujisho), fields can be filled like the following:
 
-  | Field              | Value            |
-  | ------------------ | ---------------- |
-  | Expression         | Term             |
-  | ExpressionFurigana | Furigana         |
-  | ExpressionReading  | Reading          |
-  | ExpressionAudio    | Term Audio       |
-  | MainDefinition     | Expanded Meaning |
-  | Sentence           | Sentence         |
-  | SentenceAudio      | Sentence Audio   |
-  | FullDefinition     | Meaning          |
-  | Image              | Image            |
-  | FreqSort           | Frequency        |
-  | MiscInfo           | Context          |
+  | Field              | Value          |
+  | ------------------ | -------------- |
+  | Expression         | Term           |
+  | ExpressionFurigana | Furigana       |
+  | ExpressionReading  | Reading        |
+  | ExpressionAudio    | Term Audio     |
+  | Sentence           | Sentence       |
+  | SentenceAudio      | Sentence Audio |
+  | FullDefinition     | Meaning        |
+  | Image              | Image          |
+  | FreqSort           | Frequency      |
+  | MiscInfo           | Context        |
+
+  - [x] Include image/audio HTML tags on export
+  - [x] Use line break tag instead of newline on export
+  - [x] Prepend dictionary name in meaning
 
 ## Yomichan Handlebars templates
 
