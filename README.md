@@ -45,7 +45,7 @@ Anki Mining card template for Japanese.
 Notes:
 
 - When the **\*IsSentenceCard** field is filled with any character, card is turned into a sentence card. When empty, it is turned into a vocab card.
-- The **MainDefinition** field is for the displayed definition on the card. When empty, the template displays a definition from the **FullDefinition** field. The preferred dictionaries for the default definition can be changed in the [back template](https://github.com/rudnam/JP-study/blob/db1fdc7f9822139c21161281995fc6ec1a2d04c2/2_Mining_Back.html#L638-L650).
+- The **MainDefinition** field is for the displayed definition on the card. When empty, the template displays a definition from the **FullDefinition** field. The preferred dictionaries for the default definition can be changed in the [back template](https://github.com/rudnam/JP-study/blob/da0fcca7242513065a5706b58e089a38baab584e/2_Mining_Back.html#L653-L667).
 - The **PitchPosition** field takes in `{pitch-accent-positions}`. `{pitch-accents}` and `{pitch-accent-graphs}` will **not** work.
 - The **FreqSort** field is for frequency sorting. (See [freq](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency))
 - The **Hint** field is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
@@ -131,20 +131,6 @@ Custom Yomichan Handlebars templates.
           {{~/regexMatch~}}
       {{/set~}}
       {{~#if (op "!==" "" (get "grammar-dicts"))~}}x{{/if}}
-  {{/inline}}
-  ```
-
-- `{jlpt}` - JLPT tags (separated by spaces). Needs the **JLPT_Level** dictionary.
-
-  ```handlebars
-  {{~#*inline "jlpt"~}}
-      {{~#if (op ">" definition.frequencies.length 0)~}}
-          {{~#each definition.frequencies~}}
-              {{~#if (op "===" this.dictionary "JLPT_Level")~}}
-                  JLPT_{{frequency~}}{{#unless @last}} {{/unless}}
-              {{~/if~}}
-          {{~/each~}}
-      {{~/if~}}
   {{/inline}}
   ```
 
