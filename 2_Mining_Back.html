@@ -389,6 +389,7 @@
     // Remove headword
     hide("span[data-sc-name='見出部']");
     hide("span[data-sc-name='子見出部']");
+    hide("span[data-sc-name='句見出部']");
     if (cleanedElement.querySelector("span+div[data-sc-name='definition']")) {
       hide(":scope > span > span");
     } else if (containsText("日本語文法辞典(全集)")) {
@@ -500,7 +501,7 @@
 
     dictEntries = Array.from(allEntries).reduce((entries, entry) => {
       let dictName;
-      if (entry) {
+      if (entry?.querySelector(":scope > i:first-child")) {
         dictName = entry.querySelector(":scope > i:first-child").innerText;
       } else if (isJidoujisho) {
         dictName = "Jidoujisho";
@@ -511,17 +512,25 @@
       let newName = dictName;
       let ctr = 2;
 
-      if (ignoredDicts.includes(newName.replace(/[()]/g, ""))) {
+      if (ignoredDicts.some((name) => newName.includes(name))) {
         // skip
       } else if (newName === "Jidoujisho") {
         const jidoujishoEntries = `{{FullDefinition}}`.split("<br><br>");
         jidoujishoEntries.forEach((entry) => {
           const match = /(?<!\S)【(.*?)】<br>/.exec(entry);
           if (match) {
+            dictName = `(${match[1]})`;
             newName = `(${match[1]})`;
             entry = entry.replace(`【${match[1]}】<br>`, "");
           }
-          if (entry.includes(`【{{Expression}}】`)) {
+
+          const match2 = /^(.*?)<br>/.exec(entry);
+          if (
+            match2 &&
+            `{{ExpressionReading}}`
+              .split("")
+              .every((char) => match2[1].includes(char))
+          ) {
             entry = entry.replace(/.*?<br>/i, "");
           }
 
@@ -706,7 +715,7 @@
       "新選国語辞典",
     ];
 
-    let ignoredDicts = ["Nico/Pixiv"]; // Name should be exact here
+    let ignoredDicts = ["Nico/Pixiv", "子"];
     initializeDef(priorityDicts, ignoredDicts);
   }
 
