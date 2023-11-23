@@ -14,9 +14,9 @@ Anki Mining card template for Japanese.
 [Download](https://github.com/rudnam/JP-study/raw/main/Mining_temp.apkg)
 
 <p align="center">
-    <kbd><img src="./images/vocab_back.png" width="70%" /></kbd>
-    <kbd><img src="./images/sentence_back.png" width="70%" /></kbd>
-    <kbd><img src="./images/mining_template.gif" width="70%" /></kbd>
+    <img src="./images/vocab_back.png" width="70%" />
+    <img src="./images/sentence_back.png" width="70%" />
+    <img src="./images/mining_template.gif" width="70%" />
 </p>
 
 ### Yomichan fields
@@ -171,7 +171,7 @@ Custom Yomichan Handlebars templates.
 Custom CSS for changing the Yomichan popup appearance.
 
 <img src="./images/popup.png" width="60%" />
-<kbd><img src="./images/search.png" width="100%" /></kbd>
+<img src="./images/search.png" width="100%" />
 
 <br>
 
@@ -285,7 +285,7 @@ span.frequency-group-item:first-child:hover ~ * {
 Anki card template for the [Kanken Deck](https://ankiweb.net/shared/info/759825185).
 
 <p align="center">
-    <kbd><img src="./images/kanken.png" width="70%" /></kbd>
+    <img src="./images/kanken.png" width="70%" />
 </p>
 
 Font download link: [https://github.com/adobe-fonts/source-han-serif/raw/release/Variable/TTF/SourceHanSerif-VF.ttf](https://github.com/adobe-fonts/source-han-serif/raw/release/Variable/TTF/SourceHanSerif-VF.ttf)
