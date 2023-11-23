@@ -412,7 +412,7 @@
     hide(":scope > i:first-child");
 
     // Remove images
-    const minImageWidthEm = 120;
+    const minImageWidthEm = 130;
     cleanedElement.querySelectorAll("a > span > img").forEach((img) => {
       const anchor = img.closest("a");
       const width = parseFloat(img.parentNode.style.width.replace("em", ""));
@@ -449,7 +449,7 @@
     const imagesContainer = document.createElement("div");
     imagesContainer.classList.add("images-container");
 
-    const minImageWidthEm = 120;
+    const minImageWidthEm = 131;
     dictEntry.querySelectorAll("a > span > img").forEach((img) => {
       let width = parseFloat(img.parentNode.style.width.replace("em", ""));
       if (width > minImageWidthEm) {
@@ -715,7 +715,7 @@
       "新選国語辞典",
     ];
 
-    let ignoredDicts = ["Nico/Pixiv", "子"];
+    let ignoredDicts = ["Nico/Pixiv", "子", "句", "造", "JMDict Surface Forms"];
     initializeDef(priorityDicts, ignoredDicts);
   }
 

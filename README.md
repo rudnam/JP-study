@@ -177,15 +177,14 @@ Custom CSS for changing the Yomichan popup appearance.
 
 Font download links:
 
-- Source Sans 3: [https://fonts.google.com/specimen/Source+Sans+3](https://fonts.google.com/specimen/Source+Sans+3)
-- Source Han Sans: [https://github.com/adobe-fonts/source-han-sans/raw/release/Variable/TTF/SourceHanSans-VF.ttf](https://github.com/adobe-fonts/source-han-sans/raw/release/Variable/TTF/SourceHanSans-VF.ttf)
+- Noto Sans JP: [https://fonts.google.com/noto/specimen/Noto+Sans+JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP)
 - UD Digi Kyokasho N-R: [https://learnjapanese.moe/font/#windows-10](https://learnjapanese.moe/font/#windows-10)
 
 Just copy and paste the following CSS into Yomichan's custom CSS.
 
 ```css
 body {
-  font-family: "Source Sans 3", "Source Han Sans VF", sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 .headword {
@@ -193,22 +192,22 @@ body {
 }
 
 :root[data-theme="dark"] {
-  --text-color: #ffffff;
-  --background-color: #0d1117;
-  --accent-color: #ffb454;
-  --accent-color-lighter: #ffca85;
-  --tag-pronunciation-dictionary-background-color: #252d41;
-  --tag-dictionary-background-color: #252d41;
-  --tag-frequency-background-color: #252d41;
-  --tag-default-background-color: #51647e;
-  --tag-name-background-color: #3d4993;
-  --tag-expression-background-color: #4857ae;
-  --tag-popular-background-color: #232d5a;
-  --tag-frequent-background-color: #303e7c;
+  --text-color: #dadada;
+  --background-color: #1c2127;
+  --accent-color: #4c8ce6;
+  --accent-color-lighter: #3566ab;
+  --tag-pronunciation-dictionary-background-color: #353942;
+  --tag-dictionary-background-color: #353942;
+  --tag-frequency-background-color: #353942;
+  --tag-default-background-color: #636a72;
+  --tag-name-background-color: #636a72;
+  --tag-expression-background-color: #636a72;
+  --tag-popular-background-color: #1d4f96;
+  --tag-frequent-background-color: #3e6db0;
   --tag-archaism-background-color: #533642;
   --tag-part-of-speech-background-color: #636a72;
   --input-background-color: #24292f;
-  --link-color: #3d4993;
+  --link-color: #79a9ec;
 }
 
 /* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
@@ -232,18 +231,18 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
 }
 
 /* Collapse lists of links */
-.definition-item:not([data-dictionary="JMdict (English)"])
+.definition-item:not([data-dictionary="JMdict"])
   .gloss-list:has(.gloss-content > a:only-child) {
   list-style: none;
   display: inline;
   padding-left: 0;
 }
-.definition-item:not([data-dictionary="JMdict (English)"])
+.definition-item:not([data-dictionary="JMdict"])
   .gloss-list:has(.gloss-content > a:only-child)
   * {
   display: inline;
 }
-.definition-item:not([data-dictionary="JMdict (English)"])
+.definition-item:not([data-dictionary="JMdict"])
   .gloss-item:has(.gloss-content > a:only-child):not(:last-child)::after {
   content: " | ";
 }
@@ -476,23 +475,24 @@ Just copy and paste the following templates into Anki.
 - Styling
 
   ```css
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap");
+
   html.win,
   html.mac,
   html.linux:not(.android) {
-    --main-font: "Source Han Serif", serif;
+    --main-font: "Noto Serif JP", serif;
   }
 
   html.mobile {
-    --main-font: source-han-serif-japanese, serif;
+    --main-font: "Noto Serif JP", serif;
   }
 
   .card.nightMode {
-    --main-bg: #0b0e14;
-    --sub-bg: #11151c;
-    --main-color: #ffffff;
+    --main-bg: #1c2127;
+    --main-color: #dadada;
     --sub-color: #7d8590;
     --grey: rgba(128, 128, 128, 0.1);
-    --accent: #ffb454;
+    --accent: #2980f1;
     font-family: var(--main-font);
     background-color: var(--main-bg);
     color: var(--main-color);
@@ -508,8 +508,9 @@ Just copy and paste the following templates into Anki.
   }
 
   @font-face {
-    font-family: "Source Han Serif";
-    src: local("Source Han Serif VF"), url("_SourceHanSerif-Regular.otf");
+    font-family: "Noto Serif JP";
+    src: local("Noto Serif JP"), local("Noto Serif JP Regular"),
+      url("_NotoSerifJP.otf");
   }
 
   /* ----- Front elements ----- */

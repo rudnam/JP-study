@@ -1,20 +1,20 @@
-@import url("https://use.typekit.net/xsl8xvw.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap");
 
 html.win,
 html.mac,
 html.linux:not(.android) {
-  --main-font: "Source Han Serif", serif;
-  --sub-font: "Source Sans", "Source Han Sans", sans-serif;
+  --main-font: "Noto Serif JP", serif;
+  --sub-font: "Noto Sans JP", sans-serif;
   --main-font-size: 20px;
-  --main-def-size: 24px;
+  --main-def-size: 20px;
   --front-vocab-font-size: 48px;
   --front-sentence-font-size: 36px;
   --max-width: 800px;
 }
 
 html.mobile {
-  --main-font: source-han-serif-japanese, serif;
-  --sub-font: source-sans-pro, source-han-sans-japanese, sans-serif;
+  --main-font: "Noto Serif JP", serif;
+  --sub-font: "Noto Sans JP", sans-serif;
   --main-font-size: 18px;
   --main-def-size: 20px;
   --front-vocab-font-size: 48px;
@@ -42,13 +42,13 @@ html.mobile {
 }
 
 .card.nightMode {
-  --main-bg: #0b0e14;
-  --sub-bg: #11151c;
+  --main-bg: #1c2127;
+  --sub-bg: #282c34;
   --tag-bg: #47526640;
-  --main-color: #ffffff;
+  --main-color: #dadada;
   --sub-color: #7d8590;
   --tag-color: #959da5;
-  --border-color: #30363d;
+  --border-color: #35393e;
   --bold-color: #7d8590;
   background-color: var(--main-bg);
   color: var(--main-color);
@@ -65,20 +65,15 @@ html.mobile {
 }
 
 @font-face {
-  font-family: "Source Han Sans";
-  src: local("Source Han Sans VF"), local("Source Han Sans"),
-    url("_SourceHanSans-Regular.otf");
+  font-family: "Noto Sans JP";
+  src: local("Noto Sans JP"), local("Noto Sans JP Regular"),
+    url("_NotoSansJP.otf");
 }
 
 @font-face {
-  font-family: "Source Han Serif";
-  src: local("Source Han Serif VF"), local("Source Han Serif"),
-    url("_SourceHanSerif-Regular.otf");
-}
-
-@font-face {
-  font-family: "Source Sans";
-  src: local("Source Sans 3"), local("Source Sans"), url("_SourceSans.ttf");
+  font-family: "Noto Serif JP";
+  src: local("Noto Serif JP"), local("Noto Serif JP Regular"),
+    url("_NotoSerifJP.otf");
 }
 
 /* ------- Mobile css ------- */
@@ -195,7 +190,7 @@ header {
   position: absolute;
   top: -2.15em;
   right: 10px;
-  font-size: calc(var(--main-font-size) * 0.8);
+  font-size: calc(var(--main-font-size) * 0.75);
   color: var(--sub-color);
   opacity: 0;
   pointer-events: none;
@@ -204,7 +199,7 @@ header {
 /* Field definition */
 .definition {
   text-align: left;
-  display: inline-flex;
+  display: inline-block;
 }
 
 /* Monolingual definition */
@@ -384,7 +379,7 @@ ruby:hover rt {
   border-radius: 8px;
 }
 .definition > img {
-  height: 5em;
+  height: 8em;
   margin-bottom: -0.5em;
 }
 
