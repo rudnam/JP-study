@@ -309,17 +309,6 @@ Just copy and paste the following templates into Anki.
   </div>
 
   <script>
-    function addScriptToHead() {
-      let head = document.getElementsByTagName("head")[0];
-
-      // For loading japanese fonts from web
-      let scriptElement = document.createElement("script");
-      scriptElement.innerHTML =
-        "(function(d) {var config = {kitId: 'uud0evt',scriptTimeout: 3000,async: true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\\bwf-loading\\b/g,'')+' wf-inactive';},config.scriptTimeout),tk=d.createElement('script'),f=false,s=d.getElementsByTagName('script')[0],a;h.className+=' wf-loading';tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!='complete'&&a!='loaded')return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);";
-
-      head.appendChild(scriptElement);
-    }
-
     function makeGrid() {
       const TATEGAKI = true; /* toggle vertical writing */
       const NUMOFBOXES =
@@ -381,9 +370,6 @@ Just copy and paste the following templates into Anki.
     }
 
     makeGrid();
-    if (navigator.userAgentData.mobile) {
-      addScriptToHead();
-    }
   </script>
   ```
 
