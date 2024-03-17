@@ -1,0 +1,217 @@
+<header>
+  <div>
+    <span>{{FreqSort}}</span>
+  </div>
+</header>
+
+<main>
+  <!--------- Vocab card ---------->
+  {{^*IsSentenceCard}}
+  <div lang="ja" class="vocab show-furigana">
+    {{#ExpressionFurigana}}{{furigana:ExpressionFurigana}}{{/ExpressionFurigana}}
+    {{^ExpressionFurigana}}{{Expression}}{{/ExpressionFurigana}}
+  </div>
+  {{#PitchPosition}}
+  <span class="pitch"> {{PitchPosition}} </span>
+  {{/PitchPosition}} {{#Hint}}
+  <div class="hint">{{Hint}}</div>
+  {{/Hint}}
+  <hr class="divider" />
+  <div class="definition-index">
+    <span></span>
+  </div>
+  <div lang="ja" class="definition popup">
+    <div class="definition-content">{{MainDefinition}}</div>
+    <div class="left-edge"></div>
+    <div class="right-edge"></div>
+  </div>
+  <br />
+  <div class="image">{{Image}}</div>
+  <div lang="ja" class="small-sentence">
+    {{#SentenceFurigana}} {{furigana:SentenceFurigana}} {{/SentenceFurigana}}
+    {{^SentenceFurigana}} {{furigana:Sentence}} {{/SentenceFurigana}}
+  </div>
+  <div class="audio">{{ExpressionAudio}} {{SentenceAudio}}</div>
+  {{#Translation}}
+  <div class="translation" lang="en">{{hint:Translation}}</div>
+  {{/Translation}} {{/*IsSentenceCard}}
+
+  <!------- Sentence card --------->
+  {{#*IsSentenceCard}}
+  <div lang="ja" class="sentence">
+    {{#SentenceFurigana}} {{kanji:SentenceFurigana}} {{/SentenceFurigana}}
+    {{^SentenceFurigana}} {{kanji:Sentence}} {{/SentenceFurigana}}
+  </div>
+  {{#PitchPosition}}
+  <span class="pitch"> {{PitchPosition}} </span>
+  {{/PitchPosition}} {{#Hint}}
+  <div class="hint">{{Hint}}</div>
+  {{/Hint}}
+  <hr class="divider" />
+  <div class="definition-index">
+    <span></span>
+  </div>
+  <div lang="ja" class="definition popup">
+    <div class="definition-content">{{MainDefinition}}</div>
+    <div class="left-edge"></div>
+    <div class="right-edge"></div>
+  </div>
+  <br />
+  <div class="image">{{Image}}</div>
+  <div class="audio">{{ExpressionAudio}} {{SentenceAudio}}</div>
+  {{#Translation}}
+  <div class="translation" lang="en">{{hint:Translation}}</div>
+  {{/Translation}} {{/*IsSentenceCard}}
+
+  <!------- Misc --------->
+  <div id="full-def" style="display: none">{{FullDefinition}}</div>
+</main>
+
+<footer></footer>
+
+<!----------- Scripts ------------>
+<script>
+  function correctPitchTags() {
+    const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
+    if (!pitchPositions) return;
+
+    const uniquePitchPositions = [...new Set(pitchPositions)];
+    const pitchContainer = document.querySelector(".pitch");
+
+    pitchContainer.innerHTML = "";
+    for (let pitchPosition of uniquePitchPositions) {
+      pitchContainer.innerHTML += `[${pitchPosition}]`;
+    }
+  }
+
+  function isOdaka(pitchNumber) {
+    const kana = `{{kana:ExpressionFurigana}}` || `{{ExpressionReading}}`;
+    return (
+      kana !== null &&
+      kana.replace(/[ャュョゃゅょ]/g, "").length === pitchNumber
+    );
+  }
+
+  function getPitchColor(pitchPosition) {
+    if (pitchPosition === 0) {
+      return "heiban";
+    } else if (pitchPosition === 1) {
+      return "atamadaka";
+    } else if (pitchPosition > 1) {
+      return isOdaka(pitchPosition) ? "odaka" : "nakadaka";
+    }
+  }
+
+  function paintTargetWord() {
+    const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
+    if (pitchPositions === null) return;
+
+    const pitchPosition = Number(pitchPositions[0]);
+    const sentences = Array.from(
+      document.querySelectorAll(".sentence, .small-sentence")
+    );
+
+    for (const sentence of sentences) {
+      for (const targetWord of sentence.getElementsByTagName("b")) {
+        targetWord.classList.add(getPitchColor(pitchPosition));
+      }
+    }
+
+    const vocabElement = document.querySelector(".vocab");
+    if (vocabElement !== null) {
+      vocabElement.classList.add(getPitchColor(pitchPosition));
+    }
+  }
+
+  function toggleDef(index, entries) {
+    const indexDisplay = document.querySelector(".definition-index > span");
+    const defContainer = document.querySelector(".definition-content");
+
+    let currentIndex = index % entries.length;
+
+    while (currentIndex < 0) currentIndex += entries.length;
+
+    defContainer.innerHTML = entries[currentIndex];
+    indexDisplay.innerText = `${currentIndex + 1}/${entries.length}`;
+  }
+
+  function initializeDefToggle(dictPriority) {
+    const isJidoujisho = `{{Tags}}`.includes("Yuuna");
+    const fullDefContainer = document.getElementById("full-def");
+    const liEntries = fullDefContainer.querySelectorAll("ol > li");
+
+    let allEntries =
+      liEntries.length > 0
+        ? Array.from(liEntries).map((a) => a.innerHTML)
+        : isJidoujisho
+        ? `{{FullDefinition}}`
+            .split("<br><br>【")
+            .map((a, index) => (index !== 0 ? "【" : "") + a)
+        : [fullDefContainer.querySelector("div").innerHTML];
+
+    if (dictPriority) {
+      allEntries = allEntries.sort((a, b) => {
+        const indexA = dictPriority.findIndex((item) =>
+          a.toLowerCase().includes(item.toLowerCase())
+        );
+        const indexB = dictPriority.findIndex((item) =>
+          b.toLowerCase().includes(item.toLowerCase())
+        );
+        return indexA === -1 ? 1 : indexB === -1 ? -1 : indexA - indexB;
+      });
+    }
+
+    if (`{{MainDefinition}}`) {
+      allEntries = [`{{MainDefinition}}`, ...allEntries];
+    }
+
+    const defContainer = document.querySelector(".definition");
+    let index = 0;
+
+    const leftEdge = document.querySelector(".left-edge");
+    const rightEdge = document.querySelector(".right-edge");
+
+    leftEdge.addEventListener("click", (e) => {
+      index -= 1;
+      toggleDef(index, allEntries);
+    });
+
+    rightEdge.addEventListener("click", (e) => {
+      index += 1;
+      toggleDef(index, allEntries);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") index -= 1;
+      else if (e.key === "ArrowRight") index += 1;
+
+      toggleDef(index, allEntries);
+    });
+
+    document.querySelector(".definition-content").innerHTML = allEntries[index];
+  }
+
+  function initialize() {
+    let dictPriority = [
+      "jmdict",
+      "日本語文法辞典(全集)",
+      "JLPT文法解説まとめ",
+      "実用日本語表現辞典",
+      "pixiv",
+      "三省堂国語辞典",
+      "旺文社国語辞典",
+      "明鏡国語辞典",
+      "デジタル大辞泉",
+      "大辞林",
+      "新明解国語辞典",
+      "広辞苑",
+      "新選国語辞典",
+    ];
+
+    paintTargetWord();
+    correctPitchTags();
+    initializeDefToggle(dictPriority);
+  }
+
+  initialize();
+</script>

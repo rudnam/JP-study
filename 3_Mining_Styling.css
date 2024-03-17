@@ -64,18 +64,6 @@ html.mobile {
   text-align: center;
 }
 
-@font-face {
-  font-family: "Noto Sans JP";
-  src: local("Noto Sans JP"), local("Noto Sans JP Regular"),
-    url("_NotoSansJP.otf");
-}
-
-@font-face {
-  font-family: "Noto Serif JP";
-  src: local("Noto Serif JP"), local("Noto Serif JP Regular"),
-    url("_NotoSerifJP.otf");
-}
-
 /* ------- Mobile css ------- */
 @media (max-width: 512px) {
   .mono-def {
