@@ -1,26 +1,26 @@
-<div id="deck" deck_name="{{Deck}}"></div>
 <!---------- Header ------------->
 <header>
-  <div id="top-container">
-    <p id="stars"></p>
+  <div class="top-container">
+    <p class="stars"></p>
     {{FreqSort}}
   </div>
 </header>
 
 <main>
-  <div id="template">
+  <div class="template">
     <!--------- Vocab card ---------->
     {{^*IsSentenceCard}}
-    <div lang="ja" class="show-furigana front-vocab">
+    <div lang="ja" class="show-furigana vocab">
       {{#ExpressionFurigana}}{{furigana:ExpressionFurigana}}{{/ExpressionFurigana}}
-      {{^ExpressionFurigana}}{{Expression}}{{/ExpressionFurigana}} {{#Hint}}
-      <div id="hint">{{Hint}}</div>
-      {{/Hint}}
+      {{^ExpressionFurigana}}{{Expression}}{{/ExpressionFurigana}}
     </div>
-    <hr id="divider" />
+    {{#Hint}}
+    <div id="hint">{{Hint}}</div>
+    {{/Hint}}
+    <hr class="divider" />
     <div lang="ja" class="info">
       {{ExpressionAudio}} {{SentenceAudio}}
-      <div id="pitch">
+      <div class="pitch">
         <div style="margin-right: -15px; display: inline">
           {{#ExpressionFurigana}}{{kana:ExpressionFurigana}}{{/ExpressionFurigana}}
           {{^ExpressionFurigana}}{{ExpressionReading}}{{/ExpressionFurigana}}
@@ -30,35 +30,35 @@
       <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
       {{/PitchPosition}} 【{{Expression}}】
     </div>
-    <div lang="ja" id="main-def" class="popup">
+    <div lang="ja" class="main-def popup">
       <div class="definition">{{MainDefinition}}</div>
       <div class="def-info"></div>
     </div>
     <br />
-    <div id="image">{{Image}}</div>
-    <div lang="ja" class="sentence">
+    <div class="image">{{Image}}</div>
+    <div lang="ja" class="small-sentence">
       {{#SentenceFurigana}} {{furigana:SentenceFurigana}} {{/SentenceFurigana}}
       {{^SentenceFurigana}} {{furigana:Sentence}} {{/SentenceFurigana}}
     </div>
     {{#Translation}}
-    <div id="translation" lang="en">{{hint:Translation}}</div>
+    <div class="translation" lang="en">{{hint:Translation}}</div>
     {{/Translation}} {{/*IsSentenceCard}}
 
     <!------- Sentence card --------->
     {{#*IsSentenceCard}}
-    <div lang="ja" class="front-sentence">
+    <div lang="ja" class="sentence">
       {{#SentenceFurigana}} {{furigana:SentenceFurigana}} {{/SentenceFurigana}}
       {{^SentenceFurigana}} {{furigana:Sentence}} {{/SentenceFurigana}}
     </div>
     {{#Hint}}
     <div id="hint">{{Hint}}</div>
     {{/Hint}} {{#Translation}}
-    <div id="translation" lang="en">{{hint:Translation}}</div>
+    <div class="translation" lang="en">{{hint:Translation}}</div>
     {{/Translation}}
-    <hr id="divider" />
+    <hr class="divider" />
     <div lang="ja" class="info">
       {{ExpressionAudio}} {{SentenceAudio}}
-      <div id="pitch">
+      <div class="pitch">
         <div style="margin-right: -15px; display: inline">
           {{#ExpressionFurigana}}{{kana:ExpressionFurigana}}{{/ExpressionFurigana}}
           {{^ExpressionFurigana}}{{ExpressionReading}}{{/ExpressionFurigana}}
@@ -68,26 +68,26 @@
       <span id="pitch-tags" class="tags"> {{PitchPosition}} </span>
       {{/PitchPosition}} 【{{Expression}}】
     </div>
-    <div lang="ja" id="main-def" class="popup">
+    <div lang="ja" class="main-def popup">
       <div class="definition">{{MainDefinition}}</div>
       <div class="def-info"></div>
     </div>
     <br />
-    <div id="image">{{Image}}</div>
+    <div class="image">{{Image}}</div>
     {{/*IsSentenceCard}}
 
     <!------- Image modal --------->
-    <div id="modal-bg"></div>
-    <div id="img-popup"></div>
+    <div class="modal-bg"></div>
+    <div class="img-popup"></div>
   </div>
 
-  <div id="extras">
+  <div class="extras">
     {{#MiscInfo}}
     <div style="text-align: center">
       <div lang="ja">
         <details>
           <summary>Misc. info</summary>
-          <div class="popup" id="misc-info">
+          <div class="misc-info popup">
             === Details ===
             <br />
             {{MiscInfo}} {{#Frequency}}
@@ -102,7 +102,7 @@
       <div lang="ja">
         <details>
           <summary>Full definition</summary>
-          <div class="popup" id="full-def">{{FullDefinition}}</div>
+          <div class="full-def popup">{{FullDefinition}}</div>
         </details>
       </div>
     </div>
@@ -112,13 +112,13 @@
 
 <!----------- Footer ------------->
 <footer>
-  <div id="bot-container">
+  <div class="bot-container">
     {{#Tags}}
-    <div lang="ja" id="tags-container">
+    <div lang="ja" class="tags-container">
       <div class="tags">{{Tags}}</div>
     </div>
     {{/Tags}}
-    <input type="checkbox" id="extras-toggle" />
+    <input type="checkbox" class="extras-toggle" />
   </div>
 </footer>
 
@@ -132,20 +132,13 @@
     );
   }
 
-  function getPitchColor(pitchPosition) {
-    const colors = {
-      heiban: "#39bae6",
-      atamadaka: "#ec464f",
-      nakadaka: "#ff8f40",
-      odaka: "#6cbf43",
-    };
-
+  function getPitchType(pitchPosition) {
     if (pitchPosition === 0) {
-      return colors.heiban;
+      return "heiban";
     } else if (pitchPosition === 1) {
-      return colors.atamadaka;
+      return "atamadaka";
     } else if (pitchPosition > 1) {
-      return isOdaka(pitchPosition) ? colors.odaka : colors.nakadaka;
+      return isOdaka(pitchPosition) ? "odaka" : "nakadaka";
     }
   }
 
@@ -155,24 +148,29 @@
 
     const pitchPosition = Number(pitchPositions[0]);
     const sentences = Array.from(
-      document.querySelectorAll(".sentence, .front-sentence")
+      document.querySelectorAll(".sentence, .small-sentence")
     );
     for (const sentence of sentences) {
       for (const targetWord of sentence.getElementsByTagName("b")) {
-        targetWord.style.color = getPitchColor(pitchPosition);
+        targetWord.classList.add(getPitchType(pitchPosition));
       }
+    }
+
+    const vocabElement = document.querySelector(".vocab");
+    if (vocabElement !== null) {
+      vocabElement.classList.add(getPitchType(pitchPosition));
     }
   }
 
   function tweakHTML() {
     // Modify translation button label
-    const tlButton = document.querySelector("#translation > a.hint");
+    const tlButton = document.querySelector(".translation > a.hint");
     if (tlButton) {
       tlButton.innerText = "Show Translation";
     }
 
     // Split tags
-    const tagsContainer = document.getElementById("tags-container");
+    const tagsContainer = document.querySelector(".tags-container");
     const tags = `{{Tags}}`.split(" ");
     if (tagsContainer) {
       tagsContainer.innerHTML = "";
@@ -186,7 +184,7 @@
 
     // Get stars
     const freq = Number(`{{FreqSort}}`);
-    const stars = document.getElementById("stars");
+    const stars = document.querySelector(".stars");
     if (freq > 0 && freq < 1500) stars.innerText = "★★★★★";
     else if (freq >= 1500 && freq < 5000) stars.innerText = "★★★★";
     else if (freq >= 5000 && freq < 15000) stars.innerText = "★★★";
@@ -194,11 +192,11 @@
     else if (freq >= 30000 && freq < 60000) stars.innerText = "★";
     else stars.innerText = "";
 
-    if (freq === 0) document.getElementById("top-container").innerHTML = "";
+    if (freq === 0) document.querySelector(".top-container").innerHTML = "";
 
     // Toggle extras display
-    const checkBox = document.getElementById("extras-toggle");
-    const extras = document.getElementById("extras");
+    const checkBox = document.querySelector(".extras-toggle");
+    const extras = document.querySelector(".extras");
     checkBox.addEventListener("change", (e) => {
       extras.style.display = checkBox.checked ? "block" : "none";
     });
@@ -278,8 +276,8 @@
 
   function constructPitch() {
     const kana = `{{kana:ExpressionFurigana}}` || `{{ExpressionReading}}`;
-    const pitch = document.getElementById("pitch");
-    const pitchTags = document.getElementById("pitch-tags");
+    const pitch = document.querySelector(".pitch");
+    const pitchTags = document.querySelector("#pitch-tags");
     const pitchPositions = `{{PitchPosition}}`.match(/^\d+|\d+\b|\d+(?=\w)/g);
 
     if (!pitchPositions) {
@@ -316,11 +314,10 @@
       pitchTag.textContent = pitchPosition;
 
       const pattern = getPitchPattern(Number(pitchPosition));
-      const pitchColor = getPitchColor(Number(pitchPosition)) || "inherit";
 
       const pitchItem = document.createElement("li");
       pitchItem.classList.add("pitch-item");
-      pitchItem.style.color = pitchColor;
+      pitchItem.classList.add(getPitchType(Number(pitchPosition)));
 
       for (let i = 0; i < kana.length; i++) {
         if (pattern[i] === "0")
@@ -380,17 +377,15 @@
 
     const containsText = (text) => cleanedElement.innerHTML.includes(text);
 
-    // Pixiv
-    hide("span[data-sc-pixiv='nav-header']");
-    hide('*[data-sc-pixiv="related-tags"]');
-    hide('*[data-sc-pixiv="children"]');
-    hide('*[data-sc-pixiv="continue-reading"]');
-
     // Remove headword
     hide("span[data-sc-name='見出部']");
     hide("span[data-sc-name='子見出部']");
     hide("span[data-sc-name='句見出部']");
-    if (cleanedElement.querySelector("span+div[data-sc-name='definition']")) {
+    if (
+      cleanedElement.querySelector(
+        "span+div[data-sc-name='definition'], span+div[data-sc-name='意味']"
+      )
+    ) {
       hide(":scope > span > span");
     } else if (containsText("日本語文法辞典(全集)")) {
       const regex = /\[意味\]<br>(.*?)<br>/;
@@ -400,9 +395,6 @@
       const regex = /\[意味\]<br>(.*?)<br><br>/;
       const matchResult = cleanedElement.innerHTML.match(regex);
       cleanedElement.innerHTML = matchResult[1];
-    } else if (cleanedElement.querySelector(":scope > span")) {
-      const regex = /(<span\b[^>]*>)(.*?)(<br>|<div>)/;
-      cleanedElement.innerHTML = cleanedElement.innerHTML.replace(regex, `$1`);
     } else {
       const regex = /(<i>.*?<\/i>)(.*?)(<br>)/;
       cleanedElement.innerHTML = cleanedElement.innerHTML.replace(regex, "");
@@ -410,6 +402,12 @@
 
     // Remove dict name
     hide(":scope > i:first-child");
+
+    // Pixiv
+    hide("span[data-sc-pixiv='nav-header']");
+    hide('*[data-sc-pixiv="related-tags"]');
+    hide('*[data-sc-pixiv="children"]');
+    hide('*[data-sc-pixiv="continue-reading"]');
 
     // Remove images
     const minImageWidthEm = 130;
@@ -423,16 +421,11 @@
       }
     });
 
-    // Remove table
-    cleanedElement.querySelectorAll("div > table").forEach((table) => {
-      table.closest("div").style.display = "none";
-    });
-
     // Remove extra newlines, etc.
     cleanedElement.innerHTML = cleanedElement.innerHTML
-      .replace("筆順：", "")
       .replace(/(<br>\s*)+/gi, "<br>")
-      .replace(/^<br\s*\/?>|<br\s*\/?>$/g, "");
+      .replace(/^<br\s*\/?>|<br\s*\/?>$/g, "")
+      .replace("筆順：", "");
     Array.from(cleanedElement.children).forEach((e) => {
       e.innerHTML = e.innerHTML.replace(/^<br\s*\/?>|<br\s*\/?>$/g, "");
     });
@@ -472,7 +465,7 @@
   }
 
   function createDefinition(dictName) {
-    if (isJidoujisho) {
+    if (isJidoujisho || dictName.toLowerCase().includes("maindefinition")) {
       return dictEntries[dictName];
     } else if (dictName.toLowerCase().includes("jmdict")) {
       let jmdictEntries = [];
@@ -489,11 +482,13 @@
 
   function initializeDef(priorityDicts, ignoredDicts) {
     isJidoujisho = `{{Tags}}`.includes("Yuuna");
-    const fullDefContainer = document.getElementById("full-def");
+    const fullDefContainer = document.querySelector(".full-def");
     const definitionContainer = document.querySelector(
-      "#main-def > .definition"
+      ".main-def > .definition"
     );
-    const liEntries = fullDefContainer.querySelectorAll("ol > li");
+    const liEntries = fullDefContainer.querySelectorAll(
+      ":scope > div > ol > li"
+    );
     const allEntries =
       liEntries.length > 0
         ? liEntries
@@ -558,6 +553,12 @@
       return entries;
     }, {});
 
+    if (`{{MainDefinition}}`) {
+      const mainDefDiv = document.createElement("div");
+      mainDefDiv.innerHTML = `{{MainDefinition}}`;
+      dictEntries["MainDefinition"] = mainDefDiv;
+    }
+
     dictNames = Object.keys(dictEntries);
     if (
       !isJidoujisho &&
@@ -585,21 +586,13 @@
         return indexA - indexB;
       });
     }
-
-    if (
-      !`{{MainDefinition}}` &&
-      !definitionContainer.innerHTML.includes("img")
-    ) {
-      definitionContainer.appendChild(createDefinition(dictNames[0]));
-    } else {
-      dictEntries["Field"] = `{{MainDefinition}}`;
-      dictNames.unshift("Field");
-    }
+    definitionContainer.innerHTML = "";
+    definitionContainer.appendChild(createDefinition(dictNames[0]));
   }
 
   function toggleDef(index) {
     const definitionContainer = document.querySelector(
-      "#main-def > .definition"
+      ".main-def > .definition"
     );
 
     const indexDisplay = document.querySelector(".def-info");
@@ -613,17 +606,11 @@
     }`;
 
     definitionContainer.innerHTML = "";
-    if (dictNames[currentIndex] === "Field") {
-      definitionContainer.innerHTML += `{{MainDefinition}}`;
-    } else {
-      definitionContainer.appendChild(
-        createDefinition(dictNames[currentIndex])
-      );
-    }
+    definitionContainer.appendChild(createDefinition(dictNames[currentIndex]));
   }
 
   function setUpDefToggle() {
-    const mainDefContainer = document.getElementById("main-def");
+    const mainDefContainer = document.querySelector(".main-def");
 
     const leftEdge = document.createElement("div");
     const rightEdge = document.createElement("div");
@@ -653,9 +640,9 @@
   }
 
   function setUpImageModal() {
-    const modalBg = document.getElementById("modal-bg");
-    const imgPopup = document.getElementById("img-popup");
-    const image = document.getElementById("image").querySelector("img");
+    const modalBg = document.querySelector(".modal-bg");
+    const imgPopup = document.querySelector(".img-popup");
+    const image = document.querySelector(".image img");
 
     if (!image) return;
 
@@ -693,14 +680,16 @@
     let dictEntries;
     let dictNames;
 
+    tweakHTML();
     paintTargetWord();
     constructPitch();
-    tweakHTML();
     setUpImageModal();
     setUpDefToggle();
 
     let priorityDicts = [
+      "MainDefinition",
       "jmdict",
+      "jitendex",
       "日本語文法辞典(全集)",
       "JLPT文法解説まとめ",
       "実用日本語表現辞典",
@@ -713,6 +702,7 @@
       "新明解国語辞典",
       "広辞苑",
       "新選国語辞典",
+      "使い方の分かる",
     ];
 
     let ignoredDicts = ["Nico/Pixiv", "子", "句", "造", "JMDict Surface Forms"];
