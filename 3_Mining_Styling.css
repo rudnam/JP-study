@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap");
 
 :root {
+  /* Options */
+  --bg-color: #1c2127;
+  --fg-color: #dadada;
   --font-serif: "Noto Serif JP", serif;
   --font-sans: "Noto Sans JP", sans-serif;
   --max-width: 800px;
@@ -17,7 +20,8 @@ html.linux:not(.android) {
   --main-font-size: 16px;
   --main-def-size: 18px;
   --vocab-font-size: 45px;
-  --sentence-font-size: 36px;
+  --sentence-font-size: 30px;
+  --back-sentence-font-size: 20px;
 }
 
 html.mobile {
@@ -25,30 +29,28 @@ html.mobile {
   --main-def-size: 16px;
   --vocab-font-size: 40px;
   --sentence-font-size: 32px;
+  --back-sentence-font-size: 20px;
+}
+
+.card {
+  --canvas: var(--bg-color);
+  --fg: var(--fg-color);
+  background-color: var(--canvas) !important;
+  color: var(--fg) !important;
 }
 
 .card:not(.nightMode) {
-  --canvas: #fafaf7;
-  --canvas-elevated: #f0f0eb;
-  --canvas-inset: #d9d9d9;
-  --fg: #000000;
-  --fg-subtle: #40403e;
-  --fg-disabled: #666664;
-  --border-subtle: #999999;
+  --canvas-elevated: color-mix(in srgb, var(--canvas), var(--fg) 5%);
+  --canvas-inset: color-mix(in srgb, var(--canvas), var(--fg) 10%);
+  --fg-subtle: color-mix(in srgb, var(--fg), var(--canvas) 50%);
   --bold: #999999;
-  background-color: var(--canvas);
 }
 
 .card.nightMode {
-  --canvas: #1c2127;
-  --canvas-elevated: #282c34;
-  --canvas-inset: #47526640;
-  --fg: #dadada;
-  --fg-subtle: #7d8590;
-  --fg-disabled: #959da5;
-  --border-subtle: #35393e;
+  --canvas-elevated: color-mix(in srgb, var(--canvas), var(--fg) 5%);
+  --canvas-inset: color-mix(in srgb, var(--canvas), var(--fg) 10%);
+  --fg-subtle: color-mix(in srgb, var(--fg), var(--canvas) 50%);
   --bold: #7d8590;
-  background-color: var(--canvas);
 }
 
 #qa {
@@ -274,7 +276,7 @@ header {
 
 /* Back sentence */
 .small-sentence {
-  font-size: 1.25rem;
+  font-size: var(--back-sentence-font-size);
   display: inline-block;
   width: calc(100% - 20px);
   max-width: var(--max-width);
@@ -287,7 +289,6 @@ a.hint {
   width: fit-content;
   font-size: 0.8rem;
   display: block;
-  border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 5px 10px;
   margin: 0 auto;
@@ -316,7 +317,6 @@ footer {
   font-family: var(--font-sans);
   background-color: var(--canvas-elevated);
   color: var(--fg);
-  border: 1px solid var(--border-subtle);
   display: inline-block;
   padding: 1px 5px;
   cursor: pointer;
@@ -344,7 +344,6 @@ footer {
 /* Popup CSS */
 .popup {
   font-family: var(--font-sans);
-  border: 1px solid var(--border-subtle);
   background-color: var(--canvas-elevated);
   display: inline-block;
   border-radius: 8px;
