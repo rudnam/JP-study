@@ -40,9 +40,17 @@ html.mobile {
 }
 
 .card:not(.nightMode) {
-  --canvas-elevated: color-mix(in srgb, var(--canvas), var(--fg) 5%);
-  --canvas-inset: color-mix(in srgb, var(--canvas), var(--fg) 10%);
-  --fg-subtle: color-mix(in srgb, var(--fg), var(--canvas) 50%);
+  /* Theme for light mode */
+  --bg-color: #ffffff;
+  --fg-color: #000000;
+  --heiban: #1fb1e3;
+  --atamadaka: #ec464f;
+  --nakadaka: #ff7c20;
+  --odaka: #61ad3b;
+
+  --canvas-elevated: color-mix(in srgb, var(--canvas), #000 5%);
+  --canvas-inset: color-mix(in srgb, var(--canvas), #000 10%);
+  --fg-subtle: color-mix(in srgb, var(--fg), #fff 50%);
   --bold: #999999;
 }
 
