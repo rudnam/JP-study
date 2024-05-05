@@ -184,49 +184,21 @@ Just copy and paste the following CSS into Yomichan's custom CSS.
 
 ```css
 body {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: "Inter", "Noto Sans JP", sans-serif;
+  --background-color: #1e1e2a;
+  --input-background-color: color-mix(
+    in srgb,
+    var(--background-color),
+    #fff 5%
+  );
 }
 
 .headword {
-  font-family: "UD Digi Kyokasho N-R";
-}
-
-:root[data-theme="dark"] {
-  --text-color: #dadada;
-  --background-color: #1c2127;
-  --accent-color: #4c8ce6;
-  --accent-color-lighter: #3566ab;
-  --tag-pronunciation-dictionary-background-color: #353942;
-  --tag-dictionary-background-color: #353942;
-  --tag-frequency-background-color: #353942;
-  --tag-default-background-color: #636a72;
-  --tag-name-background-color: #636a72;
-  --tag-expression-background-color: #636a72;
-  --tag-popular-background-color: #1d4f96;
-  --tag-frequent-background-color: #3e6db0;
-  --tag-archaism-background-color: #533642;
-  --tag-part-of-speech-background-color: #636a72;
-  --input-background-color: #24292f;
-  --link-color: #79a9ec;
-}
-
-/* Fix quotes (https://aquafina-water-bottle.github.io/jp-mining-note/jpresources/#ensuring-properly-quotes-the-text) */
-.jp-quote-text {
-  text-indent: -1em;
-  padding-left: 1em;
-}
-
-/* Only show NHK pitch when アクセント辞典 doesn't have data */
-:not(ol[data-count="1"]) > li.pronunciation-group[data-dictionary="NHK"] {
-  display: none;
-}
-ol.pronunciation-group-list[data-count="2"] {
-  list-style: none;
-  padding: 0;
+  font-family: "UD Digi Kyokasho N";
 }
 
 /* Disable furigana on search page */
-ruby.query-parser-segment > rt.query-parser-segment-reading {
+rt.query-parser-segment-reading {
   display: none;
 }
 
@@ -262,6 +234,27 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
   content: " | ";
 }
 
+/* Collapse Jitendex entries */
+.definition-item[data-dictionary*="Jitendex"] .gloss-sc-ul {
+  list-style: none;
+  display: inline;
+  padding-left: 0;
+}
+.definition-item[data-dictionary*="Jitendex"] .gloss-sc-ul > .gloss-sc-li {
+  display: inline;
+}
+.definition-item[data-dictionary*="Jitendex"]
+  .gloss-sc-ul
+  > .gloss-sc-li:not(:last-child)::after {
+  content: "; ";
+}
+
+/* Make Jitendex example sentences smaller */
+.definition-item[data-dictionary*="Jitendex"]
+  *[data-sc-content="example-sentence-a"] {
+  font-size: 1em !important;
+}
+
 /* Only show summary for Pixiv */
 [data-sc-pixiv="children"],
 [data-sc-pixiv="related-tags"],
@@ -270,13 +263,31 @@ ruby.query-parser-segment > rt.query-parser-segment-reading {
   display: none;
 }
 
-/* Only shows the first 2 frequency lists */
+/* Only show the first 2 frequency lists */
 span.frequency-group-item:nth-child(n + 3) {
   display: none;
 }
 /* Show on hover */
-span.frequency-group-item:first-child:hover ~ * {
+span.frequency-group-item:first-child:has(.tag-label:hover) ~ * {
   display: inline-block;
+}
+
+/* Only show the first pitch dictionary */
+li.pronunciation-group:first-child ~ * {
+  display: none;
+}
+ol.pronunciation-group-list:not([data-count="1"]) {
+  list-style: none;
+  padding: 0;
+}
+/* Show on hover */
+li.pronunciation-group:first-child:has(.tag:hover) ~ * {
+  display: inline-block;
+}
+
+/* Hide add duplicate */
+button.action-button[title="Add duplicate expression (Alt + E)"] {
+  display: none;
 }
 ```
 
