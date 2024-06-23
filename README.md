@@ -50,6 +50,7 @@ Notes:
 - The **FreqSort** field is for frequency sorting. (See [freq](https://github.com/MarvNC/JP-Resources#sorting-mined-anki-cards-by-frequency))
 - The **Hint** field is for a hint on the front of the card (See [Animecards](https://animecards.site/ankicards/#the-hint-field)).
 - The furigana fields only take in plain furigana. (e.g. 漢字[かんじ] not <ruby>漢字<rt>かんじ</rt></ruby>).
+- The color scheme can be inherited from system by removing [this rule](https://github.com/rudnam/JP-study/blob/485e28eacb3445fa1cbf14714154063482c5bbe1/3_Mining_Styling.css#L70-L74) from the styling template.
 
 ### Other applications
 
