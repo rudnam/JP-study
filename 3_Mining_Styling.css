@@ -1,66 +1,94 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap");
 
 :root {
-  /* Dark mode theme */
-  --bg-color: #1e1e2a;
-  --fg-color: #dadada;
+  /* Color theme */
+  --dark-mode-bg-color: #1e1e2a;
+  --dark-mode-fg-color: #dadada;
+  --light-mode-bg-color: #fffaf0;
+  --light-mode-fg-color: #333333;
+
+  /* Pitch colors */
+  --dark-mode-heiban: #39bae6;
+  --dark-mode-atamadaka: #ec464f;
+  --dark-mode-nakadaka: #ff8f40;
+  --dark-mode-odaka: #6cbf43;
+  --light-mode-heiban: #1aa0ce;
+  --light-mode-atamadaka: #e92a35;
+  --light-mode-nakadaka: #ff6b03;
+  --light-mode-odaka: #61ad3b;
+
+  /* PC Font sizes */
+  --pc-main-font-size: 16px;
+  --pc-main-def-size: 18px;
+  --pc-vocab-font-size: 45px;
+  --pc-sentence-font-size: 30px;
+  --pc-back-sentence-font-size: 20px;
+
+  /* Mobile font sizes */
+  --mobile-main-font-size: 16px;
+  --mobile-main-def-size: 16px;
+  --mobile-vocab-font-size: 40px;
+  --mobile-sentence-font-size: 32px;
+  --mobile-back-sentence-font-size: 20px;
+
+  /* Miscellaneous */
   --font-serif: "Noto Serif JP", serif;
   --font-sans: "Noto Sans JP", sans-serif;
   --max-width: 800px;
-  --heiban: #39bae6;
-  --atamadaka: #ec464f;
-  --nakadaka: #ff8f40;
-  --odaka: #6cbf43;
+
   font-size: var(--main-font-size);
+}
+
+.card.nightMode {
+  --bg-color: var(--dark-mode-bg-color);
+  --fg-color: var(--dark-mode-fg-color);
+  --heiban: var(--dark-mode-heiban, initial);
+  --atamadaka: var(--dark-mode-atamadaka, initial);
+  --nakadaka: var(--dark-mode-nakadaka, initial);
+  --odaka: var(--dark-mode-odaka, initial);
+
+  --bg-elevated: rgba(255, 255, 255, 0.03);
+  --bg-inset: rgba(255, 255, 255, 0.03);
+  --fg-subtle: rgba(255, 255, 255, 0.3);
+  --bold: #7d8590;
+}
+
+.card:not(.nightMode) {
+  --bg-color: var(--light-mode-bg-color);
+  --fg-color: var(--light-mode-fg-color);
+  --heiban: var(--light-mode-heiban, initial);
+  --atamadaka: var(--light-mode-atamadaka, initial);
+  --nakadaka: var(--light-mode-nakadaka, initial);
+  --odaka: var(--light-mode-odaka, initial);
+
+  --bg-elevated: rgba(0, 0, 0, 0.03);
+  --bg-inset: rgba(0, 0, 0, 0.06);
+  --fg-subtle: rgba(0, 0, 0, 0.6);
+  --bold: #999999;
+}
+
+.card {
+  /* Remove this rule to adapt to system theme */
+  background-color: var(--bg-color) !important;
+  color: var(--fg-color) !important;
 }
 
 html.win,
 html.mac,
 html.linux:not(.android) {
-  /* PC font size */
-  --main-font-size: 16px;
-  --main-def-size: 18px;
-  --vocab-font-size: 45px;
-  --sentence-font-size: 30px;
-  --back-sentence-font-size: 20px;
+  --main-font-size: var(--pc-main-font-size);
+  --main-def-size: var(--pc-main-def-size);
+  --vocab-font-size: var(--pc-vocab-font-size);
+  --sentence-font-size: var(--pc-sentence-font-size);
+  --back-sentence-font-size: var(--pc-back-sentence-font-size);
 }
 
 html.mobile {
-  /* Mobile font size */
-  --main-font-size: 16px;
-  --main-def-size: 16px;
-  --vocab-font-size: 40px;
-  --sentence-font-size: 32px;
-  --back-sentence-font-size: 20px;
-}
-
-.card {
-  --canvas: var(--bg-color);
-  --fg: var(--fg-color);
-  background-color: var(--canvas) !important;
-  color: var(--fg) !important;
-}
-
-.card:not(.nightMode) {
-  /* Light mode theme */
-  --bg-color: #fffaf0;
-  --fg-color: #333333;
-  --heiban: #1aa0ce;
-  --atamadaka: #e92a35;
-  --nakadaka: #ff6b03;
-  --odaka: #61ad3b;
-
-  --canvas-elevated: color-mix(in srgb, var(--canvas), #000 5%);
-  --canvas-inset: color-mix(in srgb, var(--canvas), #000 10%);
-  --fg-subtle: color-mix(in srgb, var(--fg), #fff 50%);
-  --bold: #999999;
-}
-
-.card.nightMode {
-  --canvas-elevated: color-mix(in srgb, var(--canvas), var(--fg) 5%);
-  --canvas-inset: color-mix(in srgb, var(--canvas), var(--fg) 10%);
-  --fg-subtle: color-mix(in srgb, var(--fg), var(--canvas) 50%);
-  --bold: #7d8590;
+  --main-font-size: var(--mobile-main-font-size);
+  --main-def-size: var(--mobile-main-def-size);
+  --vocab-font-size: var(--mobile-vocab-font-size);
+  --sentence-font-size: var(--mobile-sentence-font-size);
+  --back-sentence-font-size: var(--mobile-back-sentence-font-size);
 }
 
 #qa {
@@ -145,9 +173,9 @@ header {
   display: inline;
 }
 #pitch-tags {
-  color: var(--canvas);
+  color: var(--bg-color);
   font-family: var(--font-serif);
-  background-color: var(--fg);
+  background-color: var(--fg-color);
   display: none;
   vertical-align: top;
   padding: 1px 3px;
@@ -170,10 +198,10 @@ header {
   content: "・";
 }
 .pitch ul > li:not(:last-child)::after {
-  color: var(--fg);
+  color: var(--fg-color);
 }
 #pitch-tags ul > li:not(:last-child)::after {
-  color: var(--canvas);
+  color: var(--bg-color);
 }
 
 /* Definition container */
@@ -282,7 +310,7 @@ a.hint {
   text-decoration: none;
 }
 a.hint:hover {
-  color: var(--fg);
+  color: var(--fg-color);
 }
 
 /* Footer */
@@ -302,8 +330,8 @@ footer {
 }
 .tags {
   font-family: var(--font-sans);
-  background-color: var(--canvas-elevated);
-  color: var(--fg);
+  background-color: var(--bg-elevated);
+  color: var(--fg-color);
   display: inline-block;
   padding: 1px 5px;
   cursor: pointer;
@@ -331,7 +359,7 @@ footer {
 /* Popup CSS */
 .popup {
   font-family: var(--font-sans);
-  background-color: var(--canvas-elevated);
+  background-color: var(--bg-elevated);
   display: inline-block;
   border-radius: 8px;
   padding: 10px;
@@ -390,7 +418,7 @@ summary {
 
 /* Pitch graphs css */
 .pitch-char {
-  color: var(--fg);
+  color: var(--fg-color);
 }
 .pitch-low {
   position: relative;
@@ -461,7 +489,7 @@ summary {
 }
 .left-edge:hover,
 .right-edge:hover {
-  background-color: var(--canvas-inset);
+  background-color: var(--bg-inset);
   cursor: pointer;
 }
 
