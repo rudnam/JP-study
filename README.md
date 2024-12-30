@@ -27,7 +27,7 @@ Anki Mining card template for Japanese.
 | ExpressionFurigana | `{furigana-plain}`                                |
 | ExpressionReading  | `{reading}`                                       |
 | ExpressionAudio    | `{audio}`                                         |
-| MainDefinition     | `{selection-text}`                                |
+| MainDefinition     | `{popup-selection-text}`                                |
 | Sentence           | `{cloze-prefix}<b>{cloze-body}</b>{cloze-suffix}` |
 | SentenceFurigana   |                                                   |
 | SentenceAudio      |                                                   |
