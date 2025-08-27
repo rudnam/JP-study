@@ -236,7 +236,7 @@ Choose to either download all or only Japanese profiles.
     <img src="./images/yomitan_anki.png" width="50%" />
 </p>
 
-Dictionaries, Audio Playback sources, and Anki are set up for each profile.
+Dictionaries, Audio Playback sources, Keyboard shortcuts, and Anki integration are set up for each profile.
 
 Note: Import the dictionaries first, and then the settings.
 
