@@ -242,11 +242,12 @@ Note: Import the dictionaries first, and then the settings.
 
 Also, importing _all_ the dictionaries **takes a while**.
 
-| Profile                            | Dictionaries Included                |
-| ---------------------------------- | ------------------------------------ |
-| Japanese                           | JA-EN Wiktionary[^1], JPDB Frequency |
-| English                            | EN-EN Wiktionary[^1]                 |
-| Chinese                            | CC-CEDICT , BLCUmixed Frequency      |
-| Japanese (Monolingual definitions) | 大辞林, JPDB Frequency               |
+| Profile                            | Dictionaries Included                | Shortcut     |
+| ---------------------------------- | ------------------------------------ | ------------ |
+| Japanese                           | JA-EN Wiktionary[^1], JPDB Frequency | Shift[^2]    |
+| English                            | EN-EN Wiktionary[^1]                 | Ctrl + Shift |
+| Chinese                            | CC-CEDICT, BLCUmixed Frequency       | Alt + Shift  |
+| Japanese (Monolingual definitions) | 大辞林, JPDB Frequency               | Shift[^2]    |
 
 [^1]: [Kaikki-to-Yomitan](https://github.com/yomidevs/kaikki-to-yomitan)
+[^2]: Set either Japanese or Japanese (Monolingual) as default profile
